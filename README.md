@@ -1,5 +1,5 @@
 # BigBlackOilyMen
-Burning jews on croses
+Burning jews on crosses
 niggas
 gamaw to Spyro 
 RAAAAAAAAAAAAAAAAAAHHHHHHHHHH
