@@ -1,7 +1,10 @@
 # BigBlackOilyMen
-Burning jews on croses
+Burning jews on crosses
 niggas
 gamaw to Spyro 
 RAAAAAAAAAAAAAAAAAAHHHHHHHHHH
+<<<<<<< HEAD
 
 VIAZW TON ADERFO TOU PAPANIGGA MOUSTALEUROSOU MIKRO PAPARI ERXOMAI
+=======
+>>>>>>> 1aa337a1d96b12cc83fc0067b25a0f2535666db0
