@@ -1,0 +1,15 @@
+%{
+  /* DEFINITIONS */
+
+
+
+%}
+
+  /* REGULAR EXPRESSION */
+
+%%
+  /* RULES */
+
+
+%%
+  /* CODE */
