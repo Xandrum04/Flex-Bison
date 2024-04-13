@@ -18,12 +18,24 @@ $token PUBLIC PRIVATE CLASS INT CHAR DOUBLE BOOLEAN STRING VOID IF ELSE WHILE DO
 
 
  /* CODE */
+int main(int argc, char* argv[]){
 
-int main(){
+if (argc < 2) {
+        fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);
+        return 1;
+    }
 
-yyparse();
+    yyin = fopen(argv[1], "r");
+    if (!yyin) {
+        fprintf(stderr, "Error opening file %s\n", argv[1]);
+        return 1;
+    }
 
-return 0;
+    yyparse();
+
+    fclose(yyin);
+    return 0;
+
 }
  
 
