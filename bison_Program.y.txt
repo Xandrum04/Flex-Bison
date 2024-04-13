@@ -3,7 +3,11 @@
 
 
 %}
+
   /* BISON DECLARATIONS */
+
+
+$token PUBLIC PRIVATE CLASS INT CHAR DOUBLE BOOLEAN STRING VOID IF ELSE WHILE DO FOR SWITCH CASE DEFAULT BREAK TRUE FALSE RETURN IDENTIFIER NUMBER STRING_LITERAL
 
 
 %%
@@ -11,7 +15,17 @@
 
 
 %%
-  /* CODE */
+
+
+ /* CODE */
+
+int main(){
+
+yyparse();
+
+return 0;
+}
+ 
 
 
 
