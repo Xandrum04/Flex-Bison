@@ -1,19 +1,27 @@
 
 %{
   
-  /*DEFINITIONS*/
+/*DEFINITIONS*/
   
-  %}
-
-
-  /*RULES*/
-
-  %%
+%}
 
 
 
-  %%
+/*RULES*/
 
-  yywrap(){}
+%%
+  
+[0-9]+    {yylval.num =atoi(yytext); return NUMBER;}
+
+[a-zA-Z][a-zA-Z0-9_]* { return IDENTIFIER;}
+
+. {}
+  
+
+
+
+%%
+
+yywrap(){}
 
 
