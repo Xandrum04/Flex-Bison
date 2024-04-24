@@ -6,7 +6,12 @@
 %}
 
 /*DECLARATIONS*/
-%token IF ELSE ELSE_IF WHILE DO FOR SWITCH CASE DEFAULT BREAK RETURN CLASS PUBLIC PRIVATE INT CHAR DOUBLE BOOLEAN STRING TRUE FALSE NEW OUT_PRINT SEMICOLON LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET ASSIGN COMMA PLUS MINUS MULT DIV LESS_THAN GREATER_THAN EQUAL NOT_EQUAL LESS_THAN_EQUAL GREATER_THAN_EQUAL AND OR MODULO HASH AT CARET QUESTION_MARK SINGLE_QUOTE DOUBLE_QUOTE UNDERSCORE DOT EXCLAMATION_POINT PIPE STRING_LITERAL ONE_LINE_COMMENT MULTIPLE_LINE_COMMENTS IDENTIFIER NUMBER
+%token START END IF ELSE ELSE_IF WHILE DO FOR SWITCH CASE DEFAULT BREAK RETURN CLASS PUBLIC PRIVATE INT CHAR DOUBLE BOOLEAN STRING TRUE FALSE NEW OUT_PRINT SEMICOLON LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET ASSIGN COMMA PLUS MINUS MULT DIV LESS_THAN GREATER_THAN EQUAL NOT_EQUAL LESS_THAN_EQUAL GREATER_THAN_EQUAL AND OR MODULO HASH AT CARET QUESTION_MARK SINGLE_QUOTE DOUBLE_QUOTE UNDERSCORE DOT EXCLAMATION_POINT PIPE STRING_LITERAL ONE_LINE_COMMENT MULTIPLE_LINE_COMMENTS IDENTIFIER NUMBER
+
+%
+%left '+' '-'
+%left '*' '/'
+%nonassoc UMINUS
 
 
 %type <sym> STRING
@@ -22,191 +27,197 @@
   /* RULES / BNF */
 
 
-PROGRAM: STATEMENTS;
+PROGRAM: START STATEMENTS END { printf("Program parsed successfully.\n"); };
 
-STATEMENTS : STATEMENTS                { printf("Statement\n"); }
-           | STATEMENTS  STATEMENTS    { printf("Statements\n"); }
+STATEMENTS : STATEMENT                 { printf("Statement\n"); }
+           | STATEMENT  STATEMENTS     { printf("Statement\n"); }
            ;
-STATEMENT : STATEMENT_IF               { printf("Statement IF\n"); }
-          | STATEMENT_WHILE            { printf("Statement WHILE\n"); }
-          | STATEMENT_ASSIGN           { printf("Statement ASSIGN\n"); }
-          | STATEMENT_SWITCH           { printf("Statement SWITCH\n"); }
-          | STATEMENT_RETURN           { printf("Statement RETURN\n"); }
-          | STATEMENT_CLASS            { printf("Statement CLASS\n"); }
-          | VARIABLE_DECLARATION       { printf("Statement VARIABLE DECLARATION\n"); }
-          | METHOD_DECLARATION         { printf("Statement METHOD DECLARATION\n"); }
-          | STATEMENT_DO_WHILE         { printf("Statement DO WHILE \n"); }
-          | STATEMENT_FOR              { printf("Statement FOR\n"); }
-          | STATEMENT_PRINT            { printf("Statement PRINT\n"); }
-          | CREATE_CLASS_OBJECT        { printf("Statement OBJECT\n"); }
-          | STATEMENT_BREAK            { printf("Statement BREAK\n"); }
-          | COMMENTS                   { printf("Comment COMMENTS \n"); } 
+STATEMENT : STATEMENT_IF               { printf("Statement\n"); }
+          | STATEMENT_WHILE            { printf("Statement\n"); }
+          | STATEMENT_ASSIGN           { printf("Statement\n"); }
+          | STATEMENT_SWITCH           { printf("Statement\n"); }
+          | STATEMENT_RETURN           { printf("Statement\n"); }
+          | STATEMENT_CLASS            { printf("Statement\n"); }
+          | VARIABLE_DECLARATION       { printf("Statement\n"); }
+          | METHOD_DECLARATION         { printf("Statement\n"); }
+          | STATEMENT_DO_WHILE         { printf("Statement\n"); }
+          | STATEMENT_FOR              { printf("Statement\n"); }
+          | STATEMENT_PRINT            { printf("Statement\n"); }
+          | CREATE_CLASS_OBJECT        { printf("Statement\n"); }
+          | STATEMENT_BREAK            { printf("Statement\n"); }
+          | COMMENTS                   { printf("Comment\n"); }
           ;
 
-STATEMENT_IF: IF LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE
-            | IF LPAREN CONDITION RPAREN STATEMENTS STATEMENT_ELSE_IF ELSE LBRACE
-              STATEMENTS RBRACE;
+STATEMENT_IF: IF LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE { printf("IF Statement\n"); }
+            | IF LPAREN CONDITION RPAREN STATEMENTS STATEMENT_ELSE_IF ELSE LBRACE STATEMENTS RBRACE { printf("IF ELSE Statement\n"); }
+            ;
 
 STATEMENT_ELSE_IF: ELSE_IF LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE
-                 | LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE STATEMENT_ELSE_IF;
+                 | LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE STATEMENT_ELSE_IF
+                 ;
 
-STATEMENT_WHILE: WHILE LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE;
+STATEMENT_WHILE: WHILE LPAREN CONDITION RPAREN LBRACE STATEMENTS RBRACE { printf("WHILE Statement\n"); }
+               ;
 
-STATEMENT_BREAK: BREAK SEMICOLON;
+STATEMENT_BREAK: BREAK SEMICOLON { printf("BREAK Statement\n"); }
+               ;
 
-STATEMENT_ASSIGN: VARIABLE EQUALS EXPRESSION SEMICOLON;
+STATEMENT_ASSIGN: VARIABLE EQUALS EXPRESSION SEMICOLON { printf("Assignment Statement\n"); }
+                ;
 
-STATEMENT_SWITCH: SWITCH LPAREN EXPRESSION RPAREN SWITCH_BODY;
+STATEMENT_SWITCH: SWITCH LPAREN EXPRESSION RPAREN SWITCH_BODY { printf("SWITCH Statement\n"); }
+                ;
 
-SWITCH_BODY: CASE EXPRESSION COLON STATEMENT
-           | CASE EXPRESSION COLON STATEMENT DEFAULT COLON STATEMENT
-           | CASE EXPRESSION COLON STATEMENT SWITCH_BODY
+SWITCH_BODY: CASE EXPRESSION COLON STATEMENT { printf("CASE Statement\n"); }
+           | CASE EXPRESSION COLON STATEMENT DEFAULT COLON STATEMENT { printf("DEFAULT Statement\n"); }
+           | CASE EXPRESSION COLON STATEMENT SWITCH_BODY { printf("CASE Statement\n"); }
            ;
 
-STATEMENT_RETURN: RETURN EXPRESSION SEMICOLON;
+STATEMENT_RETURN: RETURN EXPRESSION SEMICOLON { printf("RETURN Statement\n"); }
+                ;
 
-STATEMENT_CLASS: ACCESS_MODIFIER CLASS CLASS_IDENTIFIER LBRACE VARIABLE_DECLARATION   
-               METHOD_DECLARATION RBRACE;
+STATEMENT_CLASS: ACCESS_MODIFIER CLASS CLASS_IDENTIFIER LBRACE VARIABLE_DECLARATION METHOD_DECLARATION RBRACE{ printf("CLASS Statement\n"); }
+               ;
 
 CLASS_IDENTIFIER: UPPERCASE
                 | UPPERCASE IDENTIFIER
                 ;
 
-CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER EQUALS STATEMENT_NEW LBRACE RBRACE   
-                   SEMICOLON;
+CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER EQUALS STATEMENT_NEW LBRACE RBRACE SEMICOLON { printf("Create Class Object Statement\n"); }
+                   ;
 
-STATEMENT_DO_WHILE: DO LBRACE STATEMENTS RBRACE WHILE LPAREN CONDITION RPAREN;
+STATEMENT_DO_WHILE: DO LBRACE STATEMENTS RBRACE WHILE LPAREN CONDITION RPAREN { printf("DO WHILE Statement\n"); }
+                  ;
 
-ACCESS_TO_CLASS_MEMBERS: IDENTIFIER DOT IDENTIFIER SEMICOLON;
+ACCESS_TO_CLASS_MEMBERS: IDENTIFIER DOT IDENTIFIER SEMICOLON { printf("Access to Class Members Statement\n"); }
+                       ;
 
-STATEMENT_FOR: FOR LPAREN STATEMENT_ASSIGN SEMICOLON CONDITION SEMICOLON STATEMENT_ASSIGN         
-             RPAREN LBRACE RBRACE;
+STATEMENT_FOR: FOR LPAREN STATEMENT_ASSIGN SEMICOLON CONDITION SEMICOLON STATEMENT_ASSIGN RPAREN LBRACE RBRACE { printf("FOR Statement\n"); }
+             ;
 
 
-COMMENTS: // CHARACTERS
-        | /* CHARACTERS */
-        ;
+COMMENTS : ONE_LINE_COMMENT { printf("One Line Comment\n"); }
+         | MULTIPLE_LINE_COMMENTS { printf("Multiple Line Comment\n"); }
+         ;
 
-STATEMENT_PRINT: OUT.PRINT LPAREN STRING_LITERAL RPAREN SEMICOLON
-               | OUT.PRINT LPAREN STRING_LITERAL COMMA EXPRESSION RPAREN SEMICOLON
+STATEMENT_PRINT: OUT.PRINT LPAREN STRING_LITERAL RPAREN SEMICOLON { printf("Print Statement\n"); }
+               | OUT.PRINT LPAREN STRING_LITERAL COMMA EXPRESSION RPAREN SEMICOLON { printf("Print Statement\n"); }
                ;
 
-VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER SEMICOLON
-                    | VARIABLE_TYPE IDENTIFIER SEMICOLON
+VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER SEMICOLON { printf("Variable Declaration\n"); }
+                    | VARIABLE_TYPE IDENTIFIER SEMICOLON { printf("Variable Declaration\n"); }
                     ;
 
-METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN RPAREN LBRACE STATEMENTS     
-                   RBRACE
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN PARAMETER_LIST RPAREN
-                   LBRACE STATEMENTS RBRACE
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN RPAREN LBRACE 
-                   VARIABLE_DECLARATION STATEMENTS RBRACE
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN PARAMETER_LIST RPAREN  
-                   LBRACE VARIABLE_DECLARATION STATEMENTS RBRACE
+METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN RPAREN LBRACE STATEMENTS RBRACE  { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN PARAMETER_LIST RPAREN LBRACE STATEMENTS RBRACE  { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN RPAREN LBRACE VARIABLE_DECLARATION STATEMENTS RBRACE  { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER LPAREN PARAMETER_LIST RPAREN LBRACE VARIABLE_DECLARATION STATEMENTS RBRACE  { printf("Method Declaration\n"); }
                   ;
 
-RETURN_TYPE: VARIABLE_TYPE
-           | VOID
+RETURN_TYPE: VARIABLE_TYPE { printf("Return Type\n"); }
+           | VOID { printf("Void\n"); }
            ;
 
-ACCESS_MODIFIER: PUBLIC
-               | PRIVATE
+ACCESS_MODIFIER: PUBLIC { printf("Public\n"); }
+               | PRIVATE { printf("Private\n"); }
                ;
 
-VARIABLE_TYPE: INT
-             | CHAR
-             | DOUBLE
-             | BOOLEAN
-             | STRING
-             ;
-
-PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER
-              | VARIABLE_TYPE IDENTIFIER COMMA PARAMETER_LIST
+VARIABLE_TYPE: INT { printf("Int\n"); }
+              | CHAR { printf("Char\n"); }
+              | DOUBLE { printf("Double\n"); }
+              | BOOLEAN { printf("Boolean\n"); }
+              | STRING { printf("String\n"); }
               ;
 
-CONDITION: EXPRESSION COMPARISON EXPRESSION
-         | EXPRESSION COMPARISON EXPRESSION AND CONDITION
-         | EXPRESSION COMPARISON EXPRESSION OR CONDITION
-         ;
 
-COMPARISON: GREATER_THAN
-          | LESS_THAN
-          | LESS_THAN_EQUALS
-          | GREATER_THAN_EQUALS
-          | IS_EQUALS
-          | NOT_EQUALS
+PARAMETER_LIST : VARIABLE_TYPE IDENTIFIER COMMA PARAMETER_LIST { printf("Parameter List\n"); }
+               | VARIABLE_TYPE IDENTIFIER { printf("Parameter List\n"); }
+               ;
+
+
+
+CONDITION : EXPRESSION COMPARISON EXPRESSION { printf("Condition\n"); }
+          | EXPRESSION COMPARISON EXPRESSION AND CONDITION { printf("Condition\n"); }
+          | EXPRESSION COMPARISON EXPRESSION OR CONDITION { printf("Condition\n"); }
           ;
 
-EXPRESSION: VALUE
-          | OPERATION
-          | STATEMENT_NEW
-          | BOOLEAN
-          ;
-
-BOOLEAN: TRUE_VALUE
-       | FALSE_VALUE
-       ;
-
-STATEMENT_NEW: NEW VARIABLE_TYPE
-             | NEW CLASS_IDENTIFIER
-             ;
-
-VALUE: NUMBER
-     | IDENTIFIER
-     ;
- 
-OPERATION: ADDITION
-         | MULTIPLICATION
-         | SUBTRACTION
-         | DIVISION
-         ;
-
-OPERATION_CONTINUE: PLUS LPAREN OPERATION RPAREN 
-                  | MINUS LPAREN OPERATION RPAREN 
-                  | MUL LPAREN OPERATION RPAREN 
-                  | DIV LPAREN OPERATION RPAREN 
-                  ;
-
-ADDITION: VALUE PLUS VALUE
-        | VALUE PLUS VALUE OPERATION_CONTINUE
-        ;
-       
-MULTIPLICATION: VALUE MUL VALUE
-              | VALUE MUL VALUE OPERATION_CONTINUE
-              ;
-
-SUBTRACTION: VALUE MINUS VALUE
-           | VALUE MINUS VALUE OPERATION_CONTINUE
+COMPARISON : LESS_THAN { printf("Comparison\n"); }
+           | GREATER_THAN { printf("Comparison\n"); }
+           | LESS_THAN_EQUAL { printf("Comparison\n"); }
+           | GREATER_THAN_EQUAL { printf("Comparison\n"); }
+           | IS_EQUAL { printf("Comparison\n"); }
+           | NOT_EQUAL { printf("Comparison\n"); }
            ;
 
-DIVISION: VALUE DIV VALUE
-        | VALUE DIV VALUE OPERATION_CONTINUE
+EXPRESSION : VALUE { printf("Expression\n"); }
+           | OPERATION { printf("Expression\n"); }
+           | STATEMENT_NEW { printf("Expression\n"); }
+           | BOOLEAN { printf("Expression\n"); }
+           ;
+
+BOOLEAN : TRUE { printf("True\n"); }
+        | FALSE { printf("False\n"); }
         ;
 
-IDENTIFIER: LETTER
-          | IDENTIFIER LETTER
-          | IDENTIFIER NUMBER
-          | IDENTIFIER UNDERSCORE
-          ; 
+STATEMENT_NEW : NEW VARIABLE_TYPE { printf("New Statement\n"); }
+              | NEW CLASS_IDENTIFIER { printf("New Statement\n"); }
+              ;
 
-NUMBER: DIGIT
-      | DIGIT NUMBER
+VALUE : NUMBER { printf("Value\n"); }
+      | IDENTIFIER { printf("Value\n"); }
       ;
-
-LETTER: UPPERCASE
-      | LOWERCASE
-      ;
-
-STRING_LITERAL: QUOTATION_MARKS CHARACTERS QUOTATION_MARKS;
-
-CHARACTERS: CHARACTER
-          | CHARACTER CHARACTERS
+ 
+OPERATION : ADDITION { printf("Operation\n"); }
+          | MULTIPLICATION { printf("Operation\n"); }
+          | SUBTRACTION { printf("Operation\n"); }
+          | DIVISION { printf("Operation\n"); }
           ;
 
-CHARACTER: DIGIT
-         | LETTER
-         | SPECIAL_CHARACTERS
+OPERATION_CONTINUE : 
+                   |PLUS LPAREN OPERATION RPAREN { printf("Operation Continue PLUS\n"); }
+                   | MINUS LPAREN OPERATION RPAREN { printf("Operation Continue MINUS\n"); }
+                   | MULT LPAREN OPERATION RPAREN { printf("Operation Continue MULT\n"); }
+                   | DIV LPAREN OPERATION RPAREN { printf("Operation Continue DIV\n"); }
+                   ;
+
+ADDITION: VALUE PLUS VALUE OPERATION_CONTINUE { printf("Addition\n"); }
+        ;
+       
+MULTIPLICATION : VALUE MULT VALUE OPERATION_CONTINUE { printf("Multiplication\n"); }
+
+
+SUBTRACTION : VALUE MINUS VALUE OPERATION_CONTINUE { printf("Subtraction\n"); }
+            ;
+
+
+DIVISION : VALUE DIV VALUE OPERATION_CONTINUE { printf("Division\n"); }
          ;
+
+IDENTIFIER : LETTER { printf("Identifier\n"); }
+           | IDENTIFIER LETTER { printf("Identifier\n"); }
+           | IDENTIFIER NUMBER { printf("Identifier\n"); }
+           | IDENTIFIER UNDERSCORE { printf("Identifier\n"); }
+           ;
+
+NUMBER : DIGIT { printf(" Number\n");}
+       | NUMBER DIGIT { printf("Numbers\n"); }
+
+LETTER: UPPERCASE { printf("Uppercase letter\n"); }
+      | LOWERCASE { printf("Lowercase letter\n"); }
+      ;
+
+STRING_LITERAL: DOUBLE_QUOTE CHARACTERS DOUBLE_QUOTE; { printf("String literal\n"); }
+
+
+CHARACTERS: CHARACTER { printf("Character\n");}
+          | CHARACTER CHARACTERS  { printf(" Characters\n");}
+          ;
+
+CHARACTER: DIGIT { printf("Character->Digit\n"); }
+         | LETTER { printf("Character->letter\n"); }
+         | SPECIAL_CHARACTERS { printf("Special Characters\n"); }
+         ;
+
 
 
 
