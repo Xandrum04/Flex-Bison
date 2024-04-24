@@ -82,11 +82,11 @@
 
 
 \".*\"                      { return STRING_LITERAL; }
-"//"(.*)"\n"                { return ONE_LINE_COMMENT; }
+"//".*                      { return ONE_LINE_COMMENT; }
 "/*".*"*/"                  { return MULTIPLE_LINE_COMMENTS; }
 
 
-[ \t\n\r]                   { return IGNORE_WHITESPACE_NEWLINE_CARRIAGERETURN; }
+[ \t\n]                   { return IGNORE_WHITESPACE_NEWLINE; }
 .+{printf("Invalid Character:%s\n",yytext);}
 
 
