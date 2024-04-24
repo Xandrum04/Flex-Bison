@@ -206,7 +206,7 @@ CHARACTER: DIGIT
 %%
  /* CODE */
 
-int yyerror(char *s)
+void yyerror(char *s)
 {
   printf("Syntax Error in line %s\n",s);
   return 0;
