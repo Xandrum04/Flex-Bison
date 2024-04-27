@@ -3,7 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "y.tab.h"
-  
+
+
+void yyerror(char *s);
+
 %}
 DIGIT [0-9]
 LETTER [a-zA-Z]
@@ -15,34 +18,32 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 
 %%
-{LETTER}                    {{yylval.string = atoi(yytext); return LETTER; }
-{DIGIT}                     {yylval.num = atoi(yytext); return DIGIT; }
-{NUMBER}                    {yylval.num = atoi(yytext); return NUMBER; }
-{IDENTIFIER}                {yylval.string = atoi(yytext); return IDENTIFIER; }
+{NUMBER}                    {yylval.intvalue = atoi(yytext); return NUMBER; }
+{IDENTIFIER}                {yylval.strvalue = strdup(yytext); return IDENTIFIER; }
 
-"IF"                        { return IF; }
-"ELSE"                      { return ELSE; }
-"ELSE IF"                   { return ELSE_IF; }
-"WHILE"                     { return WHILE; }
-"DO"                        { return DO; }
-"FOR"                       { return FOR; }
-"SWITCH"                    { return SWITCH; }
-"CASE"                      { return CASE; }
-"DEFAULT"                   { return DEFAULT; }
-"BREAK"                     { return BREAK; }
-"RETURN"                    { return RETURN; }
-"CLASS"                     { return CLASS; }
-"PUBLIC"                    { return PUBLIC; }
-"PRIVATE"                   { return PRIVATE; }
-"INT"                       { return INT; }
-"CHAR"                      { return CHAR; }
-"DOUBLE"                    { return DOUBLE; }
-"BOOLEAN"                   { return BOOLEAN; }
-"STRING"                    { return STRING; }
-"TRUE"                      { return TRUE; }
-"FALSE"                     { return FALSE; }
-"NEW"                       { return NEW; }
-"OUT.PRINT"                 { return OUT.PRINT; }
+"IF"                        { yylval.strvalue = strdup(yytext); return IF; }
+"ELSE"                      { yylval.strvalue = strdup(yytext); return ELSE; }
+"ELSE IF"                   { yylval.strvalue = strdup(yytext); return ELSE_IF; }
+"WHILE"                     { yylval.strvalue = strdup(yytext); return WHILE; }
+"DO"                        { yylval.strvalue = strdup(yytext); return DO; }
+"FOR"                       { yylval.strvalue = strdup(yytext); return FOR; }
+"SWITCH"                    { yylval.strvalue = strdup(yytext); return SWITCH; }
+"CASE"                      { yylval.strvalue = strdup(yytext); return CASE; }
+"DEFAULT"                   { yylval.strvalue = strdup(yytext); return DEFAULT; }
+"BREAK"                     { yylval.strvalue = strdup(yytext); return BREAK; }
+"RETURN"                    { yylval.strvalue = strdup(yytext); return RETURN; }
+"CLASS"                     { yylval.strvalue = strdup(yytext); return CLASS; }
+"PUBLIC"                    { yylval.strvalue = strdup(yytext); return PUBLIC; }
+"PRIVATE"                   { yylval.strvalue = strdup(yytext); return PRIVATE; }
+"INT"                       { yylval.strvalue = strdup(yytext); return INT; }
+"CHAR"                      { yylval.strvalue = strdup(yytext); return CHAR; }
+"DOUBLE"                    { yylval.strvalue = strdup(yytext); return DOUBLE; }
+"BOOLEAN"                   { yylval.strvalue = strdup(yytext); return BOOLEAN; }
+"STRING"                    { yylval.strvalue = strdup(yytext); return STRING; }
+"TRUE"                      { yylval.strvalue = strdup(yytext); return TRUE; }
+"FALSE"                     { yylval.strvalue = strdup(yytext); return FALSE; }
+"NEW"                       { yylval.strvalue = strdup(yytext); return NEW; }
+"OUT.PRINT"                 { yylval.strvalue = strdup(yytext); return OUT_PRINT; }
 
 ";"                         { return SEMICOLON; }
 "{"                         { return LBRACE; }
