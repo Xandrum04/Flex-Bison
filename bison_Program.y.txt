@@ -6,23 +6,33 @@
 %}
 
 /*DECLARATIONS*/
-%token START END IF ELSE ELSE_IF WHILE DO FOR SWITCH CASE DEFAULT BREAK RETURN CLASS PUBLIC PRIVATE INT CHAR DOUBLE BOOLEAN STRING TRUE FALSE NEW OUT_PRINT SEMICOLON LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET ASSIGN COMMA PLUS MINUS MULT DIV LESS_THAN GREATER_THAN EQUAL NOT_EQUAL LESS_THAN_EQUAL GREATER_THAN_EQUAL AND OR MODULO HASH AT CARET QUESTION_MARK SINGLE_QUOTE DOUBLE_QUOTE UNDERSCORE DOT EXCLAMATION_POINT PIPE STRING_LITERAL ONE_LINE_COMMENT MULTIPLE_LINE_COMMENTS IDENTIFIER NUMBER
+%type <strvalue> START END IF ELSE ELSE_IF WHILE DO FOR SWITCH CASE DEFAULT BREAK RETURN CLASS PUBLIC PRIVATE INT CHAR DOUBLE BOOLEAN STRING TRUE FALSE NEW OUT_PRINT SEMICOLON LBRACE RBRACE LPAREN RPAREN LBRACKET RBRACKET ASSIGN COMMA PLUS MINUS MULT DIV LESS_THAN GREATER_THAN EQUAL NOT_EQUAL LESS_THAN_EQUAL GREATER_THAN_EQUAL AND OR MODULO HASH AT CARET QUESTION_MARK SINGLE_QUOTE DOUBLE_QUOTE UNDERSCORE DOT EXCLAMATION_POINT PIPE STRING_LITERAL ONE_LINE_COMMENT MULTIPLE_LINE_COMMENTS
 
 %
-%left '+' '-'
-%left '*' '/'
-%nonassoc UMINUS
-
-
-%type <string> STRING
-%type <num> NUMBER
-%type <string> IDENTIFIER
-%type <num> DIGIT
 
 %union {
-    int num;
-    char string[];
+    int intvalue;
+    char* strvalue;
+    double doublevalue;
 }
+
+
+
+%left COMMA
+%right ASSIGN
+%left ADD
+%left SUB
+%left MUL
+%left DIV
+%nonassoc UMINUS
+%left LPAREN RPAREN LBRACKET RBRACKET
+
+%token <intvalue> NUMBER
+%token <strvalue> IDENTIFIER
+
+
+
+
 
 %%
   /* RULES / BNF */
@@ -194,30 +204,9 @@ SUBTRACTION : VALUE MINUS VALUE OPERATION_CONTINUE { printf("Subtraction\n"); }
 DIVISION : VALUE DIV VALUE OPERATION_CONTINUE { printf("Division\n"); }
          ;
 
-IDENTIFIER : LETTER { printf("Identifier\n"); }
-           | IDENTIFIER LETTER { printf("Identifier\n"); }
-           | IDENTIFIER NUMBER { printf("Identifier\n"); }
-           | IDENTIFIER UNDERSCORE { printf("Identifier\n"); }
-           ;
 
-NUMBER : DIGIT { printf(" Number\n");}
-       | NUMBER DIGIT { printf("Numbers\n"); }
+STRING_LITERAL : DOUBLE_QUOTE CHARACTERS DOUBLE_QUOTE; { printf("String literal\n"); }
 
-LETTER: UPPERCASE { printf("Uppercase letter\n"); }
-      | LOWERCASE { printf("Lowercase letter\n"); }
-      ;
-
-STRING_LITERAL: DOUBLE_QUOTE CHARACTERS DOUBLE_QUOTE; { printf("String literal\n"); }
-
-
-CHARACTERS: CHARACTER { printf("Character\n");}
-          | CHARACTER CHARACTERS  { printf(" Characters\n");}
-          ;
-
-CHARACTER: DIGIT { printf("Character->Digit\n"); }
-         | LETTER { printf("Character->letter\n"); }
-         | SPECIAL_CHARACTERS { printf("Special Characters\n"); }
-         ;
 
 
 
@@ -231,6 +220,9 @@ void yyerror(char *s)
   printf("Syntax Error in line %s\n",s);
   return 0;
 }
+
+
+
 
 int main(int argc, char* argv[]){
 
