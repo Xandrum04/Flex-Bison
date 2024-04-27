@@ -14,13 +14,14 @@
 %nonassoc UMINUS
 
 
-%type <sym> STRING
+%type <string> STRING
 %type <num> NUMBER
-%type <sym> IDENTIFIER
+%type <string> IDENTIFIER
+%type <num> DIGIT
 
 %union {
     int num;
-    char sym[30];
+    char string[];
 }
 
 %%
