@@ -4,8 +4,13 @@
 #include <string.h>
 #include "y.tab.h"
 
+int error_type;
 
 void yyerror(char *s);
+
+int line_number=1;
+
+char str_buffer[];
 
 %}
 DIGIT [0-9]
