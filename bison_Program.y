@@ -29,7 +29,7 @@ void yyerror(char *s)
 %token <strvalue> TOKEN_START TOKEN_END TOKEN_COLON TOKEN_VOID
 
 
-%type <strvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF IF_STATEMENT IF_ELSE_STATEMENT STATEMENT_WHILE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH
+%type <strvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF_ELSE ELSE_CLAUSE STATEMENT_WHILE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH
 %type <strvalue> SWITCH_BODY STATEMENT_RETURN STATEMENT_CLASS CREATE_CLASS_OBJECT STATEMENT_DO_WHILE ACCESS_TO_CLASS_MEMBERS STATEMENT_FOR COMMENTS
 %type <strvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION RETURN_TYPE ACCESS_MODIFIER VARIABLE_TYPE PARAMETER_LIST CONDITION 
 %type <strvalue> COMPARISON EXPRESSION BOOLEAN STATEMENT_NEW VALUE OPERATION OPERATION_CONTINUE ADDITION MULTIPLICATION SUBTRACTION DIVISION 
@@ -52,7 +52,10 @@ void yyerror(char *s)
 %left TOKEN_DIV
 %nonassoc UMINUS
 %left TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACKET TOKEN_RBRACKET
-%left TOKEN_IF
+%nonassoc LOWER_ELSE
+%nonassoc TOKEN_ELSE 
+
+
 
 %token <intvalue> NUMBER
 %token <strvalue> IDENTIFIER 
@@ -69,35 +72,34 @@ void yyerror(char *s)
 
 PROGRAM: TOKEN_START STATEMENTS TOKEN_END { printf("Program parsed successfully.\n"); };
 
-STATEMENTS : STATEMENT STATEMENTS      { printf("Statement\n"); }
-           | STATEMENT                 { printf("Statement\n"); }
+STATEMENTS : STATEMENT                 { printf("Statement\n"); }
+           | STATEMENT STATEMENTS      { printf("Statement\n"); }
            ;
-STATEMENT : STATEMENT_IF               { printf("Statement\n"); }
-          | STATEMENT_WHILE            { printf("Statement\n"); }
-          | STATEMENT_ASSIGN           { printf("Statement\n"); }
-          | STATEMENT_SWITCH           { printf("Statement\n"); }
-          | STATEMENT_RETURN           { printf("Statement\n"); }
-          | STATEMENT_CLASS            { printf("Statement\n"); }
+STATEMENT : METHOD_DECLARATION         { printf("Statement\n"); }
           | VARIABLE_DECLARATION       { printf("Statement\n"); }
-          | METHOD_DECLARATION         { printf("Statement\n"); }
+          | STATEMENT_IF_ELSE          { printf("Statement\n"); }
+          | STATEMENT_WHILE            { printf("Statement\n"); }
           | STATEMENT_DO_WHILE         { printf("Statement\n"); }
           | STATEMENT_FOR              { printf("Statement\n"); }
-          | STATEMENT_PRINT            { printf("Statement\n"); }
+          | STATEMENT_SWITCH           { printf("Statement\n"); }
+          | STATEMENT_RETURN           { printf("Statement\n"); }
+          | STATEMENT_ASSIGN           { printf("Statement\n"); }
+          | STATEMENT_CLASS            { printf("Statement\n"); }
           | CREATE_CLASS_OBJECT        { printf("Statement\n"); }
+          | STATEMENT_PRINT            { printf("Statement\n"); }
           | STATEMENT_BREAK            { printf("Statement\n"); }
           | COMMENTS                   { printf("Comment\n"); }
           ;
 
-STATEMENT_IF: IF_STATEMENT
-            | IF_ELSE_STATEMENT
+          
+
+STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE ELSE_CLAUSE { printf("IF Statement\n"); }
             ;
 
-IF_STATEMENT: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("IF Statement\n"); }
-            ;
-
-IF_ELSE_STATEMENT: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("IF ELSE Statement\n"); }
-                 | TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_ELSE IF_ELSE_STATEMENT { printf("IF ELSE Statement\n"); }
-                 ;
+ELSE_CLAUSE: TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE
+           | TOKEN_ELSE STATEMENT_IF_ELSE %prec LOWER_ELSE   
+           | %empty    %prec LOWER_ELSE                {}
+           ;
 
 STATEMENT_WHILE: TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("WHILE Statement\n"); }
                ;
@@ -151,10 +153,10 @@ VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON {
                     | VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON { printf("Variable Declaration\n"); }
                     ;
 
-METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENTS TOKEN_RBRACE  { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENTS TOKEN_RBRACE  { printf("Method Declaration\n"); }
+METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENT TOKEN_RBRACE  { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENT TOKEN_RBRACE   { printf("Method Declaration\n"); }
                   ;
 
 RETURN_TYPE: VARIABLE_TYPE { printf("Return Type\n"); }
