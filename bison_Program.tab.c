@@ -107,123 +107,7 @@ void yyerror(char *s)
 #  endif
 # endif
 
-
-/* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-#if YYDEBUG
-extern int yydebug;
-#endif
-
-/* Token kinds.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
-  {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    TOKEN_IF = 258,                /* TOKEN_IF  */
-    TOKEN_ELSE = 259,              /* TOKEN_ELSE  */
-    TOKEN_ELSE_IF = 260,           /* TOKEN_ELSE_IF  */
-    TOKEN_WHILE = 261,             /* TOKEN_WHILE  */
-    TOKEN_DO = 262,                /* TOKEN_DO  */
-    TOKEN_FOR = 263,               /* TOKEN_FOR  */
-    TOKEN_SWITCH = 264,            /* TOKEN_SWITCH  */
-    TOKEN_CASE = 265,              /* TOKEN_CASE  */
-    TOKEN_DEFAULT = 266,           /* TOKEN_DEFAULT  */
-    TOKEN_BREAK = 267,             /* TOKEN_BREAK  */
-    TOKEN_RETURN = 268,            /* TOKEN_RETURN  */
-    TOKEN_CLASS = 269,             /* TOKEN_CLASS  */
-    TOKEN_PUBLIC = 270,            /* TOKEN_PUBLIC  */
-    TOKEN_PRIVATE = 271,           /* TOKEN_PRIVATE  */
-    TOKEN_INT = 272,               /* TOKEN_INT  */
-    TOKEN_CHAR = 273,              /* TOKEN_CHAR  */
-    TOKEN_DOUBLE = 274,            /* TOKEN_DOUBLE  */
-    TOKEN_BOOLEAN = 275,           /* TOKEN_BOOLEAN  */
-    TOKEN_STRING = 276,            /* TOKEN_STRING  */
-    TOKEN_TRUE = 277,              /* TOKEN_TRUE  */
-    TOKEN_FALSE = 278,             /* TOKEN_FALSE  */
-    TOKEN_NEW = 279,               /* TOKEN_NEW  */
-    TOKEN_OUT_PRINT = 280,         /* TOKEN_OUT_PRINT  */
-    TOKEN_SEMICOLON = 281,         /* TOKEN_SEMICOLON  */
-    TOKEN_LBRACE = 282,            /* TOKEN_LBRACE  */
-    TOKEN_RBRACE = 283,            /* TOKEN_RBRACE  */
-    TOKEN_LPAREN = 284,            /* TOKEN_LPAREN  */
-    TOKEN_RPAREN = 285,            /* TOKEN_RPAREN  */
-    TOKEN_LBRACKET = 286,          /* TOKEN_LBRACKET  */
-    TOKEN_RBRACKET = 287,          /* TOKEN_RBRACKET  */
-    TOKEN_ASSIGN = 288,            /* TOKEN_ASSIGN  */
-    TOKEN_COMMA = 289,             /* TOKEN_COMMA  */
-    TOKEN_PLUS = 290,              /* TOKEN_PLUS  */
-    TOKEN_MINUS = 291,             /* TOKEN_MINUS  */
-    TOKEN_MULT = 292,              /* TOKEN_MULT  */
-    TOKEN_DIV = 293,               /* TOKEN_DIV  */
-    TOKEN_LESS_THAN = 294,         /* TOKEN_LESS_THAN  */
-    TOKEN_GREATER_THAN = 295,      /* TOKEN_GREATER_THAN  */
-    TOKEN_EQUAL = 296,             /* TOKEN_EQUAL  */
-    TOKEN_NOT_EQUAL = 297,         /* TOKEN_NOT_EQUAL  */
-    TOKEN_LESS_THAN_EQUAL = 298,   /* TOKEN_LESS_THAN_EQUAL  */
-    TOKEN_GREATER_THAN_EQUAL = 299, /* TOKEN_GREATER_THAN_EQUAL  */
-    TOKEN_AND = 300,               /* TOKEN_AND  */
-    TOKEN_OR = 301,                /* TOKEN_OR  */
-    TOKEN_MODULO = 302,            /* TOKEN_MODULO  */
-    TOKEN_HASH = 303,              /* TOKEN_HASH  */
-    TOKEN_AT = 304,                /* TOKEN_AT  */
-    TOKEN_CARET = 305,             /* TOKEN_CARET  */
-    TOKEN_QUESTION_MARK = 306,     /* TOKEN_QUESTION_MARK  */
-    TOKEN_SINGLE_QUOTE = 307,      /* TOKEN_SINGLE_QUOTE  */
-    TOKEN_DOUBLE_QUOTE = 308,      /* TOKEN_DOUBLE_QUOTE  */
-    TOKEN_UNDERSCORE = 309,        /* TOKEN_UNDERSCORE  */
-    TOKEN_DOT = 310,               /* TOKEN_DOT  */
-    TOKEN_EXCLAMATION_POINT = 311, /* TOKEN_EXCLAMATION_POINT  */
-    TOKEN_PIPE = 312,              /* TOKEN_PIPE  */
-    STRING_LITERAL = 313,          /* STRING_LITERAL  */
-    TOKEN_ONE_LINE_COMMENT = 314,  /* TOKEN_ONE_LINE_COMMENT  */
-    TOKEN_MULTIPLE_LINE_COMMENTS = 315, /* TOKEN_MULTIPLE_LINE_COMMENTS  */
-    TOKEN_ADD = 316,               /* TOKEN_ADD  */
-    TOKEN_START = 317,             /* TOKEN_START  */
-    TOKEN_END = 318,               /* TOKEN_END  */
-    TOKEN_COLON = 319,             /* TOKEN_COLON  */
-    TOKEN_VOID = 320,              /* TOKEN_VOID  */
-    TOKEN_SUB = 321,               /* TOKEN_SUB  */
-    TOKEN_MUL = 322,               /* TOKEN_MUL  */
-    UMINUS = 323,                  /* UMINUS  */
-    NUMBER = 324,                  /* NUMBER  */
-    IDENTIFIER = 325,              /* IDENTIFIER  */
-    CLASS_IDENTIFIER = 326         /* CLASS_IDENTIFIER  */
-  };
-  typedef enum yytokentype yytoken_kind_t;
-#endif
-
-/* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
-#line 39 "bison_Program.y"
-
-    int intvalue;
-    char* strvalue;
-    double doublevalue;
-
-#line 212 "bison_Program.tab.c"
-
-};
-typedef union YYSTYPE YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
-
-
-extern YYSTYPE yylval;
-
-
-int yyparse (void);
-
-
-
+#include "bison_Program.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -297,16 +181,16 @@ enum yysymbol_kind_t
   YYSYMBOL_TOKEN_SUB = 66,                 /* TOKEN_SUB  */
   YYSYMBOL_TOKEN_MUL = 67,                 /* TOKEN_MUL  */
   YYSYMBOL_UMINUS = 68,                    /* UMINUS  */
-  YYSYMBOL_NUMBER = 69,                    /* NUMBER  */
-  YYSYMBOL_IDENTIFIER = 70,                /* IDENTIFIER  */
-  YYSYMBOL_CLASS_IDENTIFIER = 71,          /* CLASS_IDENTIFIER  */
-  YYSYMBOL_YYACCEPT = 72,                  /* $accept  */
-  YYSYMBOL_PROGRAM = 73,                   /* PROGRAM  */
-  YYSYMBOL_STATEMENTS = 74,                /* STATEMENTS  */
-  YYSYMBOL_STATEMENT = 75,                 /* STATEMENT  */
-  YYSYMBOL_STATEMENT_IF = 76,              /* STATEMENT_IF  */
-  YYSYMBOL_IF_STATEMENT = 77,              /* IF_STATEMENT  */
-  YYSYMBOL_IF_ELSE_STATEMENT = 78,         /* IF_ELSE_STATEMENT  */
+  YYSYMBOL_LOWER_ELSE = 69,                /* LOWER_ELSE  */
+  YYSYMBOL_NUMBER = 70,                    /* NUMBER  */
+  YYSYMBOL_IDENTIFIER = 71,                /* IDENTIFIER  */
+  YYSYMBOL_CLASS_IDENTIFIER = 72,          /* CLASS_IDENTIFIER  */
+  YYSYMBOL_YYACCEPT = 73,                  /* $accept  */
+  YYSYMBOL_PROGRAM = 74,                   /* PROGRAM  */
+  YYSYMBOL_STATEMENTS = 75,                /* STATEMENTS  */
+  YYSYMBOL_STATEMENT = 76,                 /* STATEMENT  */
+  YYSYMBOL_STATEMENT_IF_ELSE = 77,         /* STATEMENT_IF_ELSE  */
+  YYSYMBOL_ELSE_CLAUSE = 78,               /* ELSE_CLAUSE  */
   YYSYMBOL_STATEMENT_WHILE = 79,           /* STATEMENT_WHILE  */
   YYSYMBOL_STATEMENT_BREAK = 80,           /* STATEMENT_BREAK  */
   YYSYMBOL_STATEMENT_ASSIGN = 81,          /* STATEMENT_ASSIGN  */
@@ -323,22 +207,23 @@ enum yysymbol_kind_t
   YYSYMBOL_PRINT_OPTIONAL_VAR = 92,        /* PRINT_OPTIONAL_VAR  */
   YYSYMBOL_VARIABLE_DECLARATION = 93,      /* VARIABLE_DECLARATION  */
   YYSYMBOL_METHOD_DECLARATION = 94,        /* METHOD_DECLARATION  */
-  YYSYMBOL_RETURN_TYPE = 95,               /* RETURN_TYPE  */
-  YYSYMBOL_ACCESS_MODIFIER = 96,           /* ACCESS_MODIFIER  */
-  YYSYMBOL_VARIABLE_TYPE = 97,             /* VARIABLE_TYPE  */
-  YYSYMBOL_PARAMETER_LIST = 98,            /* PARAMETER_LIST  */
-  YYSYMBOL_CONDITION = 99,                 /* CONDITION  */
-  YYSYMBOL_COMPARISON = 100,               /* COMPARISON  */
-  YYSYMBOL_EXPRESSION = 101,               /* EXPRESSION  */
-  YYSYMBOL_BOOLEAN = 102,                  /* BOOLEAN  */
-  YYSYMBOL_STATEMENT_NEW = 103,            /* STATEMENT_NEW  */
-  YYSYMBOL_VALUE = 104,                    /* VALUE  */
-  YYSYMBOL_OPERATION = 105,                /* OPERATION  */
-  YYSYMBOL_OPERATION_CONTINUE = 106,       /* OPERATION_CONTINUE  */
-  YYSYMBOL_ADDITION = 107,                 /* ADDITION  */
-  YYSYMBOL_MULTIPLICATION = 108,           /* MULTIPLICATION  */
-  YYSYMBOL_SUBTRACTION = 109,              /* SUBTRACTION  */
-  YYSYMBOL_DIVISION = 110                  /* DIVISION  */
+  YYSYMBOL_METHOD_TYPE = 95,               /* METHOD_TYPE  */
+  YYSYMBOL_RETURN_TYPE = 96,               /* RETURN_TYPE  */
+  YYSYMBOL_ACCESS_MODIFIER = 97,           /* ACCESS_MODIFIER  */
+  YYSYMBOL_VARIABLE_TYPE = 98,             /* VARIABLE_TYPE  */
+  YYSYMBOL_PARAMETER_LIST = 99,            /* PARAMETER_LIST  */
+  YYSYMBOL_CONDITION = 100,                /* CONDITION  */
+  YYSYMBOL_COMPARISON = 101,               /* COMPARISON  */
+  YYSYMBOL_EXPRESSION = 102,               /* EXPRESSION  */
+  YYSYMBOL_BOOLEAN = 103,                  /* BOOLEAN  */
+  YYSYMBOL_STATEMENT_NEW = 104,            /* STATEMENT_NEW  */
+  YYSYMBOL_VALUE = 105,                    /* VALUE  */
+  YYSYMBOL_OPERATION = 106,                /* OPERATION  */
+  YYSYMBOL_OPERATION_CONTINUE = 107,       /* OPERATION_CONTINUE  */
+  YYSYMBOL_ADDITION = 108,                 /* ADDITION  */
+  YYSYMBOL_MULTIPLICATION = 109,           /* MULTIPLICATION  */
+  YYSYMBOL_SUBTRACTION = 110,              /* SUBTRACTION  */
+  YYSYMBOL_DIVISION = 111                  /* DIVISION  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -664,21 +549,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  43
+#define YYFINAL  44
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   228
+#define YYLAST   243
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  72
+#define YYNTOKENS  73
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  39
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  93
+#define YYNRULES  95
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  222
+#define YYNSTATES  231
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   326
+#define YYMAXUTOK   327
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -724,23 +609,23 @@ static const yytype_int8 yytranslate[] =
       35,    36,    37,    38,    39,    40,    41,    42,    43,    44,
       45,    46,    47,    48,    49,    50,    51,    52,    53,    54,
       55,    56,    57,    58,    59,    60,    61,    62,    63,    64,
-      65,    66,    67,    68,    69,    70,    71
+      65,    66,    67,    68,    69,    70,    71,    72
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    70,    70,    72,    73,    75,    76,    77,    78,    79,
-      80,    81,    82,    83,    84,    85,    86,    87,    88,    91,
-      92,    95,    98,    99,   102,   105,   108,   109,   112,   115,
-     116,   117,   120,   123,   126,   129,   132,   135,   138,   139,
-     142,   143,   146,   147,   150,   151,   154,   155,   156,   157,
-     160,   161,   164,   165,   168,   169,   170,   171,   172,   176,
-     177,   180,   181,   182,   185,   186,   187,   188,   189,   190,
-     193,   194,   195,   196,   197,   200,   201,   204,   205,   208,
-     209,   212,   213,   214,   215,   218,   219,   220,   221,   222,
-     225,   228,   231,   235
+       0,    73,    73,    75,    76,    78,    79,    80,    81,    82,
+      83,    84,    85,    86,    87,    88,    89,    90,    91,    96,
+      99,   100,   101,   104,   107,   110,   111,   114,   117,   118,
+     119,   122,   125,   128,   131,   134,   137,   140,   141,   144,
+     145,   148,   149,   152,   153,   154,   155,   158,   159,   160,
+     161,   164,   168,   169,   172,   173,   176,   177,   178,   179,
+     180,   184,   185,   188,   189,   190,   193,   194,   195,   196,
+     197,   198,   201,   202,   203,   204,   205,   208,   209,   212,
+     213,   216,   217,   220,   221,   222,   223,   226,   227,   228,
+     229,   230,   233,   236,   239,   243
 };
 #endif
 
@@ -773,17 +658,17 @@ static const char *const yytname[] =
   "TOKEN_EXCLAMATION_POINT", "TOKEN_PIPE", "STRING_LITERAL",
   "TOKEN_ONE_LINE_COMMENT", "TOKEN_MULTIPLE_LINE_COMMENTS", "TOKEN_ADD",
   "TOKEN_START", "TOKEN_END", "TOKEN_COLON", "TOKEN_VOID", "TOKEN_SUB",
-  "TOKEN_MUL", "UMINUS", "NUMBER", "IDENTIFIER", "CLASS_IDENTIFIER",
-  "$accept", "PROGRAM", "STATEMENTS", "STATEMENT", "STATEMENT_IF",
-  "IF_STATEMENT", "IF_ELSE_STATEMENT", "STATEMENT_WHILE",
-  "STATEMENT_BREAK", "STATEMENT_ASSIGN", "STATEMENT_SWITCH", "SWITCH_BODY",
+  "TOKEN_MUL", "UMINUS", "LOWER_ELSE", "NUMBER", "IDENTIFIER",
+  "CLASS_IDENTIFIER", "$accept", "PROGRAM", "STATEMENTS", "STATEMENT",
+  "STATEMENT_IF_ELSE", "ELSE_CLAUSE", "STATEMENT_WHILE", "STATEMENT_BREAK",
+  "STATEMENT_ASSIGN", "STATEMENT_SWITCH", "SWITCH_BODY",
   "STATEMENT_RETURN", "STATEMENT_CLASS", "CREATE_CLASS_OBJECT",
   "STATEMENT_DO_WHILE", "ACCESS_TO_CLASS_MEMBERS", "STATEMENT_FOR",
   "COMMENTS", "STATEMENT_PRINT", "PRINT_OPTIONAL_VAR",
-  "VARIABLE_DECLARATION", "METHOD_DECLARATION", "RETURN_TYPE",
-  "ACCESS_MODIFIER", "VARIABLE_TYPE", "PARAMETER_LIST", "CONDITION",
-  "COMPARISON", "EXPRESSION", "BOOLEAN", "STATEMENT_NEW", "VALUE",
-  "OPERATION", "OPERATION_CONTINUE", "ADDITION", "MULTIPLICATION",
+  "VARIABLE_DECLARATION", "METHOD_DECLARATION", "METHOD_TYPE",
+  "RETURN_TYPE", "ACCESS_MODIFIER", "VARIABLE_TYPE", "PARAMETER_LIST",
+  "CONDITION", "COMPARISON", "EXPRESSION", "BOOLEAN", "STATEMENT_NEW",
+  "VALUE", "OPERATION", "OPERATION_CONTINUE", "ADDITION", "MULTIPLICATION",
   "SUBTRACTION", "DIVISION", YY_NULLPTR
 };
 
@@ -794,7 +679,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-164)
+#define YYPACT_NINF (-152)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -808,29 +693,30 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int16 yypact[] =
 {
-     -52,    13,    24,    -2,     8,    47,    11,    19,    53,    58,
-    -164,  -164,  -164,  -164,  -164,  -164,  -164,    22,  -164,  -164,
-     -20,    32,    62,    13,  -164,  -164,  -164,  -164,  -164,  -164,
-    -164,  -164,  -164,  -164,  -164,   111,  -164,  -164,  -164,  -164,
-    -164,    35,    40,  -164,    58,    58,    13,    63,    58,  -164,
-    -164,  -164,    25,  -164,  -164,  -164,   117,  -164,  -164,    77,
-    -164,  -164,  -164,  -164,  -164,    87,    58,    76,   114,  -164,
-    -164,    58,    84,  -164,    86,    88,   131,   129,   110,   130,
-     134,   138,   135,  -164,  -164,  -164,   -12,   -12,   -12,   -12,
-     -16,   141,  -164,   144,   143,   145,   142,   147,  -164,   148,
-    -164,  -164,  -164,  -164,  -164,  -164,    58,   149,   164,    58,
-     168,    94,    94,    94,    94,   154,    58,   151,  -164,   103,
-    -164,   120,    74,  -164,    13,    21,    13,   153,   157,    58,
-    -164,   155,   156,   158,   159,  -164,  -164,  -164,  -164,  -164,
-     152,   163,   161,    82,   100,   165,   121,   167,   166,    58,
-      58,   170,    58,    63,   136,   -12,   -12,   -12,   -12,  -164,
-    -164,   169,   173,    69,    88,    13,   171,   175,   189,  -164,
-    -164,  -164,   174,   176,    13,    77,   177,   178,   179,   180,
-     185,  -164,  -164,   184,    13,   100,    13,     9,  -164,   186,
-     113,  -164,  -164,  -164,  -164,  -164,  -164,   187,  -164,   188,
-      13,   190,    13,  -164,   192,   139,  -164,  -164,  -164,   193,
-      58,   194,  -164,    13,  -164,   195,  -164,  -164,   191,    13,
-     196,   189
+     -51,   129,    20,    25,    34,    -3,    42,    43,    47,   101,
+    -152,  -152,  -152,  -152,  -152,  -152,  -152,    46,  -152,  -152,
+    -152,   -23,   -25,    14,   129,  -152,  -152,  -152,  -152,  -152,
+    -152,  -152,  -152,  -152,    73,  -152,  -152,  -152,  -152,  -152,
+       8,  -152,    17,    37,  -152,   101,   101,   129,    39,   101,
+    -152,  -152,  -152,     9,  -152,  -152,  -152,    54,  -152,  -152,
+      48,  -152,  -152,  -152,  -152,  -152,    53,   101,    68,    80,
+    -152,  -152,   101,    85,    49,    69,    81,    82,    92,   121,
+     126,   144,   145,   149,   146,  -152,  -152,  -152,   -21,   -21,
+     -21,   -21,   -12,   151,  -152,   154,   153,    83,   155,   152,
+     156,   157,  -152,   159,  -152,  -152,  -152,  -152,  -152,  -152,
+     101,   160,   174,   101,   180,    91,    91,    91,    91,   158,
+     101,   161,  -152,   123,  -152,   122,   166,    78,    83,    40,
+    -152,   129,     7,   129,   168,   172,   101,  -152,   170,   173,
+     175,   176,  -152,  -152,  -152,  -152,  -152,   169,   181,   177,
+     178,   182,    50,   143,   183,   184,   185,   186,   101,   101,
+     188,   101,    39,   162,   -21,   -21,   -21,   -21,  -152,  -152,
+     187,    83,   129,   190,   143,   192,   129,   193,   206,  -152,
+    -152,  -152,   191,   194,   129,    48,   195,   197,   198,   199,
+     196,  -152,   202,  -152,    81,  -152,   129,   203,   129,   129,
+      16,  -152,  -152,   205,    58,  -152,  -152,  -152,  -152,  -152,
+    -152,   207,  -152,   208,   209,   129,   129,  -152,   210,   179,
+    -152,  -152,  -152,  -152,   211,   212,  -152,   129,  -152,  -152,
+    -152
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -839,46 +725,47 @@ static const yytype_int16 yypact[] =
 static const yytype_int8 yydefact[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-      52,    53,    54,    55,    56,    57,    58,     0,    38,    39,
-       0,     0,     0,     4,     5,    19,    20,     6,    17,     7,
-       8,     9,    10,    16,    13,     0,    14,    18,    15,    11,
-      12,     0,     0,     1,     0,     0,     0,     0,     0,    25,
-      75,    76,     0,    74,    79,    80,     0,    73,    72,    70,
-      71,    81,    82,    83,    84,     0,     0,     0,     0,     2,
-       3,     0,     0,    51,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    78,    77,    32,     0,     0,     0,     0,
-       0,     0,    36,     0,     0,     0,     0,     0,    45,     0,
-      64,    65,    68,    69,    66,    67,     0,     0,     0,     0,
-       0,    85,    85,    85,    85,     0,     0,     0,    26,     0,
-      27,     0,     0,    44,     0,    61,     0,     0,     0,     0,
-      28,     0,     0,     0,     0,    90,    92,    91,    93,    40,
-      42,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,     0,     0,     0,    43,
-      41,     0,     0,     0,     0,     0,    60,     0,    21,    62,
-      63,    24,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,    33,    50,     0,    11,     0,     0,     0,    35,     0,
-      29,    86,    87,    88,    89,    34,    46,     0,    59,     0,
-      11,     0,     0,    23,     0,     0,    31,    48,    47,     0,
-       0,     0,    37,     0,    49,     0,    22,    30,     0,     0,
-       0,     0
+      54,    55,    56,    57,    58,    59,    60,     0,    37,    38,
+      53,     0,     0,     0,     3,     7,     8,    17,    13,    11,
+      12,    14,    15,     9,     0,    10,    18,    16,     6,     5,
+       0,    51,     0,     0,     1,     0,     0,     0,     0,     0,
+      24,    77,    78,     0,    76,    81,    82,     0,    75,    74,
+      72,    73,    83,    84,    85,    86,     0,     0,     0,     0,
+       2,     4,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,    80,    79,    31,     0,     0,
+       0,     0,     0,     0,    35,     0,     0,     0,     0,     0,
+       0,     0,    45,     0,    66,    67,    70,    71,    68,    69,
+       0,     0,     0,     0,     0,    87,    87,    87,    87,     0,
+       0,     0,    25,     0,    26,     0,     0,     0,     0,     0,
+      43,     0,    63,     0,     0,     0,     0,    27,     0,     0,
+       0,     0,    92,    94,    93,    95,    39,    41,     0,     0,
+      62,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,    42,    40,
+       0,     0,     0,     0,     0,     0,     0,     0,    22,    64,
+      65,    23,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,    61,     0,    32,     0,    52,     0,     0,     6,     0,
+       0,    19,    34,     0,    28,    88,    89,    90,    91,    33,
+      46,     0,    47,     0,     0,     6,     0,    21,     0,     0,
+      30,    44,    49,    48,     0,     0,    36,     0,    50,    20,
+      29
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int16 yypgoto[] =
 {
-    -164,  -164,   -23,  -163,  -164,  -164,    27,  -164,  -164,   -42,
-    -164,     5,  -164,  -164,  -164,  -164,  -164,  -164,  -164,  -164,
-      83,  -118,    85,  -164,  -104,   -37,    41,   -44,  -164,    -7,
-    -164,  -164,   -80,   -95,   -43,  -164,  -164,  -164,  -164
+    -152,  -152,   -24,  -151,    23,  -152,  -152,  -152,   -45,  -152,
+      29,  -152,  -152,  -152,  -152,  -152,  -152,  -152,  -152,    87,
+    -121,    89,   -37,   -40,  -110,   -41,  -120,   -39,  -152,    -5,
+    -152,  -152,   -75,    -9,   -77,  -152,  -152,  -152,  -152
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_uint8 yydefgoto[] =
 {
-       0,     2,    22,    23,    24,    25,    26,    27,    28,    29,
-      30,   130,    31,    32,    33,    34,    35,    36,    37,    38,
-     117,    39,    40,    74,    41,    42,   147,    77,   106,    78,
-      57,    58,    59,    60,   135,    61,    62,    63,    64
+       0,     2,    23,    24,    25,   201,    26,    27,    28,    29,
+     137,    30,    31,    32,    33,    34,    35,    36,    37,   121,
+      38,    39,    40,    41,    42,    43,   126,    79,   110,    80,
+      58,    59,    60,    61,   142,    62,    63,    64,    65
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -886,115 +773,120 @@ static const yytype_uint8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-      70,    79,    56,   143,    75,    81,   111,   112,   113,   114,
-       1,   190,   201,    66,   115,    84,     3,   144,   116,     4,
-       5,     6,     7,    80,    43,     8,     9,    44,    10,    11,
-      12,    13,    14,    15,    16,    67,   202,    45,    17,   163,
-      47,    82,    12,    13,    14,    15,    16,   184,    48,    72,
-     217,    65,    12,    13,    14,    15,    16,    54,    55,    91,
-     176,   177,   178,   179,    94,   128,   149,   150,   200,   136,
-     137,   138,    18,    19,    46,   175,   175,   175,   175,    49,
-      50,    51,    52,    20,    21,   146,    12,    13,    14,    15,
-      16,    12,    13,    14,    15,    16,    83,    10,    11,   125,
-      73,   148,    68,   151,   145,   169,   170,   164,   172,   140,
-      76,   173,    86,    87,    88,    89,    53,    12,    13,    14,
-      15,    16,   154,   129,   205,    69,   182,    54,    55,   131,
-     132,   133,   134,    20,    73,    10,    11,    12,    13,    14,
-      15,    16,   183,    85,    71,    90,    92,    93,   146,   100,
-     101,   102,   103,   104,   105,    95,    96,    98,    97,    99,
-     107,   197,   108,   199,   109,   110,   215,   118,   119,   120,
-     127,   122,   121,   123,   142,   124,   126,   209,   129,   211,
-     139,   141,   152,   153,   155,   156,   116,   157,   158,   160,
-     161,   166,   165,   187,   168,   206,   220,   167,   171,   180,
-     174,   181,   186,   213,   188,   185,   189,   191,   192,   193,
-     194,   195,   196,   204,   203,   207,   208,     0,   219,   210,
-     212,   214,   216,   159,   221,   218,   198,     0,   162
+      71,    77,    76,    83,    57,    75,   152,    81,   154,   156,
+      67,     1,    86,   115,   116,   117,   118,   153,   119,     3,
+      44,   192,   120,    82,    47,   197,    12,    13,    14,    15,
+      16,    74,    68,   204,    12,    13,    14,    15,    16,   143,
+     144,   145,   174,   216,    84,   211,    69,   213,   214,    55,
+      56,   191,   158,   159,    45,   198,   125,    12,    13,    14,
+      15,    16,    93,    46,   224,    10,    11,    96,   136,   219,
+     155,    48,    49,    50,   135,    66,   230,    70,   215,    73,
+      87,    85,    20,    88,    89,    90,    91,   125,   125,   185,
+     185,   185,   185,    10,    11,    12,    13,    14,    15,    16,
+      12,    13,    14,    15,    16,   132,    72,   157,    78,   160,
+      21,    92,    77,    95,    97,   147,    75,   183,   102,   179,
+     180,    98,   182,    51,    52,    53,   138,   139,   140,   141,
+     125,   163,     3,   195,   194,     4,     5,     6,     7,    94,
+      99,     8,     9,    20,    10,    11,    12,    13,    14,    15,
+      16,   103,   100,   101,    17,   186,   187,   188,   189,    54,
+      12,    13,    14,    15,    16,   104,   105,   106,   107,   108,
+     109,    55,    56,   112,   111,   113,   114,   122,   123,   124,
+     134,   128,   127,   130,   146,   129,   131,   133,    18,    19,
+     136,   148,   225,   150,    20,   149,   151,   161,   162,   164,
+      21,    22,   165,   120,   166,   167,   170,   169,    20,   172,
+     200,   176,   171,   175,   178,   177,   181,   190,   193,   196,
+     199,   202,   209,   217,   203,   205,   184,   206,   207,   208,
+     210,   212,   218,   220,   168,   221,   222,   223,   226,   228,
+     229,   173,     0,   227
 };
 
 static const yytype_int16 yycheck[] =
 {
-      23,    45,     9,   121,    41,    47,    86,    87,    88,    89,
-      62,   174,     3,    33,    30,    52,     3,   121,    34,     6,
-       7,     8,     9,    46,     0,    12,    13,    29,    15,    16,
-      17,    18,    19,    20,    21,    55,    27,    29,    25,   143,
-      29,    48,    17,    18,    19,    20,    21,   165,    29,    14,
-     213,    29,    17,    18,    19,    20,    21,    69,    70,    66,
-     155,   156,   157,   158,    71,   109,    45,    46,   186,   112,
-     113,   114,    59,    60,    27,   155,   156,   157,   158,    26,
-      22,    23,    24,    70,    71,   122,    17,    18,    19,    20,
-      21,    17,    18,    19,    20,    21,    71,    15,    16,   106,
-      65,   124,    70,   126,    30,   149,   150,   144,   152,   116,
-      70,   153,    35,    36,    37,    38,    58,    17,    18,    19,
-      20,    21,   129,    10,    11,    63,   163,    69,    70,    35,
-      36,    37,    38,    70,    65,    15,    16,    17,    18,    19,
-      20,    21,   165,    26,    33,    58,    70,    33,   185,    39,
-      40,    41,    42,    43,    44,    71,    70,    26,    70,    30,
-      30,   184,    28,   186,    26,    30,   210,    26,    24,    26,
-       6,    29,    27,    26,    71,    27,    27,   200,    10,   202,
-      26,    30,    29,    26,    29,    29,    34,    29,    29,    26,
-      29,    70,    27,     4,    28,   190,   219,    30,    28,    30,
-      64,    28,    27,    64,    30,    34,    30,    30,    30,    30,
-      30,    26,    28,    27,   187,    28,    28,    -1,    27,    29,
-      28,    28,    28,   140,    28,    30,   185,    -1,   143
+      24,    42,    42,    48,     9,    42,   127,    46,   128,   129,
+      33,    62,    53,    88,    89,    90,    91,   127,    30,     3,
+       0,   172,    34,    47,    27,   176,    17,    18,    19,    20,
+      21,    14,    55,   184,    17,    18,    19,    20,    21,   116,
+     117,   118,   152,    27,    49,   196,    71,   198,   199,    70,
+      71,   171,    45,    46,    29,   176,    97,    17,    18,    19,
+      20,    21,    67,    29,   215,    15,    16,    72,    10,    11,
+      30,    29,    29,    26,   113,    29,   227,    63,   199,    71,
+      26,    72,    65,    35,    36,    37,    38,   128,   129,   164,
+     165,   166,   167,    15,    16,    17,    18,    19,    20,    21,
+      17,    18,    19,    20,    21,   110,    33,   131,    71,   133,
+      71,    58,   153,    33,    29,   120,   153,   162,    26,   158,
+     159,    72,   161,    22,    23,    24,    35,    36,    37,    38,
+     171,   136,     3,   174,   174,     6,     7,     8,     9,    71,
+      71,    12,    13,    65,    15,    16,    17,    18,    19,    20,
+      21,    30,    71,    71,    25,   164,   165,   166,   167,    58,
+      17,    18,    19,    20,    21,    39,    40,    41,    42,    43,
+      44,    70,    71,    28,    30,    26,    30,    26,    24,    26,
+       6,    29,    27,    26,    26,    29,    27,    27,    59,    60,
+      10,    30,   216,    71,    65,    72,    30,    29,    26,    29,
+      71,    72,    29,    34,    29,    29,    29,    26,    65,    27,
+       4,    27,    34,    30,    28,    30,    28,    30,    28,    27,
+      27,    30,    26,   200,    30,    30,    64,    30,    30,    30,
+      28,    28,    27,   204,   147,    28,    28,    28,    28,    28,
+      28,   152,    -1,    64
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    62,    73,     3,     6,     7,     8,     9,    12,    13,
+       0,    62,    74,     3,     6,     7,     8,     9,    12,    13,
       15,    16,    17,    18,    19,    20,    21,    25,    59,    60,
-      70,    71,    74,    75,    76,    77,    78,    79,    80,    81,
-      82,    84,    85,    86,    87,    88,    89,    90,    91,    93,
-      94,    96,    97,     0,    29,    29,    27,    29,    29,    26,
-      22,    23,    24,    58,    69,    70,   101,   102,   103,   104,
-     105,   107,   108,   109,   110,    29,    33,    55,    70,    63,
-      74,    33,    14,    65,    95,    97,    70,    99,   101,    99,
-      74,    81,   101,    71,    97,    26,    35,    36,    37,    38,
-      58,   101,    70,    33,   101,    71,    70,    70,    26,    30,
-      39,    40,    41,    42,    43,    44,   100,    30,    28,    26,
-      30,   104,   104,   104,   104,    30,    34,    92,    26,    24,
-      26,    27,    29,    26,    27,   101,    27,     6,    99,    10,
-      83,    35,    36,    37,    38,   106,   106,   106,   106,    26,
-     101,    30,    71,    93,    96,    30,    97,    98,    74,    45,
-      46,    74,    29,    26,   101,    29,    29,    29,    29,    92,
-      26,    29,    94,    96,    97,    27,    70,    30,    28,    99,
-      99,    28,    99,    81,    64,   104,   105,   105,   105,   105,
-      30,    28,    97,    74,    93,    34,    27,     4,    30,    30,
-      75,    30,    30,    30,    30,    26,    28,    74,    98,    74,
-      93,     3,    27,    78,    27,    11,    83,    28,    28,    74,
-      29,    74,    28,    64,    28,    99,    28,    75,    30,    27,
-      74,    28
+      65,    71,    72,    75,    76,    77,    79,    80,    81,    82,
+      84,    85,    86,    87,    88,    89,    90,    91,    93,    94,
+      95,    96,    97,    98,     0,    29,    29,    27,    29,    29,
+      26,    22,    23,    24,    58,    70,    71,   102,   103,   104,
+     105,   106,   108,   109,   110,   111,    29,    33,    55,    71,
+      63,    75,    33,    71,    14,    95,    96,    98,    71,   100,
+     102,   100,    75,    81,   102,    72,    98,    26,    35,    36,
+      37,    38,    58,   102,    71,    33,   102,    29,    72,    71,
+      71,    71,    26,    30,    39,    40,    41,    42,    43,    44,
+     101,    30,    28,    26,    30,   105,   105,   105,   105,    30,
+      34,    92,    26,    24,    26,    98,    99,    27,    29,    29,
+      26,    27,   102,    27,     6,   100,    10,    83,    35,    36,
+      37,    38,   107,   107,   107,   107,    26,   102,    30,    72,
+      71,    30,    93,    97,    99,    30,    99,    75,    45,    46,
+      75,    29,    26,   102,    29,    29,    29,    29,    92,    26,
+      29,    34,    27,    94,    97,    30,    27,    30,    28,   100,
+     100,    28,   100,    81,    64,   105,   106,   106,   106,   106,
+      30,    99,    76,    28,    96,    98,    27,    76,    93,    27,
+       4,    78,    30,    30,    76,    30,    30,    30,    30,    26,
+      28,    76,    28,    76,    76,    93,    27,    77,    27,    11,
+      83,    28,    28,    28,    76,    75,    28,    64,    28,    28,
+      76
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    72,    73,    74,    74,    75,    75,    75,    75,    75,
-      75,    75,    75,    75,    75,    75,    75,    75,    75,    76,
-      76,    77,    78,    78,    79,    80,    81,    81,    82,    83,
-      83,    83,    84,    85,    86,    87,    88,    89,    90,    90,
-      91,    91,    92,    92,    93,    93,    94,    94,    94,    94,
-      95,    95,    96,    96,    97,    97,    97,    97,    97,    98,
-      98,    99,    99,    99,   100,   100,   100,   100,   100,   100,
-     101,   101,   101,   101,   101,   102,   102,   103,   103,   104,
-     104,   105,   105,   105,   105,   106,   106,   106,   106,   106,
-     107,   108,   109,   110
+       0,    73,    74,    75,    75,    76,    76,    76,    76,    76,
+      76,    76,    76,    76,    76,    76,    76,    76,    76,    77,
+      78,    78,    78,    79,    80,    81,    81,    82,    83,    83,
+      83,    84,    85,    86,    87,    88,    89,    90,    90,    91,
+      91,    92,    92,    93,    93,    93,    93,    94,    94,    94,
+      94,    95,    96,    96,    97,    97,    98,    98,    98,    98,
+      98,    99,    99,   100,   100,   100,   101,   101,   101,   101,
+     101,   101,   102,   102,   102,   102,   102,   103,   103,   104,
+     104,   105,   105,   106,   106,   106,   106,   107,   107,   107,
+     107,   107,   108,   109,   110,   111
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     2,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       1,     7,    11,     9,     7,     2,     4,     4,     5,     4,
-       7,     5,     3,     7,     8,     8,     3,    10,     1,     1,
-       5,     6,     2,     3,     4,     3,     8,     9,     9,    10,
-       1,     1,     1,     1,     1,     1,     1,     1,     1,     4,
-       2,     3,     5,     5,     1,     1,     1,     1,     1,     1,
-       1,     1,     1,     1,     1,     1,     1,     2,     2,     1,
-       1,     1,     1,     1,     1,     0,     4,     4,     4,     4,
-       4,     4,     4,     4
+       0,     2,     3,     1,     2,     1,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     8,
+       4,     2,     0,     7,     2,     4,     4,     5,     4,     7,
+       5,     3,     7,     8,     8,     3,    10,     1,     1,     5,
+       6,     2,     3,     4,     9,     3,     8,     8,     9,     9,
+      10,     1,     1,     1,     1,     1,     1,     1,     1,     1,
+       1,     4,     2,     3,     5,     5,     1,     1,     1,     1,
+       1,     1,     1,     1,     1,     1,     1,     1,     1,     2,
+       2,     1,     1,     1,     1,     1,     1,     0,     4,     4,
+       4,     4,     4,     4,     4,     4
 };
 
 
@@ -1458,523 +1350,535 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* PROGRAM: TOKEN_START STATEMENTS TOKEN_END  */
-#line 70 "bison_Program.y"
-                                          { printf("Program parsed successfully.\n"); }
-#line 1464 "bison_Program.tab.c"
-    break;
-
-  case 3: /* STATEMENTS: STATEMENT STATEMENTS  */
-#line 72 "bison_Program.y"
-                                       { printf("Statement\n"); }
-#line 1470 "bison_Program.tab.c"
-    break;
-
-  case 4: /* STATEMENTS: STATEMENT  */
 #line 73 "bison_Program.y"
-                                       { printf("Statement\n"); }
-#line 1476 "bison_Program.tab.c"
+                                          { printf("Program parsed successfully.\n"); }
+#line 1356 "bison_Program.tab.c"
     break;
 
-  case 5: /* STATEMENT: STATEMENT_IF  */
+  case 3: /* STATEMENTS: STATEMENT  */
 #line 75 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1482 "bison_Program.tab.c"
+#line 1362 "bison_Program.tab.c"
     break;
 
-  case 6: /* STATEMENT: STATEMENT_WHILE  */
+  case 4: /* STATEMENTS: STATEMENT STATEMENTS  */
 #line 76 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1488 "bison_Program.tab.c"
+#line 1368 "bison_Program.tab.c"
     break;
 
-  case 7: /* STATEMENT: STATEMENT_ASSIGN  */
-#line 77 "bison_Program.y"
-                                       { printf("Statement\n"); }
-#line 1494 "bison_Program.tab.c"
-    break;
-
-  case 8: /* STATEMENT: STATEMENT_SWITCH  */
+  case 5: /* STATEMENT: METHOD_DECLARATION  */
 #line 78 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1500 "bison_Program.tab.c"
+#line 1374 "bison_Program.tab.c"
     break;
 
-  case 9: /* STATEMENT: STATEMENT_RETURN  */
+  case 6: /* STATEMENT: VARIABLE_DECLARATION  */
 #line 79 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1506 "bison_Program.tab.c"
+#line 1380 "bison_Program.tab.c"
     break;
 
-  case 10: /* STATEMENT: STATEMENT_CLASS  */
+  case 7: /* STATEMENT: STATEMENT_IF_ELSE  */
 #line 80 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1512 "bison_Program.tab.c"
+#line 1386 "bison_Program.tab.c"
     break;
 
-  case 11: /* STATEMENT: VARIABLE_DECLARATION  */
+  case 8: /* STATEMENT: STATEMENT_WHILE  */
 #line 81 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1518 "bison_Program.tab.c"
+#line 1392 "bison_Program.tab.c"
     break;
 
-  case 12: /* STATEMENT: METHOD_DECLARATION  */
+  case 9: /* STATEMENT: STATEMENT_DO_WHILE  */
 #line 82 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1524 "bison_Program.tab.c"
+#line 1398 "bison_Program.tab.c"
     break;
 
-  case 13: /* STATEMENT: STATEMENT_DO_WHILE  */
+  case 10: /* STATEMENT: STATEMENT_FOR  */
 #line 83 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1530 "bison_Program.tab.c"
+#line 1404 "bison_Program.tab.c"
     break;
 
-  case 14: /* STATEMENT: STATEMENT_FOR  */
+  case 11: /* STATEMENT: STATEMENT_SWITCH  */
 #line 84 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1536 "bison_Program.tab.c"
+#line 1410 "bison_Program.tab.c"
     break;
 
-  case 15: /* STATEMENT: STATEMENT_PRINT  */
+  case 12: /* STATEMENT: STATEMENT_RETURN  */
 #line 85 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1542 "bison_Program.tab.c"
+#line 1416 "bison_Program.tab.c"
     break;
 
-  case 16: /* STATEMENT: CREATE_CLASS_OBJECT  */
+  case 13: /* STATEMENT: STATEMENT_ASSIGN  */
 #line 86 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1548 "bison_Program.tab.c"
+#line 1422 "bison_Program.tab.c"
+    break;
+
+  case 14: /* STATEMENT: STATEMENT_CLASS  */
+#line 87 "bison_Program.y"
+                                       { printf("Statement\n"); }
+#line 1428 "bison_Program.tab.c"
+    break;
+
+  case 15: /* STATEMENT: CREATE_CLASS_OBJECT  */
+#line 88 "bison_Program.y"
+                                       { printf("Statement\n"); }
+#line 1434 "bison_Program.tab.c"
+    break;
+
+  case 16: /* STATEMENT: STATEMENT_PRINT  */
+#line 89 "bison_Program.y"
+                                       { printf("Statement\n"); }
+#line 1440 "bison_Program.tab.c"
     break;
 
   case 17: /* STATEMENT: STATEMENT_BREAK  */
-#line 87 "bison_Program.y"
+#line 90 "bison_Program.y"
                                        { printf("Statement\n"); }
-#line 1554 "bison_Program.tab.c"
+#line 1446 "bison_Program.tab.c"
     break;
 
   case 18: /* STATEMENT: COMMENTS  */
-#line 88 "bison_Program.y"
+#line 91 "bison_Program.y"
                                        { printf("Comment\n"); }
+#line 1452 "bison_Program.tab.c"
+    break;
+
+  case 19: /* STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE ELSE_CLAUSE  */
+#line 96 "bison_Program.y"
+                                                                                                                 { printf("IF Statement\n"); }
+#line 1458 "bison_Program.tab.c"
+    break;
+
+  case 22: /* ELSE_CLAUSE: %empty  */
+#line 101 "bison_Program.y"
+                                                       {}
+#line 1464 "bison_Program.tab.c"
+    break;
+
+  case 23: /* STATEMENT_WHILE: TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
+#line 104 "bison_Program.y"
+                                                                                                      { printf("WHILE Statement\n"); }
+#line 1470 "bison_Program.tab.c"
+    break;
+
+  case 24: /* STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON  */
+#line 107 "bison_Program.y"
+                                             { printf("BREAK Statement\n"); }
+#line 1476 "bison_Program.tab.c"
+    break;
+
+  case 25: /* STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION TOKEN_SEMICOLON  */
+#line 110 "bison_Program.y"
+                                                                     { printf("Assignment Statement\n"); }
+#line 1482 "bison_Program.tab.c"
+    break;
+
+  case 27: /* STATEMENT_SWITCH: TOKEN_SWITCH TOKEN_LPAREN EXPRESSION TOKEN_RPAREN SWITCH_BODY  */
+#line 114 "bison_Program.y"
+                                                                                { printf("SWITCH Statement\n"); }
+#line 1488 "bison_Program.tab.c"
+    break;
+
+  case 28: /* SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT  */
+#line 117 "bison_Program.y"
+                                                         { printf("CASE Statement\n"); }
+#line 1494 "bison_Program.tab.c"
+    break;
+
+  case 29: /* SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT TOKEN_DEFAULT TOKEN_COLON STATEMENT  */
+#line 118 "bison_Program.y"
+                                                                                             { printf("DEFAULT Statement\n"); }
+#line 1500 "bison_Program.tab.c"
+    break;
+
+  case 30: /* SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT SWITCH_BODY  */
+#line 119 "bison_Program.y"
+                                                                     { printf("CASE Statement\n"); }
+#line 1506 "bison_Program.tab.c"
+    break;
+
+  case 31: /* STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON  */
+#line 122 "bison_Program.y"
+                                                          { printf("RETURN Statement\n"); }
+#line 1512 "bison_Program.tab.c"
+    break;
+
+  case 32: /* STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS CLASS_IDENTIFIER TOKEN_LBRACE VARIABLE_DECLARATION METHOD_DECLARATION TOKEN_RBRACE  */
+#line 125 "bison_Program.y"
+                                                                                                                               { printf("CLASS Statement\n"); }
+#line 1518 "bison_Program.tab.c"
+    break;
+
+  case 33: /* CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER TOKEN_ASSIGN TOKEN_NEW CLASS_IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON  */
+#line 128 "bison_Program.y"
+                                                                                                                                   { printf("Create Class Object Statement\n"); }
+#line 1524 "bison_Program.tab.c"
+    break;
+
+  case 34: /* STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN  */
+#line 131 "bison_Program.y"
+                                                                                                                  { printf("DO WHILE Statement\n"); }
+#line 1530 "bison_Program.tab.c"
+    break;
+
+  case 35: /* ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER  */
+#line 134 "bison_Program.y"
+                                                         { printf("Access to Class Members Statement\n"); }
+#line 1536 "bison_Program.tab.c"
+    break;
+
+  case 36: /* STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN STATEMENT_ASSIGN TOKEN_SEMICOLON CONDITION TOKEN_SEMICOLON STATEMENT_ASSIGN TOKEN_RPAREN TOKEN_LBRACE TOKEN_RBRACE  */
+#line 137 "bison_Program.y"
+                                                                                                                                                         { printf("FOR Statement\n"); }
+#line 1542 "bison_Program.tab.c"
+    break;
+
+  case 37: /* COMMENTS: TOKEN_ONE_LINE_COMMENT  */
+#line 140 "bison_Program.y"
+                                  { printf("One Line Comment\n"); }
+#line 1548 "bison_Program.tab.c"
+    break;
+
+  case 38: /* COMMENTS: TOKEN_MULTIPLE_LINE_COMMENTS  */
+#line 141 "bison_Program.y"
+                                        { printf("Multiple Line Comment\n"); }
+#line 1554 "bison_Program.tab.c"
+    break;
+
+  case 39: /* STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL TOKEN_RPAREN TOKEN_SEMICOLON  */
+#line 144 "bison_Program.y"
+                                                                                          { printf("Print Statement\n"); printf("%s\n", (yyvsp[-2].strvalue)); }
 #line 1560 "bison_Program.tab.c"
     break;
 
-  case 21: /* IF_STATEMENT: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 95 "bison_Program.y"
-                                                                                                { printf("IF Statement\n"); }
+  case 40: /* STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON  */
+#line 145 "bison_Program.y"
+                                                                                                             { printf("Print Statement\n"); printf("%s\n", (yyvsp[-3].strvalue), (yyvsp[-1].strvalue)); }
 #line 1566 "bison_Program.tab.c"
     break;
 
-  case 22: /* IF_ELSE_STATEMENT: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 98 "bison_Program.y"
-                                                                                                                                                     { printf("IF ELSE Statement\n"); }
+  case 43: /* VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON  */
+#line 152 "bison_Program.y"
+                                                                               { printf("Variable Declaration\n"); }
 #line 1572 "bison_Program.tab.c"
     break;
 
-  case 23: /* IF_ELSE_STATEMENT: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_ELSE IF_ELSE_STATEMENT  */
-#line 99 "bison_Program.y"
-                                                                                                                                  { printf("IF ELSE Statement\n"); }
+  case 44: /* VARIABLE_DECLARATION: ACCESS_MODIFIER METHOD_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE  */
+#line 153 "bison_Program.y"
+                                                                                                                                            { printf("Method Declaration\n"); }
 #line 1578 "bison_Program.tab.c"
     break;
 
-  case 24: /* STATEMENT_WHILE: TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 102 "bison_Program.y"
-                                                                                                      { printf("WHILE Statement\n"); }
+  case 45: /* VARIABLE_DECLARATION: VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON  */
+#line 154 "bison_Program.y"
+                                                                { printf("Variable Declaration\n"); }
 #line 1584 "bison_Program.tab.c"
     break;
 
-  case 25: /* STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON  */
-#line 105 "bison_Program.y"
-                                             { printf("BREAK Statement\n"); }
+  case 46: /* VARIABLE_DECLARATION: METHOD_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE  */
+#line 155 "bison_Program.y"
+                                                                                                                           { printf("Method Declaration\n"); }
 #line 1590 "bison_Program.tab.c"
     break;
 
-  case 26: /* STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION TOKEN_SEMICOLON  */
-#line 108 "bison_Program.y"
-                                                                     { printf("Assignment Statement\n"); }
+  case 47: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE  */
+#line 158 "bison_Program.y"
+                                                                                                                         { printf("Method Declaration\n"); }
 #line 1596 "bison_Program.tab.c"
     break;
 
-  case 28: /* STATEMENT_SWITCH: TOKEN_SWITCH TOKEN_LPAREN EXPRESSION TOKEN_RPAREN SWITCH_BODY  */
-#line 112 "bison_Program.y"
-                                                                                { printf("SWITCH Statement\n"); }
+  case 48: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE  */
+#line 159 "bison_Program.y"
+                                                                                                                                        { printf("Method Declaration\n"); }
 #line 1602 "bison_Program.tab.c"
     break;
 
-  case 29: /* SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT  */
-#line 115 "bison_Program.y"
-                                                         { printf("CASE Statement\n"); }
+  case 49: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENT TOKEN_RBRACE  */
+#line 160 "bison_Program.y"
+                                                                                                                                               { printf("Method Declaration\n"); }
 #line 1608 "bison_Program.tab.c"
     break;
 
-  case 30: /* SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT TOKEN_DEFAULT TOKEN_COLON STATEMENT  */
-#line 116 "bison_Program.y"
-                                                                                             { printf("DEFAULT Statement\n"); }
+  case 50: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENT TOKEN_RBRACE  */
+#line 161 "bison_Program.y"
+                                                                                                                                                               { printf("Method Declaration\n"); }
 #line 1614 "bison_Program.tab.c"
     break;
 
-  case 31: /* SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT SWITCH_BODY  */
-#line 117 "bison_Program.y"
-                                                                     { printf("CASE Statement\n"); }
+  case 51: /* METHOD_TYPE: RETURN_TYPE  */
+#line 164 "bison_Program.y"
+                         { printf("Method Type\n"); }
 #line 1620 "bison_Program.tab.c"
     break;
 
-  case 32: /* STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON  */
-#line 120 "bison_Program.y"
-                                                          { printf("RETURN Statement\n"); }
+  case 52: /* RETURN_TYPE: VARIABLE_TYPE  */
+#line 168 "bison_Program.y"
+                           { printf("Return Type\n"); }
 #line 1626 "bison_Program.tab.c"
     break;
 
-  case 33: /* STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS CLASS_IDENTIFIER TOKEN_LBRACE VARIABLE_DECLARATION METHOD_DECLARATION TOKEN_RBRACE  */
-#line 123 "bison_Program.y"
-                                                                                                                               { printf("CLASS Statement\n"); }
+  case 53: /* RETURN_TYPE: TOKEN_VOID  */
+#line 169 "bison_Program.y"
+                        { printf("Void\n"); }
 #line 1632 "bison_Program.tab.c"
     break;
 
-  case 34: /* CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER TOKEN_ASSIGN TOKEN_NEW CLASS_IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 126 "bison_Program.y"
-                                                                                                                                   { printf("Create Class Object Statement\n"); }
+  case 54: /* ACCESS_MODIFIER: TOKEN_PUBLIC  */
+#line 172 "bison_Program.y"
+                              { printf("Public\n"); }
 #line 1638 "bison_Program.tab.c"
     break;
 
-  case 35: /* STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN  */
-#line 129 "bison_Program.y"
-                                                                                                                  { printf("DO WHILE Statement\n"); }
+  case 55: /* ACCESS_MODIFIER: TOKEN_PRIVATE  */
+#line 173 "bison_Program.y"
+                               { printf("Private\n"); }
 #line 1644 "bison_Program.tab.c"
     break;
 
-  case 36: /* ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER  */
-#line 132 "bison_Program.y"
-                                                         { printf("Access to Class Members Statement\n"); }
+  case 56: /* VARIABLE_TYPE: TOKEN_INT  */
+#line 176 "bison_Program.y"
+                         { printf("Int\n"); }
 #line 1650 "bison_Program.tab.c"
     break;
 
-  case 37: /* STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN STATEMENT_ASSIGN TOKEN_SEMICOLON CONDITION TOKEN_SEMICOLON STATEMENT_ASSIGN TOKEN_RPAREN TOKEN_LBRACE TOKEN_RBRACE  */
-#line 135 "bison_Program.y"
-                                                                                                                                                         { printf("FOR Statement\n"); }
+  case 57: /* VARIABLE_TYPE: TOKEN_CHAR  */
+#line 177 "bison_Program.y"
+                           { printf("Char\n"); }
 #line 1656 "bison_Program.tab.c"
     break;
 
-  case 38: /* COMMENTS: TOKEN_ONE_LINE_COMMENT  */
-#line 138 "bison_Program.y"
-                                  { printf("One Line Comment\n"); }
+  case 58: /* VARIABLE_TYPE: TOKEN_DOUBLE  */
+#line 178 "bison_Program.y"
+                             { printf("Double\n"); }
 #line 1662 "bison_Program.tab.c"
     break;
 
-  case 39: /* COMMENTS: TOKEN_MULTIPLE_LINE_COMMENTS  */
-#line 139 "bison_Program.y"
-                                        { printf("Multiple Line Comment\n"); }
+  case 59: /* VARIABLE_TYPE: TOKEN_BOOLEAN  */
+#line 179 "bison_Program.y"
+                              { printf("Boolean\n"); }
 #line 1668 "bison_Program.tab.c"
     break;
 
-  case 40: /* STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 142 "bison_Program.y"
-                                                                                          { printf("Print Statement\n"); printf("%s\n", (yyvsp[-2].strvalue)); }
+  case 60: /* VARIABLE_TYPE: TOKEN_STRING  */
+#line 180 "bison_Program.y"
+                             { printf("String\n"); }
 #line 1674 "bison_Program.tab.c"
     break;
 
-  case 41: /* STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 143 "bison_Program.y"
-                                                                                                             { printf("Print Statement\n"); printf("%s\n", (yyvsp[-3].strvalue), (yyvsp[-1].strvalue)); }
+  case 61: /* PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST  */
+#line 184 "bison_Program.y"
+                                                                     { printf("Parameter List\n"); }
 #line 1680 "bison_Program.tab.c"
     break;
 
-  case 44: /* VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON  */
-#line 150 "bison_Program.y"
-                                                                               { printf("Variable Declaration\n"); }
+  case 62: /* PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER  */
+#line 185 "bison_Program.y"
+                                          { printf("Parameter List\n"); }
 #line 1686 "bison_Program.tab.c"
     break;
 
-  case 45: /* VARIABLE_DECLARATION: VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON  */
-#line 151 "bison_Program.y"
-                                                               { printf("Variable Declaration\n"); }
+  case 63: /* CONDITION: EXPRESSION COMPARISON EXPRESSION  */
+#line 188 "bison_Program.y"
+                                             { printf("Condition\n"); }
 #line 1692 "bison_Program.tab.c"
     break;
 
-  case 46: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 154 "bison_Program.y"
-                                                                                                                           { printf("Method Declaration\n"); }
+  case 64: /* CONDITION: EXPRESSION COMPARISON EXPRESSION TOKEN_AND CONDITION  */
+#line 189 "bison_Program.y"
+                                                                 { printf("Condition\n"); }
 #line 1698 "bison_Program.tab.c"
     break;
 
-  case 47: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 155 "bison_Program.y"
-                                                                                                                                          { printf("Method Declaration\n"); }
+  case 65: /* CONDITION: EXPRESSION COMPARISON EXPRESSION TOKEN_OR CONDITION  */
+#line 190 "bison_Program.y"
+                                                                { printf("Condition\n"); }
 #line 1704 "bison_Program.tab.c"
     break;
 
-  case 48: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENTS TOKEN_RBRACE  */
-#line 156 "bison_Program.y"
-                                                                                                                                                { printf("Method Declaration\n"); }
+  case 66: /* COMPARISON: TOKEN_LESS_THAN  */
+#line 193 "bison_Program.y"
+                             { printf("Comparison\n"); }
 #line 1710 "bison_Program.tab.c"
     break;
 
-  case 49: /* METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENTS TOKEN_RBRACE  */
-#line 157 "bison_Program.y"
-                                                                                                                                                               { printf("Method Declaration\n"); }
+  case 67: /* COMPARISON: TOKEN_GREATER_THAN  */
+#line 194 "bison_Program.y"
+                                { printf("Comparison\n"); }
 #line 1716 "bison_Program.tab.c"
     break;
 
-  case 50: /* RETURN_TYPE: VARIABLE_TYPE  */
-#line 160 "bison_Program.y"
-                           { printf("Return Type\n"); }
+  case 68: /* COMPARISON: TOKEN_LESS_THAN_EQUAL  */
+#line 195 "bison_Program.y"
+                                   { printf("Comparison\n"); }
 #line 1722 "bison_Program.tab.c"
     break;
 
-  case 51: /* RETURN_TYPE: TOKEN_VOID  */
-#line 161 "bison_Program.y"
-                        { printf("Void\n"); }
+  case 69: /* COMPARISON: TOKEN_GREATER_THAN_EQUAL  */
+#line 196 "bison_Program.y"
+                                      { printf("Comparison\n"); }
 #line 1728 "bison_Program.tab.c"
     break;
 
-  case 52: /* ACCESS_MODIFIER: TOKEN_PUBLIC  */
-#line 164 "bison_Program.y"
-                              { printf("Public\n"); }
+  case 70: /* COMPARISON: TOKEN_EQUAL  */
+#line 197 "bison_Program.y"
+                         { printf("Comparison\n"); }
 #line 1734 "bison_Program.tab.c"
     break;
 
-  case 53: /* ACCESS_MODIFIER: TOKEN_PRIVATE  */
-#line 165 "bison_Program.y"
-                               { printf("Private\n"); }
+  case 71: /* COMPARISON: TOKEN_NOT_EQUAL  */
+#line 198 "bison_Program.y"
+                             { printf("Comparison\n"); }
 #line 1740 "bison_Program.tab.c"
     break;
 
-  case 54: /* VARIABLE_TYPE: TOKEN_INT  */
-#line 168 "bison_Program.y"
-                         { printf("Int\n"); }
+  case 72: /* EXPRESSION: VALUE  */
+#line 201 "bison_Program.y"
+                   { printf("Expression\n"); }
 #line 1746 "bison_Program.tab.c"
     break;
 
-  case 55: /* VARIABLE_TYPE: TOKEN_CHAR  */
-#line 169 "bison_Program.y"
-                           { printf("Char\n"); }
+  case 73: /* EXPRESSION: OPERATION  */
+#line 202 "bison_Program.y"
+                       { printf("Expression\n"); }
 #line 1752 "bison_Program.tab.c"
     break;
 
-  case 56: /* VARIABLE_TYPE: TOKEN_DOUBLE  */
-#line 170 "bison_Program.y"
-                             { printf("Double\n"); }
+  case 74: /* EXPRESSION: STATEMENT_NEW  */
+#line 203 "bison_Program.y"
+                           { printf("Expression\n"); }
 #line 1758 "bison_Program.tab.c"
     break;
 
-  case 57: /* VARIABLE_TYPE: TOKEN_BOOLEAN  */
-#line 171 "bison_Program.y"
-                              { printf("Boolean\n"); }
+  case 75: /* EXPRESSION: BOOLEAN  */
+#line 204 "bison_Program.y"
+                     { printf("Expression\n"); }
 #line 1764 "bison_Program.tab.c"
     break;
 
-  case 58: /* VARIABLE_TYPE: TOKEN_STRING  */
-#line 172 "bison_Program.y"
-                             { printf("String\n"); }
+  case 77: /* BOOLEAN: TOKEN_TRUE  */
+#line 208 "bison_Program.y"
+                     { printf("True\n"); }
 #line 1770 "bison_Program.tab.c"
     break;
 
-  case 59: /* PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST  */
-#line 176 "bison_Program.y"
-                                                                     { printf("Parameter List\n"); }
+  case 78: /* BOOLEAN: TOKEN_FALSE  */
+#line 209 "bison_Program.y"
+                      { printf("False\n"); }
 #line 1776 "bison_Program.tab.c"
     break;
 
-  case 60: /* PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER  */
-#line 177 "bison_Program.y"
-                                          { printf("Parameter List\n"); }
+  case 79: /* STATEMENT_NEW: TOKEN_NEW VARIABLE_TYPE  */
+#line 212 "bison_Program.y"
+                                        { printf("New Statement\n"); }
 #line 1782 "bison_Program.tab.c"
     break;
 
-  case 61: /* CONDITION: EXPRESSION COMPARISON EXPRESSION  */
-#line 180 "bison_Program.y"
-                                             { printf("Condition\n"); }
+  case 80: /* STATEMENT_NEW: TOKEN_NEW CLASS_IDENTIFIER  */
+#line 213 "bison_Program.y"
+                                           { printf("New Statement\n"); }
 #line 1788 "bison_Program.tab.c"
     break;
 
-  case 62: /* CONDITION: EXPRESSION COMPARISON EXPRESSION TOKEN_AND CONDITION  */
-#line 181 "bison_Program.y"
-                                                                 { printf("Condition\n"); }
+  case 81: /* VALUE: NUMBER  */
+#line 216 "bison_Program.y"
+               { printf("Value\n"); }
 #line 1794 "bison_Program.tab.c"
     break;
 
-  case 63: /* CONDITION: EXPRESSION COMPARISON EXPRESSION TOKEN_OR CONDITION  */
-#line 182 "bison_Program.y"
-                                                                { printf("Condition\n"); }
+  case 82: /* VALUE: IDENTIFIER  */
+#line 217 "bison_Program.y"
+                   { printf("Value\n"); }
 #line 1800 "bison_Program.tab.c"
     break;
 
-  case 64: /* COMPARISON: TOKEN_LESS_THAN  */
-#line 185 "bison_Program.y"
-                             { printf("Comparison\n"); }
+  case 83: /* OPERATION: ADDITION  */
+#line 220 "bison_Program.y"
+                     { printf("Operation\n"); }
 #line 1806 "bison_Program.tab.c"
     break;
 
-  case 65: /* COMPARISON: TOKEN_GREATER_THAN  */
-#line 186 "bison_Program.y"
-                                { printf("Comparison\n"); }
+  case 84: /* OPERATION: MULTIPLICATION  */
+#line 221 "bison_Program.y"
+                           { printf("Operation\n"); }
 #line 1812 "bison_Program.tab.c"
     break;
 
-  case 66: /* COMPARISON: TOKEN_LESS_THAN_EQUAL  */
-#line 187 "bison_Program.y"
-                                   { printf("Comparison\n"); }
+  case 85: /* OPERATION: SUBTRACTION  */
+#line 222 "bison_Program.y"
+                        { printf("Operation\n"); }
 #line 1818 "bison_Program.tab.c"
     break;
 
-  case 67: /* COMPARISON: TOKEN_GREATER_THAN_EQUAL  */
-#line 188 "bison_Program.y"
-                                      { printf("Comparison\n"); }
+  case 86: /* OPERATION: DIVISION  */
+#line 223 "bison_Program.y"
+                     { printf("Operation\n"); }
 #line 1824 "bison_Program.tab.c"
     break;
 
-  case 68: /* COMPARISON: TOKEN_EQUAL  */
-#line 189 "bison_Program.y"
-                         { printf("Comparison\n"); }
+  case 87: /* OPERATION_CONTINUE: %empty  */
+#line 226 "bison_Program.y"
+                             {}
 #line 1830 "bison_Program.tab.c"
     break;
 
-  case 69: /* COMPARISON: TOKEN_NOT_EQUAL  */
-#line 190 "bison_Program.y"
-                             { printf("Comparison\n"); }
+  case 88: /* OPERATION_CONTINUE: TOKEN_PLUS TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
+#line 227 "bison_Program.y"
+                                                                    { printf("Operation Continue PLUS\n"); }
 #line 1836 "bison_Program.tab.c"
     break;
 
-  case 70: /* EXPRESSION: VALUE  */
-#line 193 "bison_Program.y"
-                   { printf("Expression\n"); }
+  case 89: /* OPERATION_CONTINUE: TOKEN_MINUS TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
+#line 228 "bison_Program.y"
+                                                                     { printf("Operation Continue MINUS\n"); }
 #line 1842 "bison_Program.tab.c"
     break;
 
-  case 71: /* EXPRESSION: OPERATION  */
-#line 194 "bison_Program.y"
-                       { printf("Expression\n"); }
+  case 90: /* OPERATION_CONTINUE: TOKEN_MULT TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
+#line 229 "bison_Program.y"
+                                                                    { printf("Operation Continue MULT\n"); }
 #line 1848 "bison_Program.tab.c"
     break;
 
-  case 72: /* EXPRESSION: STATEMENT_NEW  */
-#line 195 "bison_Program.y"
-                           { printf("Expression\n"); }
+  case 91: /* OPERATION_CONTINUE: TOKEN_DIV TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
+#line 230 "bison_Program.y"
+                                                                   { printf("Operation Continue DIV\n"); }
 #line 1854 "bison_Program.tab.c"
     break;
 
-  case 73: /* EXPRESSION: BOOLEAN  */
-#line 196 "bison_Program.y"
-                     { printf("Expression\n"); }
+  case 92: /* ADDITION: VALUE TOKEN_PLUS VALUE OPERATION_CONTINUE  */
+#line 233 "bison_Program.y"
+                                                    { printf("Addition\n"); }
 #line 1860 "bison_Program.tab.c"
     break;
 
-  case 75: /* BOOLEAN: TOKEN_TRUE  */
-#line 200 "bison_Program.y"
-                     { printf("True\n"); }
+  case 93: /* MULTIPLICATION: VALUE TOKEN_MULT VALUE OPERATION_CONTINUE  */
+#line 236 "bison_Program.y"
+                                                           { printf("Multiplication\n"); }
 #line 1866 "bison_Program.tab.c"
     break;
 
-  case 76: /* BOOLEAN: TOKEN_FALSE  */
-#line 201 "bison_Program.y"
-                      { printf("False\n"); }
+  case 94: /* SUBTRACTION: VALUE TOKEN_MINUS VALUE OPERATION_CONTINUE  */
+#line 239 "bison_Program.y"
+                                                         { printf("Subtraction\n"); }
 #line 1872 "bison_Program.tab.c"
     break;
 
-  case 77: /* STATEMENT_NEW: TOKEN_NEW VARIABLE_TYPE  */
-#line 204 "bison_Program.y"
-                                        { printf("New Statement\n"); }
+  case 95: /* DIVISION: VALUE TOKEN_DIV VALUE OPERATION_CONTINUE  */
+#line 243 "bison_Program.y"
+                                                    { printf("Division\n"); }
 #line 1878 "bison_Program.tab.c"
     break;
 
-  case 78: /* STATEMENT_NEW: TOKEN_NEW CLASS_IDENTIFIER  */
-#line 205 "bison_Program.y"
-                                           { printf("New Statement\n"); }
-#line 1884 "bison_Program.tab.c"
-    break;
 
-  case 79: /* VALUE: NUMBER  */
-#line 208 "bison_Program.y"
-               { printf("Value\n"); }
-#line 1890 "bison_Program.tab.c"
-    break;
-
-  case 80: /* VALUE: IDENTIFIER  */
-#line 209 "bison_Program.y"
-                   { printf("Value\n"); }
-#line 1896 "bison_Program.tab.c"
-    break;
-
-  case 81: /* OPERATION: ADDITION  */
-#line 212 "bison_Program.y"
-                     { printf("Operation\n"); }
-#line 1902 "bison_Program.tab.c"
-    break;
-
-  case 82: /* OPERATION: MULTIPLICATION  */
-#line 213 "bison_Program.y"
-                           { printf("Operation\n"); }
-#line 1908 "bison_Program.tab.c"
-    break;
-
-  case 83: /* OPERATION: SUBTRACTION  */
-#line 214 "bison_Program.y"
-                        { printf("Operation\n"); }
-#line 1914 "bison_Program.tab.c"
-    break;
-
-  case 84: /* OPERATION: DIVISION  */
-#line 215 "bison_Program.y"
-                     { printf("Operation\n"); }
-#line 1920 "bison_Program.tab.c"
-    break;
-
-  case 85: /* OPERATION_CONTINUE: %empty  */
-#line 218 "bison_Program.y"
-                             {}
-#line 1926 "bison_Program.tab.c"
-    break;
-
-  case 86: /* OPERATION_CONTINUE: TOKEN_PLUS TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
-#line 219 "bison_Program.y"
-                                                                    { printf("Operation Continue PLUS\n"); }
-#line 1932 "bison_Program.tab.c"
-    break;
-
-  case 87: /* OPERATION_CONTINUE: TOKEN_MINUS TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
-#line 220 "bison_Program.y"
-                                                                     { printf("Operation Continue MINUS\n"); }
-#line 1938 "bison_Program.tab.c"
-    break;
-
-  case 88: /* OPERATION_CONTINUE: TOKEN_MULT TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
-#line 221 "bison_Program.y"
-                                                                    { printf("Operation Continue MULT\n"); }
-#line 1944 "bison_Program.tab.c"
-    break;
-
-  case 89: /* OPERATION_CONTINUE: TOKEN_DIV TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
-#line 222 "bison_Program.y"
-                                                                   { printf("Operation Continue DIV\n"); }
-#line 1950 "bison_Program.tab.c"
-    break;
-
-  case 90: /* ADDITION: VALUE TOKEN_PLUS VALUE OPERATION_CONTINUE  */
-#line 225 "bison_Program.y"
-                                                    { printf("Addition\n"); }
-#line 1956 "bison_Program.tab.c"
-    break;
-
-  case 91: /* MULTIPLICATION: VALUE TOKEN_MULT VALUE OPERATION_CONTINUE  */
-#line 228 "bison_Program.y"
-                                                           { printf("Multiplication\n"); }
-#line 1962 "bison_Program.tab.c"
-    break;
-
-  case 92: /* SUBTRACTION: VALUE TOKEN_MINUS VALUE OPERATION_CONTINUE  */
-#line 231 "bison_Program.y"
-                                                         { printf("Subtraction\n"); }
-#line 1968 "bison_Program.tab.c"
-    break;
-
-  case 93: /* DIVISION: VALUE TOKEN_DIV VALUE OPERATION_CONTINUE  */
-#line 235 "bison_Program.y"
-                                                    { printf("Division\n"); }
-#line 1974 "bison_Program.tab.c"
-    break;
-
-
-#line 1978 "bison_Program.tab.c"
+#line 1882 "bison_Program.tab.c"
 
       default: break;
     }
@@ -2167,7 +2071,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 246 "bison_Program.y"
+#line 254 "bison_Program.y"
 
  /* CODE */
 
