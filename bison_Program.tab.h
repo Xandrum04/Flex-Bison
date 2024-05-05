@@ -120,9 +120,10 @@ extern int yydebug;
     TOKEN_SUB = 321,               /* TOKEN_SUB  */
     TOKEN_MUL = 322,               /* TOKEN_MUL  */
     UMINUS = 323,                  /* UMINUS  */
-    NUMBER = 324,                  /* NUMBER  */
-    IDENTIFIER = 325,              /* IDENTIFIER  */
-    CLASS_IDENTIFIER = 326         /* CLASS_IDENTIFIER  */
+    LOWER_ELSE = 324,              /* LOWER_ELSE  */
+    NUMBER = 325,                  /* NUMBER  */
+    IDENTIFIER = 326,              /* IDENTIFIER  */
+    CLASS_IDENTIFIER = 327         /* CLASS_IDENTIFIER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -137,7 +138,7 @@ union YYSTYPE
     char* strvalue;
     double doublevalue;
 
-#line 141 "bison_Program.tab.h"
+#line 142 "bison_Program.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
