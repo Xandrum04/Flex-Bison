@@ -113,17 +113,18 @@ extern int yydebug;
     TOKEN_ONE_LINE_COMMENT = 314,  /* TOKEN_ONE_LINE_COMMENT  */
     TOKEN_MULTIPLE_LINE_COMMENTS = 315, /* TOKEN_MULTIPLE_LINE_COMMENTS  */
     TOKEN_ADD = 316,               /* TOKEN_ADD  */
-    TOKEN_START = 317,             /* TOKEN_START  */
-    TOKEN_END = 318,               /* TOKEN_END  */
-    TOKEN_COLON = 319,             /* TOKEN_COLON  */
-    TOKEN_VOID = 320,              /* TOKEN_VOID  */
-    TOKEN_SUB = 321,               /* TOKEN_SUB  */
-    TOKEN_MUL = 322,               /* TOKEN_MUL  */
-    UMINUS = 323,                  /* UMINUS  */
-    LOWER_ELSE = 324,              /* LOWER_ELSE  */
-    NUMBER = 325,                  /* NUMBER  */
-    IDENTIFIER = 326,              /* IDENTIFIER  */
-    CLASS_IDENTIFIER = 327         /* CLASS_IDENTIFIER  */
+    LOWER_THAN_DEFAULT = 317,      /* LOWER_THAN_DEFAULT  */
+    TOKEN_START = 318,             /* TOKEN_START  */
+    TOKEN_END = 319,               /* TOKEN_END  */
+    TOKEN_COLON = 320,             /* TOKEN_COLON  */
+    TOKEN_VOID = 321,              /* TOKEN_VOID  */
+    TOKEN_SUB = 322,               /* TOKEN_SUB  */
+    TOKEN_MUL = 323,               /* TOKEN_MUL  */
+    UMINUS = 324,                  /* UMINUS  */
+    LOWER_THAN_CASE = 325,         /* LOWER_THAN_CASE  */
+    NUMBER = 326,                  /* NUMBER  */
+    IDENTIFIER = 327,              /* IDENTIFIER  */
+    CLASS_IDENTIFIER = 328         /* CLASS_IDENTIFIER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -132,13 +133,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 39 "bison_Program.y"
+#line 35 "bison_Program.y"
 
     int intvalue;
     char* strvalue;
     double doublevalue;
 
-#line 142 "bison_Program.tab.h"
+#line 143 "bison_Program.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
