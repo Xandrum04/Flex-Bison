@@ -1,31 +1,30 @@
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "y.tab.h"
+#include <ctype.h>
+#include "bison_Program.tab.h"
 
-int error_type;
 
-void yyerror(char *s);
+extern void yyerror(char *s);                  
 
-int line_number=1;
 
-char str_buffer[];
 
 %}
-DIGIT [0-9]
-LETTER [a-zA-Z]
-
-NUMBER [1-9]{DIGIT}*|"0"
-
-IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 
+DIGIT [0-9]     
+LETTER [a-zA-Z]  
+
+NUMBER [1-9]{DIGIT}*|"0"  
+
+IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*  
 
 
-%%
-   
-                              
+
+
+%%                  
 
 
 
@@ -52,6 +51,8 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "FALSE"                     { yylval.strvalue = strdup(yytext); return TOKEN_FALSE; }
 "NEW"                       { yylval.strvalue = strdup(yytext); return TOKEN_NEW; }
 "OUT.PRINT(\""              { yylval.strvalue = strdup(yytext); return TOKEN_OUT_PRINT; }
+
+
 
 ";"                         { return TOKEN_SEMICOLON; }
 "{"                         { return TOKEN_LBRACE; }
@@ -86,17 +87,21 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "|"                         { return TOKEN_PIPE; }
 ":"                         { return TOKEN_COLON; }
 
+
 {NUMBER}                    { yylval.intvalue = atoi(yytext); return NUMBER; }
+
 
 {IDENTIFIER}                { if (isupper(yytext[0])) { yylval.strvalue = strdup(yytext); return CLASS_IDENTIFIER;}
                               else { yylval.strvalue = strdup(yytext); return IDENTIFIER;}
                             } 
 
 \"[^\"]*\"                     { return STRING_LITERAL; }
-"//".*                      { return ONE_LINE_COMMENT; }
-"/*".*"*/"                  { return MULTIPLE_LINE_COMMENTS; }
 
 
+"//".*                      { return TOKEN_ONE_LINE_COMMENT; }
+"/*".*"*/"                  { return TOKEN_MULTIPLE_LINE_COMMENTS; }
+
+ 
 [ \t\n]                     { return IGNORE_WHITESPACE_NEWLINE; }
 .                           {printf("Invalid Character:%s\n",yytext); return yytext[0];}
 
@@ -104,8 +109,6 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 %%
 
 
-int yywrap(){
-return 1;
-}
+
 
 
