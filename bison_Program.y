@@ -3,16 +3,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+extern FILE *yyin;
+extern FILE *yyout;
 
+extern int yylex();
 
-extern int line_number;
-int str_buffer[];
-int yylex();
-
-int error_count=0; 
-int error_type=0;
-
-void yyerror(char *s)
+void yyerror(char *);
 %}
 
 
@@ -25,15 +21,15 @@ void yyerror(char *s)
 %token <strvalue> TOKEN_ASSIGN TOKEN_COMMA TOKEN_PLUS TOKEN_MINUS TOKEN_MULT TOKEN_DIV TOKEN_LESS_THAN TOKEN_GREATER_THAN TOKEN_EQUAL 
 %token <strvalue> TOKEN_NOT_EQUAL TOKEN_LESS_THAN_EQUAL TOKEN_GREATER_THAN_EQUAL TOKEN_AND TOKEN_OR TOKEN_MODULO TOKEN_HASH TOKEN_AT TOKEN_CARET
 %token <strvalue> TOKEN_QUESTION_MARK TOKEN_SINGLE_QUOTE TOKEN_DOUBLE_QUOTE TOKEN_UNDERSCORE TOKEN_DOT TOKEN_EXCLAMATION_POINT TOKEN_PIPE 
-%token <strvalue> STRING_LITERAL TOKEN_ONE_LINE_COMMENT TOKEN_MULTIPLE_LINE_COMMENTS TOKEN_ADD 
+%token <strvalue> STRING_LITERAL TOKEN_ONE_LINE_COMMENT TOKEN_MULTIPLE_LINE_COMMENTS TOKEN_ADD LOWER_THAN_DEFAULT
 %token <strvalue> TOKEN_START TOKEN_END TOKEN_COLON TOKEN_VOID
 
 
 %type <strvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF_ELSE ELSE_CLAUSE STATEMENT_WHILE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH
 %type <strvalue> SWITCH_BODY STATEMENT_RETURN STATEMENT_CLASS CREATE_CLASS_OBJECT STATEMENT_DO_WHILE ACCESS_TO_CLASS_MEMBERS STATEMENT_FOR COMMENTS
-%type <strvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION RETURN_TYPE ACCESS_MODIFIER VARIABLE_TYPE PARAMETER_LIST CONDITION 
+%type <strvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION ACCESS_MODIFIER VARIABLE_TYPE PARAMETER_LIST CONDITION 
 %type <strvalue> COMPARISON EXPRESSION BOOLEAN STATEMENT_NEW VALUE OPERATION OPERATION_CONTINUE ADDITION MULTIPLICATION SUBTRACTION DIVISION 
-%type <strvalue> PRINT_OPTIONAL_VAR
+%type <strvalue> PRINT_OPTIONAL_VAR DEFAULT_BODY SWITCH_CASE_BODY
 
 
 %union {
@@ -46,16 +42,17 @@ void yyerror(char *s)
 
 %left TOKEN_COMMA
 %right TOKEN_ASSIGN
-%left TOKEN_ADD
-%left TOKEN_SUB
-%left TOKEN_MUL
-%left TOKEN_DIV
+%left TOKEN_ADD TOKEN_SUB
+%left TOKEN_MUL TOKEN_DIV
 %nonassoc UMINUS
-%left TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACKET TOKEN_RBRACKET
-%nonassoc LOWER_ELSE
-%nonassoc TOKEN_ELSE 
+%left TOKEN_LPAREN TOKEN_RPAREN 
+%left TOKEN_LBRACKET TOKEN_RBRACKET
 
+%nonassoc LOWER_THAN_DEFAULT
+%nonassoc TOKEN_DEFAULT
 
+%nonassoc LOWER_THAN_CASE
+%nonassoc TOKEN_CASE
 
 %token <intvalue> NUMBER
 %token <strvalue> IDENTIFIER 
@@ -97,8 +94,8 @@ STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STA
             ;
 
 ELSE_CLAUSE: TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE
-           | TOKEN_ELSE STATEMENT_IF_ELSE %prec LOWER_ELSE   
-           | %empty    %prec LOWER_ELSE                {}
+           | TOKEN_ELSE STATEMENT_IF_ELSE   
+           | %empty                   {}
            ;
 
 STATEMENT_WHILE: TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("WHILE Statement\n"); }
@@ -114,10 +111,17 @@ STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION TOKEN_SEMICOLON { printf("A
 STATEMENT_SWITCH: TOKEN_SWITCH TOKEN_LPAREN EXPRESSION TOKEN_RPAREN SWITCH_BODY { printf("SWITCH Statement\n"); }
                 ;
 
-SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT { printf("CASE Statement\n"); }
-           | TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT TOKEN_DEFAULT TOKEN_COLON STATEMENT { printf("DEFAULT Statement\n"); }
-           | TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT SWITCH_BODY { printf("CASE Statement\n"); }
+
+SWITCH_BODY: SWITCH_CASE_BODY DEFAULT_BODY { printf("DEFAULT Statement\n"); }
            ;
+
+SWITCH_CASE_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT SWITCH_CASE_BODY
+                | %empty {} %prec LOWER_THAN_CASE
+                ;
+
+
+DEFAULT_BODY: TOKEN_DEFAULT TOKEN_COLON STATEMENT
+            | %empty {} %prec LOWER_THAN_DEFAULT
 
 STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON { printf("RETURN Statement\n"); }
                 ;
@@ -153,30 +157,25 @@ VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON {
                     | VARIABLE_TYPE IDENTIFIER TOKEN_SEMICOLON { printf("Variable Declaration\n"); }
                     ;
 
-METHOD_DECLARATION: ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENT TOKEN_RBRACE { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENT TOKEN_RBRACE  { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER RETURN_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE VARIABLE_DECLARATION STATEMENT TOKEN_RBRACE   { printf("Method Declaration\n"); }
+METHOD_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("Method Declaration\n"); }
+                  | ACCESS_MODIFIER TOKEN_VOID IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("Method Declaration\n"); }
                   ;
-
-RETURN_TYPE: VARIABLE_TYPE { printf("Return Type\n"); }
-           | TOKEN_VOID { printf("Void\n"); }
-           ;
 
 ACCESS_MODIFIER: TOKEN_PUBLIC { printf("Public\n"); }
                | TOKEN_PRIVATE { printf("Private\n"); }
                ;
 
 VARIABLE_TYPE: TOKEN_INT { printf("Int\n"); }
-              | TOKEN_CHAR { printf("Char\n"); }
-              | TOKEN_DOUBLE { printf("Double\n"); }
-              | TOKEN_BOOLEAN { printf("Boolean\n"); }
-              | TOKEN_STRING { printf("String\n"); }
-              ;
+             | TOKEN_CHAR { printf("Char\n"); }
+             | TOKEN_DOUBLE { printf("Double\n"); }
+             | TOKEN_BOOLEAN { printf("Boolean\n"); }
+             | TOKEN_STRING { printf("String\n"); }
+             ;
 
 
 PARAMETER_LIST : VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST { printf("Parameter List\n"); }
                | VARIABLE_TYPE IDENTIFIER { printf("Parameter List\n"); }
+               | %empty {}
                ;
 
 CONDITION : EXPRESSION COMPARISON EXPRESSION { printf("Condition\n"); }
@@ -250,41 +249,20 @@ DIVISION : VALUE TOKEN_DIV VALUE OPERATION_CONTINUE { printf("Division\n"); }
 
 void yyerror(char *s)
 {
-  error_count++;
-    
-    if(error_type==0){
-        printf("-> ERROR at line %d caused by %s : %s\n", line_number, yytext, s);
-    }else if(error_type==1){
-        *str_buffer_ptr = '\0'; 
-        printf("-> ERROR at line %d near \"%s\": %s\n", line_number, str_buffer, s);
-    }
-    error_type =0;
+ fprintf(stderr, "%s\n",s)
 }
 
 
 
-int main(int argc, char* argv[]){
+int main(int argc, char** argv ){
 
-if (argc < 2) {
-        fprintf(stderr, "Usage: %s <input_file>\n", argv[0]);
-        return 1;
-    }
-
-    yyin = fopen(argv[1], "r");
-    if (!yyin) {
-        fprintf(stderr, "Error opening file %s\n", argv[1]);
-        return 1;
-    }
-
+    ++argv; --argc;
+    if (argc > 0)
+      yyin = fopen(argv[0], "r");
+    else
+      yyin = stdin;
+    yyout = fopen("output", "w");
     yyparse();
-
-    fclose(yyin);
-
-    if(error_count > 0){
-        printf("Syntax Analysis failed ---> %d errors\n", error_count);
-    }else{
-        printf("Syntax Analysis completed successfully.\n");
-    }
     return 0;
 
 }
