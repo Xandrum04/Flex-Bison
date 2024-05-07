@@ -118,13 +118,14 @@ extern int yydebug;
     TOKEN_END = 319,               /* TOKEN_END  */
     TOKEN_COLON = 320,             /* TOKEN_COLON  */
     TOKEN_VOID = 321,              /* TOKEN_VOID  */
-    TOKEN_SUB = 322,               /* TOKEN_SUB  */
-    TOKEN_MUL = 323,               /* TOKEN_MUL  */
-    UMINUS = 324,                  /* UMINUS  */
-    LOWER_THAN_CASE = 325,         /* LOWER_THAN_CASE  */
-    NUMBER = 326,                  /* NUMBER  */
-    IDENTIFIER = 327,              /* IDENTIFIER  */
-    CLASS_IDENTIFIER = 328         /* CLASS_IDENTIFIER  */
+    IGNORE_WHITESPACE_NEWLINE = 322, /* IGNORE_WHITESPACE_NEWLINE  */
+    TOKEN_SUB = 323,               /* TOKEN_SUB  */
+    TOKEN_MUL = 324,               /* TOKEN_MUL  */
+    UMINUS = 325,                  /* UMINUS  */
+    LOWER_THAN_CASE = 326,         /* LOWER_THAN_CASE  */
+    NUMBER = 327,                  /* NUMBER  */
+    IDENTIFIER = 328,              /* IDENTIFIER  */
+    CLASS_IDENTIFIER = 329         /* CLASS_IDENTIFIER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -133,13 +134,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 35 "bison_Program.y"
+#line 42 "bison_Program.y"
 
     int intvalue;
     char* strvalue;
     double doublevalue;
 
-#line 143 "bison_Program.tab.h"
+#line 144 "bison_Program.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
