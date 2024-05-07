@@ -7,15 +7,27 @@
 #include "bison_Program.tab.h"
 
 
-extern void yyerror(char *s);                  
+extern void yyerror(char *s);  
 
-
+char string_buffer[1000];          
+char* string_buffer_pointer;
+int line_in=-1;
 
 %}
+
+%option noyywrap
+%option yylineno
+
+
+%x COMMENT_CONTENTS
+%x ONELINE_COMMENT_CONTENTS
+%x STRING_CONTENTS
 
 
 DIGIT [0-9]     
 LETTER [a-zA-Z]  
+WHITESPACE [ \t]*
+NEWLINE [\n]
 
 NUMBER [1-9]{DIGIT}*|"0"  
 
@@ -81,7 +93,6 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "^"                         { return TOKEN_CARET; }
 "?"                         { return TOKEN_QUESTION_MARK; }
 "'"                         { return TOKEN_SINGLE_QUOTE; }
-"\""                        { return TOKEN_DOUBLE_QUOTE; }
 "."                         { return TOKEN_DOT; }
 "!"                         { return TOKEN_EXCLAMATION_POINT; }
 "|"                         { return TOKEN_PIPE; }
@@ -95,14 +106,42 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
                               else { yylval.strvalue = strdup(yytext); return IDENTIFIER;}
                             } 
 
-\"[^\"]*\"                     { return STRING_LITERAL; }
 
 
-"//".*                      { return TOKEN_ONE_LINE_COMMENT; }
-"/*".*"*/"                  { return TOKEN_MULTIPLE_LINE_COMMENTS; }
 
- 
-[ \t\n]                     { return IGNORE_WHITESPACE_NEWLINE; }
+
+"/*"                                     {BEGIN(COMMENT_CONTENTS); string_buffer_pointer = string_buffer;line_in=0;}
+<COMMENT_CONTENTS>"*"+"/"                {BEGIN(INITIAL); *string_buffer_pointer ='\0';
+                                              line_in=-1;}
+<COMMENT_CONTENTS>"\n"                   {line_in++;}
+<COMMENT_CONTENTS>[^*\n]*                {char *ypointer = yytext;
+                                              while (*ypointer ) *string_buffer_pointer++ = *ypointer++; }
+<COMMENT_CONTENTS>[*]*                   {}
+<COMMENT_CONTENTS><<EOF>>                {yyerror("Comment not terminated"); return 0;}
+
+
+
+"//"                                     {BEGIN(ONELINE_COMMENT_CONTENTS); string_buffer_pointer = string_buffer;}
+<ONELINE_COMMENT_CONTENTS>.              {}
+<ONELINE_COMMENT_CONTENTS>[^\\\n\"]+     {char *ypointer = yytext;
+                                              while( *ypointer) *string_buffer_pointer++ = *ypointer++; }
+<ONELINE_COMMENT_CONTENTS>"\n"           {BEGIN(INITIAL); *string_buffer_pointer = '\0';}
+
+
+
+\"                                       {BEGIN(STRING_CONTENTS); string_buffer_pointer= string_buffer; }
+<STRING_CONTENTS>\"                      {BEGIN(INITIAL); *string_buffer_pointer = '\0';
+                                               return STRING_LITERAL; }
+<STRING_CONTENTS>\\n                     {*string_buffer_pointer++ = '\n';}
+<STRING_CONTENTS>\\t                     {*string_buffer_pointer++ = '\t';}
+<STRING_CONTENTS>\\\"                    {*string_buffer_pointer++ = '"';} 
+<STRING_CONTENTS>[^\\\n\"]+              {char *ypointer = yytext; 
+                                               while ( *ypointer ) *string_buffer_pointer++ = *ypointer++;}
+
+<STRING_CONTENTS><<EOF>>                    {yyerror("String not terminated"); return 0;}
+
+{WHITESPACE}                             {}
+{NEWLINE}                                {} 
 .                           {printf("Invalid Character:%s\n",yytext); return yytext[0];}
 
 
