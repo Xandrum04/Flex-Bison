@@ -27,7 +27,7 @@ int class_found = 0;
 /* DECLARATIONS */
 %union {
     int intvalue;
-    double doublevalue;
+    double dvalue;
     char* strvalue;
     char charvalue;
     
@@ -40,7 +40,7 @@ int class_found = 0;
 %token <strvalue> TOKEN_ASSIGN TOKEN_COMMA TOKEN_PLUS TOKEN_MINUS TOKEN_MULT TOKEN_DIV TOKEN_LESS_THAN TOKEN_GREATER_THAN TOKEN_EQUAL 
 %token <strvalue> TOKEN_NOT_EQUAL TOKEN_LESS_THAN_EQUAL TOKEN_GREATER_THAN_EQUAL TOKEN_AND TOKEN_OR TOKEN_MODULO TOKEN_HASH TOKEN_AT TOKEN_CARET
 %token <strvalue> TOKEN_QUESTION_MARK TOKEN_DOUBLE_QUOTE TOKEN_UNDERSCORE TOKEN_DOT TOKEN_EXCLAMATION_POINT TOKEN_PIPE 
-%token <strvalue> STRING_LITERAL TOKEN_ADD LOWER_THAN_DEFAULT
+%token <strvalue> STRING_LITERAL TOKEN_ADD LOWER_THAN_DEFAULT TOKEN_START TOKEN_END
 %token <strvalue> TOKEN_COLON TOKEN_VOID IGNORE_WHITESPACE_NEWLINE
 
 %type <intvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF_ELSE STATEMENT_WHILE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH VARIABLE_DECLARATION_BODY
@@ -65,28 +65,31 @@ int class_found = 0;
 %nonassoc LOWER_THAN_CASE
 %nonassoc TOKEN_CASE
 
-%token <doublevalue> DOUBLE_NUMBER
+%token <dvalue> DOUBLE_NUMBER
 %token <intvalue> NUMBER
 
 %token <strvalue> IDENTIFIER 
-%type <strvalue> CLASS_IDENTIFIER
 
 
 %%
 /* RULES / BNF */
 
-PROGRAM: STATEMENTS
+PROGRAM: TOKEN_START STATEMENTS TOKEN_END
          {
-             if (!class_found) {
-                 yyerror("Error: No class statement found in the input.");
+              if ($2 == 0) {
+                 printf("Error: No statement found in the input.");
+                 YYABORT;
+             } 
+             else if  (!class_found) {
+                 printf("Error: No class statement found in the input.");
                  YYABORT;
              } else {
                  printf("Program parsed successfully.\n");
              }
          };
 
-STATEMENTS : %empty  {}                   
-           | STATEMENT STATEMENTS              
+STATEMENTS : %empty  {$$ = 0;}                   
+           | STATEMENT STATEMENTS   {$$= 1;}         
            ;
 STATEMENT : METHOD_DECLARATION                  
           | VARIABLE_DECLARATION                
@@ -102,12 +105,10 @@ STATEMENT : METHOD_DECLARATION
           | STATEMENT_PRINT                     
           | STATEMENT_BREAK                 
           | METHOD_CALL    
+          | ACCESS_TO_CLASS_MEMBERS
           ;
 
-CLASS_IDENTIFIER : IDENTIFIER {if (!isupper($1[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
-                       YYABORT;
-                   }}
+
 
 
 STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS  TOKEN_RBRACE ELSE_CLAUSE
@@ -148,9 +149,7 @@ STATEMENT_WHILE: TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE ST
 STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON { printf("BREAK Statement\n"); }
                ;
 
-STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION 
-                {   $$ = $3;
-                     printf("Assigned %d to %s\n", $3, $1); }
+STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  { }
                 | ACCESS_TO_CLASS_MEMBERS TOKEN_ASSIGN EXPRESSION
                 ;
 
@@ -170,10 +169,14 @@ DEFAULT_BODY: TOKEN_DEFAULT TOKEN_COLON STATEMENT
 STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON { printf("RETURN Statement\n"); }
                 ;
 
-STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS CLASS_IDENTIFIER TOKEN_LBRACE CLASS_BODY TOKEN_RBRACE
+STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS IDENTIFIER TOKEN_LBRACE CLASS_BODY TOKEN_RBRACE
                {
                    class_found = 1;
                    printf("CLASS Statement\n");
+                   if (!isupper($3[0])) {
+                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       YYABORT;
+                   }
                };
 
 CLASS_BODY: VARIABLE_DECLARATION CLASS_BODY
@@ -182,7 +185,11 @@ CLASS_BODY: VARIABLE_DECLARATION CLASS_BODY
           | %empty {}
           ;
 
-CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER TOKEN_ASSIGN STATEMENT_NEW { printf("Create Class Object Statement\n"); }
+CREATE_CLASS_OBJECT: IDENTIFIER IDENTIFIER TOKEN_ASSIGN STATEMENT_NEW { printf("Create Class Object Statement\n");
+                        if (!isupper($1[0])) {
+                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       YYABORT;
+                   } }
                    ;
 
 STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_SEMICOLON { printf("DO WHILE Statement\n");
@@ -274,37 +281,13 @@ CONDITION : BOOLEAN {$$=$1;}
                    case 4: $$ = ($1 >= $3); break;
                    case 5: $$ = ($1 == $3); break;
                    case 6: $$ = ($1 != $3); break;
+                   case 7: $$ = ($1 && $3); break;
+                   case 8: $$ = ($1 && $3); break;
                    default: yyerror("Unknown comparison operator");
                }
                printf("Condition result: %d\n", $$);
            }
-          | EXPRESSION COMPARISON EXPRESSION TOKEN_AND CONDITION 
-           {
-               switch ($2) {
-                   case 1:  $$ = ($1 < $3) && $5; break;
-                   case 2:  $$ = ($1 > $3) && $5; break;
-                   case 3: $$ = ($1 <= $3) && $5; break;
-                   case 4: $$ = ($1 >= $3) && $5; break;
-                   case 5: $$ = ($1 == $3) && $5; break;
-                   case 6: $$ = ($1 != $3) && $5; break;
-                   default: yyerror("Unknown comparison operator");
-               }
-               printf("Condition AND result: %d\n", $$);
-           }
-          | EXPRESSION COMPARISON EXPRESSION TOKEN_OR CONDITION 
-           {
-               switch ($2) {
-                   case 1:  $$ = ($1 < $3) || $5; break;
-                   case 2:  $$ = ($1 > $3) || $5; break;
-                   case 3: $$ = ($1 <= $3) || $5; break;
-                   case 4: $$ = ($1 >= $3) || $5; break;
-                   case 5: $$ = ($1 == $3) || $5; break;
-                   case 6: $$ = ($1 != $3) || $5; break;
-                   default: yyerror("Unknown comparison operator");
-               }
-               printf("Condition OR result: %d\n", $$);
-           }
-          ;
+        
 
 
 COMPARISON : TOKEN_LESS_THAN { $$ = 1; printf("Less than\n"); }
@@ -313,27 +296,33 @@ COMPARISON : TOKEN_LESS_THAN { $$ = 1; printf("Less than\n"); }
            | TOKEN_GREATER_THAN_EQUAL { $$ = 4 ; printf("Greater or equal than\n"); }
            | TOKEN_EQUAL { $$ = 5 ; printf("Equal\n");}
            | TOKEN_NOT_EQUAL { $$ = 6 ; printf("Not equal\n"); }
+           | TOKEN_AND  { $$ = 7 ; printf("And");}
+           | TOKEN_OR { $$ = 8 ; printf("Or");}
            ;
 
 
 EXPRESSION : VALUE { $$ = $1;}
            | OPERATION { $$ = $1; }
            | STATEMENT_NEW { $$ = $1; }
-           | STRING_LITERAL { $$ = STRING_LITERAL; printf("String Value: %s\n", $1); }
            ;
 
 
 
 
 STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON { printf("New Statement\n"); }
-              | TOKEN_NEW CLASS_IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON { printf("New Statement\n"); }
+              | TOKEN_NEW IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON { printf("New Statement\n");
+                  if (!isupper($2[0])) {
+                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       YYABORT;
+                   } }
               ;
 
 VALUE : NUMBER {$$ = $1; printf("Value: %d\n", $$); }
       | TOKEN_LPAREN OPERATION TOKEN_RPAREN { $$ = $2;}
       | BOOLEAN {$$= $1;} 
-      | DOUBLE_NUMBER {$$ =$1; printf("Value: %f\n", $$);}
+      | DOUBLE_NUMBER {$$ =$1; printf("Value: %f\n", $1);}
       | CHARACTER {$$= $1; printf("Char value: %c\n",$1);}
+      | STRING_LITERAL { $$ = STRING_LITERAL; printf("String Value: %s\n", $1); }
       | IDENTIFIER { }
       ;
  
@@ -365,11 +354,11 @@ DIVISION:
 
 %%
 /* CODE */
-
-void yyerror(char *s)
-{
- fprintf(stderr, "%s at line: %d\n", s, yylineno);
- exit(1);
+int yydebug=0;
+void yyerror( char *s) {
+    fprintf(stderr, "%s at line %d\n", s, yylineno);
+    // Optionally, print more context about the error
+    exit(1);
 }
 
 int main(int argc, char **argv) {
