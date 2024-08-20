@@ -6,10 +6,13 @@
 #include <ctype.h>
 #include "bison_Program.tab.h"
 
+extern FILE *yyin;
+extern FILE *yyout;
+
 
 extern void yyerror(char *s);  
 
-char string_buffer[1000];          
+char string_buffer[1000];        
 char* string_buffer_pointer;
 int line_in=-1;
 
@@ -25,44 +28,42 @@ int line_in=-1;
 
 
 DIGIT [0-9]     
-LETTER [a-zA-Z]  
-WHITESPACE [ \t]*
-NEWLINE [\n]
+LETTER [a-zA-Z]   
+WHITESPACE [ \t]+
+NEWLINE [\n]+
 
 NUMBER [1-9]{DIGIT}*|"0"  
-
+DOUBLE {DIGIT}+\.{DIGIT}+d
 IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*  
 
 
+%%                 
 
+"if"                        { yylval.strvalue = strdup(yytext); return TOKEN_IF; }
+"else"                      { yylval.strvalue = strdup(yytext); return TOKEN_ELSE; }
+"else_if "                  { yylval.strvalue = strdup(yytext); return TOKEN_ELSE_IF; }
+"while"                     { yylval.strvalue = strdup(yytext); return TOKEN_WHILE; }
+"do"                        { yylval.strvalue = strdup(yytext); return TOKEN_DO; }
+"for"                       { yylval.strvalue = strdup(yytext); return TOKEN_FOR; }
+"switch"                    { yylval.strvalue = strdup(yytext); return TOKEN_SWITCH; }
+"case"                      { yylval.strvalue = strdup(yytext); return TOKEN_CASE; }
+"default"                   { yylval.strvalue = strdup(yytext); return TOKEN_DEFAULT; }
+"break"                     { yylval.strvalue = strdup(yytext); return TOKEN_BREAK; }
+"return"                    { yylval.strvalue = strdup(yytext); return TOKEN_RETURN; }
+"class"                     { yylval.strvalue = strdup(yytext); return TOKEN_CLASS; }
+"public"                    { yylval.strvalue = strdup(yytext); return TOKEN_PUBLIC; }         
+"private"                   { yylval.strvalue = strdup(yytext); return TOKEN_PRIVATE; }
+"int"                       { yylval.strvalue = strdup(yytext); return TOKEN_INT; }
+"char"                      { yylval.strvalue = strdup(yytext); return TOKEN_CHAR; }
+"void"                      { yylval.strvalue = strdup(yytext); return TOKEN_VOID; }
+"double"                    { yylval.strvalue = strdup(yytext); return TOKEN_DOUBLE; }
+"bool"                      { yylval.strvalue = strdup(yytext); return TOKEN_BOOLEAN; }
+"string"                    { yylval.strvalue = strdup(yytext); return TOKEN_STRING; }
+"true"                      { yylval.strvalue = strdup(yytext); return TOKEN_TRUE; }
+"false"                     { yylval.strvalue = strdup(yytext); return TOKEN_FALSE; }
+"new"                       { yylval.strvalue = strdup(yytext); return TOKEN_NEW; }
+"out.print"                 { yylval.strvalue = strdup(yytext); return TOKEN_OUT_PRINT; }
 
-%%                  
-
-
-
-"IF"                        { yylval.strvalue = strdup(yytext); return TOKEN_IF; }
-"ELSE"                      { yylval.strvalue = strdup(yytext); return TOKEN_ELSE; }
-"ELSE IF"                   { yylval.strvalue = strdup(yytext); return TOKEN_ELSE_IF; }
-"WHILE"                     { yylval.strvalue = strdup(yytext); return TOKEN_WHILE; }
-"DO"                        { yylval.strvalue = strdup(yytext); return TOKEN_DO; }
-"FOR"                       { yylval.strvalue = strdup(yytext); return TOKEN_FOR; }
-"SWITCH"                    { yylval.strvalue = strdup(yytext); return TOKEN_SWITCH; }
-"CASE"                      { yylval.strvalue = strdup(yytext); return TOKEN_CASE; }
-"DEFAULT"                   { yylval.strvalue = strdup(yytext); return TOKEN_DEFAULT; }
-"BREAK"                     { yylval.strvalue = strdup(yytext); return TOKEN_BREAK; }
-"RETURN"                    { yylval.strvalue = strdup(yytext); return TOKEN_RETURN; }
-"CLASS"                     { yylval.strvalue = strdup(yytext); return TOKEN_CLASS; }
-"PUBLIC"                    { yylval.strvalue = strdup(yytext); return TOKEN_PUBLIC; }
-"PRIVATE"                   { yylval.strvalue = strdup(yytext); return TOKEN_PRIVATE; }
-"INT"                       { yylval.strvalue = strdup(yytext); return TOKEN_INT; }
-"CHAR"                      { yylval.strvalue = strdup(yytext); return TOKEN_CHAR; }
-"DOUBLE"                    { yylval.strvalue = strdup(yytext); return TOKEN_DOUBLE; }
-"BOOLEAN"                   { yylval.strvalue = strdup(yytext); return TOKEN_BOOLEAN; }
-"STRING"                    { yylval.strvalue = strdup(yytext); return TOKEN_STRING; }
-"TRUE"                      { yylval.strvalue = strdup(yytext); return TOKEN_TRUE; }
-"FALSE"                     { yylval.strvalue = strdup(yytext); return TOKEN_FALSE; }
-"NEW"                       { yylval.strvalue = strdup(yytext); return TOKEN_NEW; }
-"OUT.PRINT(\""              { yylval.strvalue = strdup(yytext); return TOKEN_OUT_PRINT; }
 
 
 
@@ -92,19 +93,20 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "@"                         { return TOKEN_AT; }
 "^"                         { return TOKEN_CARET; }
 "?"                         { return TOKEN_QUESTION_MARK; }
-"'"                         { return TOKEN_SINGLE_QUOTE; }
 "."                         { return TOKEN_DOT; }
 "!"                         { return TOKEN_EXCLAMATION_POINT; }
 "|"                         { return TOKEN_PIPE; }
 ":"                         { return TOKEN_COLON; }
 
 
+{DOUBLE}                    { yylval.doublevalue = atof(yytext); return DOUBLE_NUMBER;}
 {NUMBER}                    { yylval.intvalue = atoi(yytext); return NUMBER; }
+\'[^\']\'                   { yylval.charvalue = yytext[1]; return CHARACTER; }
 
 
-{IDENTIFIER}                { if (isupper(yytext[0])) { yylval.strvalue = strdup(yytext); return CLASS_IDENTIFIER;}
-                              else { yylval.strvalue = strdup(yytext); return IDENTIFIER;}
-                            } 
+{IDENTIFIER}                { yylval.strvalue = strdup(yytext); return IDENTIFIER;}
+                             
+                            
 
 
 
@@ -130,7 +132,7 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 
 \"                                       {BEGIN(STRING_CONTENTS); string_buffer_pointer= string_buffer; }
-<STRING_CONTENTS>\"                      {BEGIN(INITIAL); *string_buffer_pointer = '\0';
+<STRING_CONTENTS>\"                      {BEGIN(INITIAL); *string_buffer_pointer = '\0';yylval.strvalue = strdup(string_buffer); 
                                                return STRING_LITERAL; }
 <STRING_CONTENTS>\\n                     {*string_buffer_pointer++ = '\n';}
 <STRING_CONTENTS>\\t                     {*string_buffer_pointer++ = '\t';}
@@ -142,11 +144,9 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 {WHITESPACE}                             {}
 {NEWLINE}                                {} 
-.                           {printf("Invalid Character:%s\n",yytext); return yytext[0];}
-
+.                                        {yyerror("invalid character"); return 0;}  
 
 %%
-
 
 
 
