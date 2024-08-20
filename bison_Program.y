@@ -182,7 +182,7 @@ CLASS_BODY: VARIABLE_DECLARATION CLASS_BODY
           | %empty {}
           ;
 
-CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER TOKEN_ASSIGN TOKEN_NEW CLASS_IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON { printf("Create Class Object Statement\n"); }
+CREATE_CLASS_OBJECT: CLASS_IDENTIFIER IDENTIFIER TOKEN_ASSIGN STATEMENT_NEW { printf("Create Class Object Statement\n"); }
                    ;
 
 STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_SEMICOLON { printf("DO WHILE Statement\n");
@@ -191,6 +191,7 @@ STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TO
                   ;
 
 ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER { printf("Access to Class Members Statement\n"); }
+                       | IDENTIFIER TOKEN_DOT METHOD_CALL { printf("Access to Class Members Statement\n"); }
                        ;
 
 STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN VARIABLE_DECLARATION CONDITION TOKEN_SEMICOLON STATEMENT_ASSIGN TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE 
@@ -324,8 +325,8 @@ EXPRESSION : VALUE { $$ = $1;}
 
 
 
-STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE { printf("New Statement\n"); }
-              | TOKEN_NEW CLASS_IDENTIFIER { printf("New Statement\n"); }
+STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON { printf("New Statement\n"); }
+              | TOKEN_NEW CLASS_IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON { printf("New Statement\n"); }
               ;
 
 VALUE : NUMBER {$$ = $1; printf("Value: %d\n", $$); }
@@ -364,6 +365,7 @@ DIVISION:
 
 %%
 /* CODE */
+
 void yyerror(char *s)
 {
  fprintf(stderr, "%s at line: %d\n", s, yylineno);
