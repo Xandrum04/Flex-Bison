@@ -63,6 +63,8 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "false"                     { yylval.strvalue = strdup(yytext); return TOKEN_FALSE; }
 "new"                       { yylval.strvalue = strdup(yytext); return TOKEN_NEW; }
 "out.print"                 { yylval.strvalue = strdup(yytext); return TOKEN_OUT_PRINT; }
+"START"                     { yylval.strvalue = strdup(yytext); return TOKEN_START; }
+"END"                       { yylval.strvalue = strdup(yytext); return TOKEN_END; }
 
 
 
@@ -99,7 +101,7 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 ":"                         { return TOKEN_COLON; }
 
 
-{DOUBLE}                    { yylval.doublevalue = atof(yytext); return DOUBLE_NUMBER;}
+{DOUBLE}                    { yylval.dvalue = atof(yytext); return DOUBLE_NUMBER;}
 {NUMBER}                    { yylval.intvalue = atoi(yytext); return NUMBER; }
 \'[^\']\'                   { yylval.charvalue = yytext[1]; return CHARACTER; }
 
