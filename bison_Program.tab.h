@@ -103,29 +103,25 @@ extern int yydebug;
     TOKEN_AT = 304,                /* TOKEN_AT  */
     TOKEN_CARET = 305,             /* TOKEN_CARET  */
     TOKEN_QUESTION_MARK = 306,     /* TOKEN_QUESTION_MARK  */
-    TOKEN_SINGLE_QUOTE = 307,      /* TOKEN_SINGLE_QUOTE  */
-    TOKEN_DOUBLE_QUOTE = 308,      /* TOKEN_DOUBLE_QUOTE  */
-    TOKEN_UNDERSCORE = 309,        /* TOKEN_UNDERSCORE  */
-    TOKEN_DOT = 310,               /* TOKEN_DOT  */
-    TOKEN_EXCLAMATION_POINT = 311, /* TOKEN_EXCLAMATION_POINT  */
-    TOKEN_PIPE = 312,              /* TOKEN_PIPE  */
-    STRING_LITERAL = 313,          /* STRING_LITERAL  */
-    TOKEN_ONE_LINE_COMMENT = 314,  /* TOKEN_ONE_LINE_COMMENT  */
-    TOKEN_MULTIPLE_LINE_COMMENTS = 315, /* TOKEN_MULTIPLE_LINE_COMMENTS  */
-    TOKEN_ADD = 316,               /* TOKEN_ADD  */
-    LOWER_THAN_DEFAULT = 317,      /* LOWER_THAN_DEFAULT  */
-    TOKEN_START = 318,             /* TOKEN_START  */
-    TOKEN_END = 319,               /* TOKEN_END  */
-    TOKEN_COLON = 320,             /* TOKEN_COLON  */
-    TOKEN_VOID = 321,              /* TOKEN_VOID  */
-    IGNORE_WHITESPACE_NEWLINE = 322, /* IGNORE_WHITESPACE_NEWLINE  */
-    TOKEN_SUB = 323,               /* TOKEN_SUB  */
-    TOKEN_MUL = 324,               /* TOKEN_MUL  */
-    UMINUS = 325,                  /* UMINUS  */
-    LOWER_THAN_CASE = 326,         /* LOWER_THAN_CASE  */
-    NUMBER = 327,                  /* NUMBER  */
-    IDENTIFIER = 328,              /* IDENTIFIER  */
-    CLASS_IDENTIFIER = 329         /* CLASS_IDENTIFIER  */
+    TOKEN_DOUBLE_QUOTE = 307,      /* TOKEN_DOUBLE_QUOTE  */
+    TOKEN_UNDERSCORE = 308,        /* TOKEN_UNDERSCORE  */
+    TOKEN_DOT = 309,               /* TOKEN_DOT  */
+    TOKEN_EXCLAMATION_POINT = 310, /* TOKEN_EXCLAMATION_POINT  */
+    TOKEN_PIPE = 311,              /* TOKEN_PIPE  */
+    STRING_LITERAL = 312,          /* STRING_LITERAL  */
+    TOKEN_ADD = 313,               /* TOKEN_ADD  */
+    LOWER_THAN_DEFAULT = 314,      /* LOWER_THAN_DEFAULT  */
+    TOKEN_COLON = 315,             /* TOKEN_COLON  */
+    TOKEN_VOID = 316,              /* TOKEN_VOID  */
+    IGNORE_WHITESPACE_NEWLINE = 317, /* IGNORE_WHITESPACE_NEWLINE  */
+    CHARACTER = 318,               /* CHARACTER  */
+    TOKEN_SUB = 319,               /* TOKEN_SUB  */
+    TOKEN_MUL = 320,               /* TOKEN_MUL  */
+    UMINUS = 321,                  /* UMINUS  */
+    LOWER_THAN_CASE = 322,         /* LOWER_THAN_CASE  */
+    DOUBLE_NUMBER = 323,           /* DOUBLE_NUMBER  */
+    NUMBER = 324,                  /* NUMBER  */
+    IDENTIFIER = 325               /* IDENTIFIER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -134,13 +130,15 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 42 "bison_Program.y"
+#line 28 "bison_Program.y"
 
     int intvalue;
-    char* strvalue;
     double doublevalue;
+    char* strvalue;
+    char charvalue;
+    
 
-#line 144 "bison_Program.tab.h"
+#line 142 "bison_Program.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
