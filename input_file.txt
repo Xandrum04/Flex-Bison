@@ -1,4 +1,4 @@
 START
-double a = 0.1;
+public int a(){out.print("Hello"); return 1;}
 
 END
