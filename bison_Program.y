@@ -282,7 +282,7 @@ CONDITION : BOOLEAN {$$=$1;}
                    case 5: $$ = ($1 == $3); break;
                    case 6: $$ = ($1 != $3); break;
                    case 7: $$ = ($1 && $3); break;
-                   case 8: $$ = ($1 && $3); break;
+                   case 8: $$ = ($1 || $3); break;
                    default: yyerror("Unknown comparison operator");
                }
                printf("Condition result: %d\n", $$);
