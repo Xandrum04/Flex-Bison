@@ -111,19 +111,17 @@ extern int yydebug;
     STRING_LITERAL = 312,          /* STRING_LITERAL  */
     TOKEN_ADD = 313,               /* TOKEN_ADD  */
     LOWER_THAN_DEFAULT = 314,      /* LOWER_THAN_DEFAULT  */
-    TOKEN_START = 315,             /* TOKEN_START  */
-    TOKEN_END = 316,               /* TOKEN_END  */
-    TOKEN_COLON = 317,             /* TOKEN_COLON  */
-    TOKEN_VOID = 318,              /* TOKEN_VOID  */
-    IGNORE_WHITESPACE_NEWLINE = 319, /* IGNORE_WHITESPACE_NEWLINE  */
-    CHARACTER = 320,               /* CHARACTER  */
-    TOKEN_SUB = 321,               /* TOKEN_SUB  */
-    TOKEN_MUL = 322,               /* TOKEN_MUL  */
-    UMINUS = 323,                  /* UMINUS  */
-    LOWER_THAN_CASE = 324,         /* LOWER_THAN_CASE  */
-    DOUBLE_NUMBER = 325,           /* DOUBLE_NUMBER  */
-    NUMBER = 326,                  /* NUMBER  */
-    IDENTIFIER = 327               /* IDENTIFIER  */
+    TOKEN_COLON = 315,             /* TOKEN_COLON  */
+    TOKEN_VOID = 316,              /* TOKEN_VOID  */
+    IGNORE_WHITESPACE_NEWLINE = 317, /* IGNORE_WHITESPACE_NEWLINE  */
+    CHARACTER = 318,               /* CHARACTER  */
+    TOKEN_SUB = 319,               /* TOKEN_SUB  */
+    TOKEN_MUL = 320,               /* TOKEN_MUL  */
+    UMINUS = 321,                  /* UMINUS  */
+    LOWER_THAN_CASE = 322,         /* LOWER_THAN_CASE  */
+    DOUBLE_NUMBER = 323,           /* DOUBLE_NUMBER  */
+    NUMBER = 324,                  /* NUMBER  */
+    IDENTIFIER = 325               /* IDENTIFIER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -140,7 +138,7 @@ union YYSTYPE
     char charvalue;
     
 
-#line 144 "bison_Program.tab.h"
+#line 142 "bison_Program.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
