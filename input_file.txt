@@ -1,4 +1,3 @@
-START
-public int a(){out.print("Hello"); return 1;}
-
-END
+out.print("Hello")
+g
+h
