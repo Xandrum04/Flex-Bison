@@ -40,7 +40,7 @@ int class_found = 0;
 %token <strvalue> TOKEN_ASSIGN TOKEN_COMMA TOKEN_PLUS TOKEN_MINUS TOKEN_MULT TOKEN_DIV TOKEN_LESS_THAN TOKEN_GREATER_THAN TOKEN_EQUAL 
 %token <strvalue> TOKEN_NOT_EQUAL TOKEN_LESS_THAN_EQUAL TOKEN_GREATER_THAN_EQUAL TOKEN_AND TOKEN_OR TOKEN_MODULO TOKEN_HASH TOKEN_AT TOKEN_CARET
 %token <strvalue> TOKEN_QUESTION_MARK TOKEN_DOUBLE_QUOTE TOKEN_UNDERSCORE TOKEN_DOT TOKEN_EXCLAMATION_POINT TOKEN_PIPE 
-%token <strvalue> STRING_LITERAL TOKEN_ADD LOWER_THAN_DEFAULT TOKEN_START TOKEN_END
+%token <strvalue> STRING_LITERAL TOKEN_ADD LOWER_THAN_DEFAULT 
 %token <strvalue> TOKEN_COLON TOKEN_VOID IGNORE_WHITESPACE_NEWLINE
 
 %type <intvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF_ELSE STATEMENT_WHILE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH VARIABLE_DECLARATION_BODY
@@ -74,9 +74,8 @@ int class_found = 0;
 %%
 /* RULES / BNF */
 
-PROGRAM: TOKEN_START STATEMENTS TOKEN_END
-         {
-              if ($2 == 0) {
+PROGRAM: STATEMENTS {
+              if ($1 == 0) {
                  printf("Error: No statement found in the input.");
                  YYABORT;
              } 
@@ -202,25 +201,12 @@ ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER { printf("Access to Cla
 
 STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN VARIABLE_DECLARATION CONDITION TOKEN_SEMICOLON STATEMENT_ASSIGN TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE 
               {
-                  // Initialize the loop with the variable declaration
-                  $$ = $3;
 
-                  // Check the condition before starting the loop
-                  while ($4) {
-                      // Execute the statements inside the loop
-                      $$ = $9;
-
-                      // Perform the assignment operation (usually the increment/decrement)
-                      $$ = $6;
-
-                      // Re-evaluate the condition for the next iteration
-                      $4 = $4; // Reevaluate the condition for next iteration
-                  }
                   printf("FOR loop executed.\n");
               }
              ;
 
-STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON { printf("Print Statement\n"); printf("%s\n", $3); if($4 != 0){ printf("%d\n",$4); }}
+STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON { printf("Print Statement\n"); printf("%s\n", $3);}
                
 
 PRINT_OPTIONAL_VAR : TOKEN_COMMA EXPRESSION PRINT_OPTIONAL_VAR {$$=$2;}
