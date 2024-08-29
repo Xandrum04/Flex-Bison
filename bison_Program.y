@@ -22,6 +22,7 @@ void yyerror(char * s);
 #define YYDEBUG 1
 int yydebug;
 int class_found = 0;
+
 %}
 
 /* DECLARATIONS */
@@ -34,7 +35,7 @@ int class_found = 0;
 }
 
 
-%token <strvalue> TOKEN_IF TOKEN_ELSE TOKEN_ELSE_IF TOKEN_WHILE TOKEN_DO TOKEN_FOR TOKEN_SWITCH TOKEN_CASE TOKEN_DEFAULT TOKEN_BREAK TOKEN_RETURN
+%token <strvalue> TOKEN_IF TOKEN_ELSE TOKEN_WHILE TOKEN_DO TOKEN_FOR TOKEN_SWITCH TOKEN_CASE TOKEN_DEFAULT TOKEN_BREAK TOKEN_RETURN
 %token <strvalue> TOKEN_CLASS TOKEN_PUBLIC TOKEN_PRIVATE TOKEN_INT TOKEN_CHAR TOKEN_DOUBLE TOKEN_BOOLEAN TOKEN_STRING TOKEN_TRUE TOKEN_FALSE
 %token <strvalue> TOKEN_NEW TOKEN_OUT_PRINT TOKEN_SEMICOLON TOKEN_LBRACE TOKEN_RBRACE TOKEN_LPAREN TOKEN_RPAREN TOKEN_LBRACKET TOKEN_RBRACKET
 %token <strvalue> TOKEN_ASSIGN TOKEN_COMMA TOKEN_PLUS TOKEN_MINUS TOKEN_MULT TOKEN_DIV TOKEN_LESS_THAN TOKEN_GREATER_THAN TOKEN_EQUAL 
@@ -43,12 +44,12 @@ int class_found = 0;
 %token <strvalue> STRING_LITERAL TOKEN_ADD LOWER_THAN_DEFAULT 
 %token <strvalue> TOKEN_COLON TOKEN_VOID IGNORE_WHITESPACE_NEWLINE
 
-%type <intvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF_ELSE STATEMENT_WHILE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH VARIABLE_DECLARATION_BODY
+%type <intvalue> PROGRAM STATEMENTS STATEMENT STATEMENT_IF_ELSE STATEMENT_BREAK STATEMENT_ASSIGN STATEMENT_SWITCH VARIABLE_DECLARATION_BODY
 %type <intvalue> SWITCH_BODY STATEMENT_RETURN STATEMENT_CLASS CREATE_CLASS_OBJECT STATEMENT_DO_WHILE ACCESS_TO_CLASS_MEMBERS STATEMENT_FOR CLASS_BODY
-%type <intvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION ACCESS_MODIFIER VARIABLE_TYPE PARAMETER_LIST CONDITION PRINT_OPTIONAL_VAR METHOD_CALL
+%type <intvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION ACCESS_MODIFIER  PARAMETER_LIST CONDITION PRINT_OPTIONAL_VAR METHOD_CALL
 %type <intvalue> COMPARISON EXPRESSION BOOLEAN STATEMENT_NEW VALUE OPERATION ADDITION MULTIPLICATION SUBTRACTION DIVISION ELSE_CLAUSE MORE_DECLARATIONS MORE_DECLARATIONS_ASSIGN
 
-%type <strvalue> DEFAULT_BODY SWITCH_CASE_BODY
+%type <strvalue> DEFAULT_BODY SWITCH_CASE_BODY VARIABLE_TYPE
 %token <charvalue> CHARACTER
 
 %left TOKEN_COMMA
@@ -85,15 +86,14 @@ PROGRAM: STATEMENTS {
              } else {
                  printf("Program parsed successfully.\n");
              }
-         };
+        };
 
 STATEMENTS : %empty  {$$ = 0;}                   
            | STATEMENT STATEMENTS   {$$= 1;}         
            ;
 STATEMENT : METHOD_DECLARATION                  
           | VARIABLE_DECLARATION                
-          | STATEMENT_IF_ELSE                 
-          | STATEMENT_WHILE                     
+          | STATEMENT_IF_ELSE                                     
           | STATEMENT_DO_WHILE                  
           | STATEMENT_FOR                      
           | STATEMENT_SWITCH                                        
@@ -111,15 +111,7 @@ STATEMENT : METHOD_DECLARATION
 
 STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS  TOKEN_RBRACE ELSE_CLAUSE
                   {
-                      if ($3) {  
-                          $$ = $6;
-                          printf("IF block executed.\n");
-                      } else if ($8) {  
-                          $$ = $8; 
-                          printf("ELSE IF block executed.\n");
-                      } else {
-                          printf("No condition met. No block executed.\n"); 
-                      }
+                      printf("IF Statement\n");
                   }
                   ;
 
@@ -127,23 +119,19 @@ STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STA
 
 ELSE_CLAUSE: TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE
            {
-               $$ = $3; // Indicate that the 'else' clause exists and will be executed if reached
                printf("ELSE Statement\n");
            }
            | TOKEN_ELSE STATEMENT_IF_ELSE
            {
-               $$ = $2; // Handle nested 'else if'
-               printf("ELSE IF Statement\n");
+               printf("ELSE ");
            }
            | %empty
            {
-              $$ = 0;
+              
            }
            ;
 
-STATEMENT_WHILE: TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("WHILE Statement\n"); }
-               ;
-
+        
 STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON { printf("BREAK Statement\n"); }
                ;
 
@@ -219,8 +207,8 @@ VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_DECLARATION_BODY
                     | VARIABLE_DECLARATION_BODY
                     ;
 
-VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEMICOLON  { printf("Variable Declaration\n"); }
-                          | VARIABLE_TYPE STATEMENT_ASSIGN MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON { printf("Variable Declaration\n"); }
+VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEMICOLON  { printf("Variable Declaration of type: %s\n", $1); }
+                          | VARIABLE_TYPE STATEMENT_ASSIGN MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON { printf("Variable Declaration of type: %s\n", $1); }
                           ;
 
 MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS {}
@@ -238,15 +226,15 @@ METHOD_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_LPAREN PARAME
 METHOD_CALL: IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_SEMICOLON { printf("Method call\n");}
            ;
 
-ACCESS_MODIFIER: TOKEN_PUBLIC {}
-               | TOKEN_PRIVATE {}
+ACCESS_MODIFIER: TOKEN_PUBLIC {printf("public scope\n");}
+               | TOKEN_PRIVATE {printf("private scope\n");}
                ;
 
-VARIABLE_TYPE: TOKEN_INT {}
-             | TOKEN_CHAR  {}
-             | TOKEN_DOUBLE  {}
-             | TOKEN_BOOLEAN {}
-             | TOKEN_STRING  {}
+VARIABLE_TYPE: TOKEN_INT { $$ = "int"; }
+             | TOKEN_CHAR { $$ = "char"; }
+             | TOKEN_DOUBLE { $$ = "double"; }
+             | TOKEN_BOOLEAN { $$ = "boolean"; }
+             | TOKEN_STRING { $$ = "string"; }
              ;
 
 PARAMETER_LIST : VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST { printf("Parameter List\n"); }
@@ -254,7 +242,7 @@ PARAMETER_LIST : VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST { printf("P
                | %empty {}
                ;
 BOOLEAN : TOKEN_TRUE  {$$=1; printf("Assigned true\n");}
-        | TOKEN_FALSE {$$=0; printf("Less false\n");}
+        | TOKEN_FALSE {$$=0; printf("Assigned false\n");}
 
 CONDITION : BOOLEAN {$$=$1;}
         | EXPRESSION COMPARISON EXPRESSION 
@@ -302,12 +290,12 @@ STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON { printf("New Statement\
                    } }
               ;
 
-VALUE : NUMBER {$$ = $1; printf("Value: %d\n", $$); }
+VALUE : NUMBER {$$ = $1; printf("Assigned int Value: %d\n", $$); }
       | TOKEN_LPAREN OPERATION TOKEN_RPAREN { $$ = $2;}
       | BOOLEAN {$$= $1;} 
-      | DOUBLE_NUMBER {$$ =$1; printf("Value: %f\n", $1);}
+      | DOUBLE_NUMBER {$$ =$1; printf("Assigned double Value: %f\n", $1);}
       | CHARACTER {$$= $1; printf("Char value: %c\n",$1);}
-      | STRING_LITERAL { $$ = STRING_LITERAL; printf("String Value: %s\n", $1); }
+      | STRING_LITERAL { $$ = STRING_LITERAL; printf("Assigned String Value: %s\n", $1); }
       | IDENTIFIER { }
       ;
  
@@ -342,7 +330,6 @@ DIVISION:
 int yydebug=0;
 void yyerror( char *s) {
     fprintf(stderr, "%s at line %d\n", s, yylineno);
-    // Optionally, print more context about the error
     exit(1);
 }
 
