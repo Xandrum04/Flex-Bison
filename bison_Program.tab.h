@@ -56,72 +56,71 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     TOKEN_IF = 258,                /* TOKEN_IF  */
     TOKEN_ELSE = 259,              /* TOKEN_ELSE  */
-    TOKEN_ELSE_IF = 260,           /* TOKEN_ELSE_IF  */
-    TOKEN_WHILE = 261,             /* TOKEN_WHILE  */
-    TOKEN_DO = 262,                /* TOKEN_DO  */
-    TOKEN_FOR = 263,               /* TOKEN_FOR  */
-    TOKEN_SWITCH = 264,            /* TOKEN_SWITCH  */
-    TOKEN_CASE = 265,              /* TOKEN_CASE  */
-    TOKEN_DEFAULT = 266,           /* TOKEN_DEFAULT  */
-    TOKEN_BREAK = 267,             /* TOKEN_BREAK  */
-    TOKEN_RETURN = 268,            /* TOKEN_RETURN  */
-    TOKEN_CLASS = 269,             /* TOKEN_CLASS  */
-    TOKEN_PUBLIC = 270,            /* TOKEN_PUBLIC  */
-    TOKEN_PRIVATE = 271,           /* TOKEN_PRIVATE  */
-    TOKEN_INT = 272,               /* TOKEN_INT  */
-    TOKEN_CHAR = 273,              /* TOKEN_CHAR  */
-    TOKEN_DOUBLE = 274,            /* TOKEN_DOUBLE  */
-    TOKEN_BOOLEAN = 275,           /* TOKEN_BOOLEAN  */
-    TOKEN_STRING = 276,            /* TOKEN_STRING  */
-    TOKEN_TRUE = 277,              /* TOKEN_TRUE  */
-    TOKEN_FALSE = 278,             /* TOKEN_FALSE  */
-    TOKEN_NEW = 279,               /* TOKEN_NEW  */
-    TOKEN_OUT_PRINT = 280,         /* TOKEN_OUT_PRINT  */
-    TOKEN_SEMICOLON = 281,         /* TOKEN_SEMICOLON  */
-    TOKEN_LBRACE = 282,            /* TOKEN_LBRACE  */
-    TOKEN_RBRACE = 283,            /* TOKEN_RBRACE  */
-    TOKEN_LPAREN = 284,            /* TOKEN_LPAREN  */
-    TOKEN_RPAREN = 285,            /* TOKEN_RPAREN  */
-    TOKEN_LBRACKET = 286,          /* TOKEN_LBRACKET  */
-    TOKEN_RBRACKET = 287,          /* TOKEN_RBRACKET  */
-    TOKEN_ASSIGN = 288,            /* TOKEN_ASSIGN  */
-    TOKEN_COMMA = 289,             /* TOKEN_COMMA  */
-    TOKEN_PLUS = 290,              /* TOKEN_PLUS  */
-    TOKEN_MINUS = 291,             /* TOKEN_MINUS  */
-    TOKEN_MULT = 292,              /* TOKEN_MULT  */
-    TOKEN_DIV = 293,               /* TOKEN_DIV  */
-    TOKEN_LESS_THAN = 294,         /* TOKEN_LESS_THAN  */
-    TOKEN_GREATER_THAN = 295,      /* TOKEN_GREATER_THAN  */
-    TOKEN_EQUAL = 296,             /* TOKEN_EQUAL  */
-    TOKEN_NOT_EQUAL = 297,         /* TOKEN_NOT_EQUAL  */
-    TOKEN_LESS_THAN_EQUAL = 298,   /* TOKEN_LESS_THAN_EQUAL  */
-    TOKEN_GREATER_THAN_EQUAL = 299, /* TOKEN_GREATER_THAN_EQUAL  */
-    TOKEN_AND = 300,               /* TOKEN_AND  */
-    TOKEN_OR = 301,                /* TOKEN_OR  */
-    TOKEN_MODULO = 302,            /* TOKEN_MODULO  */
-    TOKEN_HASH = 303,              /* TOKEN_HASH  */
-    TOKEN_AT = 304,                /* TOKEN_AT  */
-    TOKEN_CARET = 305,             /* TOKEN_CARET  */
-    TOKEN_QUESTION_MARK = 306,     /* TOKEN_QUESTION_MARK  */
-    TOKEN_DOUBLE_QUOTE = 307,      /* TOKEN_DOUBLE_QUOTE  */
-    TOKEN_UNDERSCORE = 308,        /* TOKEN_UNDERSCORE  */
-    TOKEN_DOT = 309,               /* TOKEN_DOT  */
-    TOKEN_EXCLAMATION_POINT = 310, /* TOKEN_EXCLAMATION_POINT  */
-    TOKEN_PIPE = 311,              /* TOKEN_PIPE  */
-    STRING_LITERAL = 312,          /* STRING_LITERAL  */
-    TOKEN_ADD = 313,               /* TOKEN_ADD  */
-    LOWER_THAN_DEFAULT = 314,      /* LOWER_THAN_DEFAULT  */
-    TOKEN_COLON = 315,             /* TOKEN_COLON  */
-    TOKEN_VOID = 316,              /* TOKEN_VOID  */
-    IGNORE_WHITESPACE_NEWLINE = 317, /* IGNORE_WHITESPACE_NEWLINE  */
-    CHARACTER = 318,               /* CHARACTER  */
-    TOKEN_SUB = 319,               /* TOKEN_SUB  */
-    TOKEN_MUL = 320,               /* TOKEN_MUL  */
-    UMINUS = 321,                  /* UMINUS  */
-    LOWER_THAN_CASE = 322,         /* LOWER_THAN_CASE  */
-    DOUBLE_NUMBER = 323,           /* DOUBLE_NUMBER  */
-    NUMBER = 324,                  /* NUMBER  */
-    IDENTIFIER = 325               /* IDENTIFIER  */
+    TOKEN_WHILE = 260,             /* TOKEN_WHILE  */
+    TOKEN_DO = 261,                /* TOKEN_DO  */
+    TOKEN_FOR = 262,               /* TOKEN_FOR  */
+    TOKEN_SWITCH = 263,            /* TOKEN_SWITCH  */
+    TOKEN_CASE = 264,              /* TOKEN_CASE  */
+    TOKEN_DEFAULT = 265,           /* TOKEN_DEFAULT  */
+    TOKEN_BREAK = 266,             /* TOKEN_BREAK  */
+    TOKEN_RETURN = 267,            /* TOKEN_RETURN  */
+    TOKEN_CLASS = 268,             /* TOKEN_CLASS  */
+    TOKEN_PUBLIC = 269,            /* TOKEN_PUBLIC  */
+    TOKEN_PRIVATE = 270,           /* TOKEN_PRIVATE  */
+    TOKEN_INT = 271,               /* TOKEN_INT  */
+    TOKEN_CHAR = 272,              /* TOKEN_CHAR  */
+    TOKEN_DOUBLE = 273,            /* TOKEN_DOUBLE  */
+    TOKEN_BOOLEAN = 274,           /* TOKEN_BOOLEAN  */
+    TOKEN_STRING = 275,            /* TOKEN_STRING  */
+    TOKEN_TRUE = 276,              /* TOKEN_TRUE  */
+    TOKEN_FALSE = 277,             /* TOKEN_FALSE  */
+    TOKEN_NEW = 278,               /* TOKEN_NEW  */
+    TOKEN_OUT_PRINT = 279,         /* TOKEN_OUT_PRINT  */
+    TOKEN_SEMICOLON = 280,         /* TOKEN_SEMICOLON  */
+    TOKEN_LBRACE = 281,            /* TOKEN_LBRACE  */
+    TOKEN_RBRACE = 282,            /* TOKEN_RBRACE  */
+    TOKEN_LPAREN = 283,            /* TOKEN_LPAREN  */
+    TOKEN_RPAREN = 284,            /* TOKEN_RPAREN  */
+    TOKEN_LBRACKET = 285,          /* TOKEN_LBRACKET  */
+    TOKEN_RBRACKET = 286,          /* TOKEN_RBRACKET  */
+    TOKEN_ASSIGN = 287,            /* TOKEN_ASSIGN  */
+    TOKEN_COMMA = 288,             /* TOKEN_COMMA  */
+    TOKEN_PLUS = 289,              /* TOKEN_PLUS  */
+    TOKEN_MINUS = 290,             /* TOKEN_MINUS  */
+    TOKEN_MULT = 291,              /* TOKEN_MULT  */
+    TOKEN_DIV = 292,               /* TOKEN_DIV  */
+    TOKEN_LESS_THAN = 293,         /* TOKEN_LESS_THAN  */
+    TOKEN_GREATER_THAN = 294,      /* TOKEN_GREATER_THAN  */
+    TOKEN_EQUAL = 295,             /* TOKEN_EQUAL  */
+    TOKEN_NOT_EQUAL = 296,         /* TOKEN_NOT_EQUAL  */
+    TOKEN_LESS_THAN_EQUAL = 297,   /* TOKEN_LESS_THAN_EQUAL  */
+    TOKEN_GREATER_THAN_EQUAL = 298, /* TOKEN_GREATER_THAN_EQUAL  */
+    TOKEN_AND = 299,               /* TOKEN_AND  */
+    TOKEN_OR = 300,                /* TOKEN_OR  */
+    TOKEN_MODULO = 301,            /* TOKEN_MODULO  */
+    TOKEN_HASH = 302,              /* TOKEN_HASH  */
+    TOKEN_AT = 303,                /* TOKEN_AT  */
+    TOKEN_CARET = 304,             /* TOKEN_CARET  */
+    TOKEN_QUESTION_MARK = 305,     /* TOKEN_QUESTION_MARK  */
+    TOKEN_DOUBLE_QUOTE = 306,      /* TOKEN_DOUBLE_QUOTE  */
+    TOKEN_UNDERSCORE = 307,        /* TOKEN_UNDERSCORE  */
+    TOKEN_DOT = 308,               /* TOKEN_DOT  */
+    TOKEN_EXCLAMATION_POINT = 309, /* TOKEN_EXCLAMATION_POINT  */
+    TOKEN_PIPE = 310,              /* TOKEN_PIPE  */
+    STRING_LITERAL = 311,          /* STRING_LITERAL  */
+    TOKEN_ADD = 312,               /* TOKEN_ADD  */
+    LOWER_THAN_DEFAULT = 313,      /* LOWER_THAN_DEFAULT  */
+    TOKEN_COLON = 314,             /* TOKEN_COLON  */
+    TOKEN_VOID = 315,              /* TOKEN_VOID  */
+    IGNORE_WHITESPACE_NEWLINE = 316, /* IGNORE_WHITESPACE_NEWLINE  */
+    CHARACTER = 317,               /* CHARACTER  */
+    TOKEN_SUB = 318,               /* TOKEN_SUB  */
+    TOKEN_MUL = 319,               /* TOKEN_MUL  */
+    UMINUS = 320,                  /* UMINUS  */
+    LOWER_THAN_CASE = 321,         /* LOWER_THAN_CASE  */
+    DOUBLE_NUMBER = 322,           /* DOUBLE_NUMBER  */
+    NUMBER = 323,                  /* NUMBER  */
+    IDENTIFIER = 324               /* IDENTIFIER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -130,7 +129,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 28 "bison_Program.y"
+#line 29 "bison_Program.y"
 
     int intvalue;
     double dvalue;
@@ -138,7 +137,7 @@ union YYSTYPE
     char charvalue;
     
 
-#line 142 "bison_Program.tab.h"
+#line 141 "bison_Program.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
