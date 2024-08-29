@@ -23,6 +23,29 @@ void yyerror(char * s);
 int yydebug;
 int class_found = 0;
 
+/* Symbol table for variables and methods */
+typedef struct Variable {
+    char* name;
+    struct Variable* next;
+    int scope_level;
+} Variable;
+
+typedef struct Method {
+    char* name;
+    struct Method* next;
+    int scope_level;
+} Method;
+
+
+Variable* var_table = NULL; // Linked list for variables
+Method* method_table = NULL; // Linked list for methods
+
+/* Function declarations */
+void add_variable(char* name);
+int check_variable(char* name);
+void add_method(char* name);
+int check_method(char* name);
+
 %}
 
 /* DECLARATIONS */
@@ -49,7 +72,7 @@ int class_found = 0;
 %type <intvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION ACCESS_MODIFIER  PARAMETER_LIST CONDITION PRINT_OPTIONAL_VAR METHOD_CALL
 %type <intvalue> COMPARISON EXPRESSION BOOLEAN STATEMENT_NEW VALUE OPERATION ADDITION MULTIPLICATION SUBTRACTION DIVISION ELSE_CLAUSE MORE_DECLARATIONS MORE_DECLARATIONS_ASSIGN
 
-%type <strvalue> DEFAULT_BODY SWITCH_CASE_BODY VARIABLE_TYPE
+%type <strvalue> DEFAULT_BODY SWITCH_CASE_BODY VARIABLE_TYPE 
 %token <charvalue> CHARACTER
 
 %left TOKEN_COMMA
@@ -135,7 +158,12 @@ ELSE_CLAUSE: TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE
 STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON { printf("BREAK Statement\n"); }
                ;
 
-STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  { }
+STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  {
+                    if (!check_variable($1)) {
+                        yyerror("Error: Variable not declared.");
+                        YYABORT;
+                    }
+                }
                 | ACCESS_TO_CLASS_MEMBERS TOKEN_ASSIGN EXPRESSION
                 ;
 
@@ -207,23 +235,69 @@ VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_DECLARATION_BODY
                     | VARIABLE_DECLARATION_BODY
                     ;
 
-VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEMICOLON  { printf("Variable Declaration of type: %s\n", $1); }
-                          | VARIABLE_TYPE STATEMENT_ASSIGN MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON { printf("Variable Declaration of type: %s\n", $1); }
+VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEMICOLON   { 
+                              if (check_variable($2)) {
+                                  yyerror("Variable already declared.");
+                                  YYABORT;
+                              } else {
+                                  add_variable($2);
+                                  printf("Variable Declaration of type: %s\n", $1); 
+                              }
+                          }
+                          | VARIABLE_TYPE IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON { 
+                              if (check_variable($2)) {
+                                  yyerror("Variable already declared.");
+                                  YYABORT;
+                              } else {
+                                  add_variable($2);
+                                  printf("Variable Declaration of type: %s\n", $1); 
+                              }
+                          }
                           ;
 
-MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS {}
+MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS { if (check_variable($2)) {
+                                  yyerror("Variable already declared.");
+                                  YYABORT;
+                              } else {
+                                  add_variable($2);}}
                   | %empty {}
                   ;
-MORE_DECLARATIONS_ASSIGN : TOKEN_COMMA STATEMENT_ASSIGN MORE_DECLARATIONS_ASSIGN {}
+MORE_DECLARATIONS_ASSIGN : TOKEN_COMMA IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN {if (check_variable($2)) {
+                                  yyerror("Variable already declared.");
+                                  YYABORT;
+                              } else {
+                                  add_variable($2);}}
                   | %empty {}
                   ;
 
 
-METHOD_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS STATEMENT_RETURN TOKEN_RBRACE { printf("Method Declaration\n"); }
-                  | ACCESS_MODIFIER TOKEN_VOID IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE { printf("Method Declaration\n"); }
+METHOD_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS STATEMENT_RETURN TOKEN_RBRACE { 
+                      if (check_method($3)) {
+                          yyerror("Method already declared.");
+                          YYABORT;
+                      } else {
+                          add_method($3);
+                          printf("Method Declaration\n"); 
+                      }
+                  }
+                  | ACCESS_MODIFIER TOKEN_VOID IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  { 
+                      if (check_method($3)) {
+                          yyerror("Method already declared.");
+                          YYABORT;
+                      } else {
+                          add_method($3);
+                          printf("Method Declaration\n"); 
+                      }
+                  }
                   ;
                 
-METHOD_CALL: IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_SEMICOLON { printf("Method call\n");}
+METHOD_CALL: IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_SEMICOLON  {
+               if (!check_method($1)) {
+                   yyerror("Error: Method not declared.");
+                   YYABORT;
+               }
+               printf("Method call\n");
+           }
            ;
 
 ACCESS_MODIFIER: TOKEN_PUBLIC {printf("public scope\n");}
@@ -327,12 +401,49 @@ DIVISION:
 
 %%
 /* CODE */
+
 int yydebug=0;
+
+/* Add variable to the symbol table */
+void add_variable(char* name) {
+    Variable* new_var = (Variable*)malloc(sizeof(Variable));
+    new_var->name = strdup(name);
+    new_var->next = var_table;
+    var_table = new_var;
+}
+
+/* Check if a variable is already declared */
+int check_variable(char* name) {
+    Variable* temp = var_table;
+    while (temp) {
+        if (strcmp(temp->name, name) == 0) return 1;
+        temp = temp->next;
+    }
+    return 0; // Not declared
+}
+
+/* Add method to the symbol table */
+void add_method(char* name) {
+    Method* new_method = (Method*)malloc(sizeof(Method));
+    new_method->name = strdup(name);
+    new_method->next = method_table;
+    method_table = new_method;
+}
+
+/* Check if a method is already declared */
+int check_method(char* name) {
+    Method* temp = method_table;
+    while (temp) {
+        if (strcmp(temp->name, name) == 0) return 1;
+        temp = temp->next;
+    }
+    return 0; // Not declared
+}
+
 void yyerror( char *s) {
     fprintf(stderr, "%s at line %d\n", s, yylineno);
     exit(1);
 }
-
 int main(int argc, char **argv) {
     if (argc > 1) {
         FILE *file = fopen(argv[1], "r");
