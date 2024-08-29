@@ -1,4 +1,1 @@
-public class A{int a;}
-
-
-a=1;
+out.print("Hello",a);
