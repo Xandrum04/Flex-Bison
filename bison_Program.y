@@ -211,7 +211,10 @@ STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TO
  }
                   ;
 
-ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER { printf("Access to Class Members Statement\n"); }
+ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER {  if (!check_variable($3)) {
+                        yyerror("Error: Variable not declared.");
+                        YYABORT;
+                    }printf("Access to Class Members Statement\n"); }
                        | IDENTIFIER TOKEN_DOT METHOD_CALL { printf("Access to Class Members Statement\n"); }
                        ;
 
@@ -222,10 +225,13 @@ STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN VARIABLE_DECLARATION CONDITION TOKEN_SEMIC
               }
              ;
 
-STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON { printf("Print Statement\n"); printf("%s\n", $3);}
+STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON { printf("Print Statement\n"); printf("%s \n", $3);}
                
 
-PRINT_OPTIONAL_VAR : TOKEN_COMMA EXPRESSION PRINT_OPTIONAL_VAR {$$=$2;}
+PRINT_OPTIONAL_VAR : TOKEN_COMMA IDENTIFIER PRINT_OPTIONAL_VAR {if (!check_variable($2)) {
+                        yyerror("Error: Variable not declared.");
+                        YYABORT;
+                    }}
                    | %empty {}
                    ;
 
