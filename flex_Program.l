@@ -41,7 +41,6 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 "if"                        { yylval.strvalue = strdup(yytext); return TOKEN_IF; }
 "else"                      { yylval.strvalue = strdup(yytext); return TOKEN_ELSE; }
-"else_if "                  { yylval.strvalue = strdup(yytext); return TOKEN_ELSE_IF; }
 "while"                     { yylval.strvalue = strdup(yytext); return TOKEN_WHILE; }
 "do"                        { yylval.strvalue = strdup(yytext); return TOKEN_DO; }
 "for"                       { yylval.strvalue = strdup(yytext); return TOKEN_FOR; }
@@ -115,7 +114,7 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 "/*"                                     {BEGIN(COMMENT_CONTENTS); string_buffer_pointer = string_buffer;line_in=0;}
 <COMMENT_CONTENTS>"*"+"/"                {BEGIN(INITIAL); *string_buffer_pointer ='\0';
-                                              line_in=-1;}
+                                              line_in=-1; printf("Multiple Line Comment\n");}
 <COMMENT_CONTENTS>"\n"                   {line_in++;}
 <COMMENT_CONTENTS>[^*\n]*                {char *ypointer = yytext;
                                               while (*ypointer ) *string_buffer_pointer++ = *ypointer++; }
@@ -128,7 +127,7 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 <ONELINE_COMMENT_CONTENTS>.              {}
 <ONELINE_COMMENT_CONTENTS>[^\\\n\"]+     {char *ypointer = yytext;
                                               while( *ypointer) *string_buffer_pointer++ = *ypointer++; }
-<ONELINE_COMMENT_CONTENTS>"\n"           {BEGIN(INITIAL); *string_buffer_pointer = '\0';}
+<ONELINE_COMMENT_CONTENTS>"\n"           {BEGIN(INITIAL); *string_buffer_pointer = '\0'; printf("One Line Comment\n");}
 
 
 
