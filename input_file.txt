@@ -1,1 +1,4 @@
-out.print("g")
+public class A{int a;}
+
+
+a=1;
