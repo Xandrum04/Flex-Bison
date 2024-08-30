@@ -1,1 +1,6 @@
-out.print("Hello",a);
+public void a(){}
+
+
+a();
+
+b();
