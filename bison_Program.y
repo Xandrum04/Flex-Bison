@@ -27,13 +27,11 @@ int class_found = 0;
 typedef struct Variable {
     char* name;
     struct Variable* next;
-    int scope_level;
 } Variable;
 
 typedef struct Method {
     char* name;
     struct Method* next;
-    int scope_level;
 } Method;
 
 
@@ -188,7 +186,7 @@ STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS IDENTIFIER TOKEN_LBRACE CLASS_BODY 
                    class_found = 1;
                    printf("CLASS Statement\n");
                    if (!isupper($3[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       printf("Error: Class identifier must start with an uppercase letter.");
                        YYABORT;
                    }
                };
@@ -201,7 +199,7 @@ CLASS_BODY: VARIABLE_DECLARATION CLASS_BODY
 
 CREATE_CLASS_OBJECT: IDENTIFIER IDENTIFIER TOKEN_ASSIGN STATEMENT_NEW { printf("Create Class Object Statement\n");
                         if (!isupper($1[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       printf("Error: Class identifier must start with an uppercase letter.");
                        YYABORT;
                    } }
                    ;
@@ -365,7 +363,7 @@ EXPRESSION : VALUE { $$ = $1;}
 STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON { printf("New Statement\n"); }
               | TOKEN_NEW IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON { printf("New Statement\n");
                   if (!isupper($2[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       printf("Error: Class identifier must start with an uppercase letter.");
                        YYABORT;
                    } }
               ;
