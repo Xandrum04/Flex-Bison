@@ -97,13 +97,11 @@ int class_found = 0;
 typedef struct Variable {
     char* name;
     struct Variable* next;
-    int scope_level;
 } Variable;
 
 typedef struct Method {
     char* name;
     struct Method* next;
-    int scope_level;
 } Method;
 
 
@@ -117,7 +115,7 @@ void add_method(char* name);
 int check_method(char* name);
 
 
-#line 121 "bison_Program.tab.c"
+#line 119 "bison_Program.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -233,7 +231,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 52 "bison_Program.y"
+#line 50 "bison_Program.y"
 
     int intvalue;
     double dvalue;
@@ -241,7 +239,7 @@ union YYSTYPE
     char charvalue;
     
 
-#line 245 "bison_Program.tab.c"
+#line 243 "bison_Program.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -764,16 +762,16 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   101,   101,   114,   115,   117,   118,   119,   120,   121,
-     122,   123,   124,   125,   126,   127,   128,   129,   135,   143,
-     147,   151,   158,   161,   167,   170,   173,   176,   177,   180,
-     181,   183,   186,   196,   197,   198,   199,   202,   209,   214,
-     218,   221,   228,   231,   235,   240,   241,   244,   253,   264,
-     269,   271,   276,   280,   289,   300,   309,   310,   313,   314,
-     315,   316,   317,   320,   321,   322,   324,   325,   327,   328,
-     346,   347,   348,   349,   350,   351,   352,   353,   357,   358,
-     359,   365,   366,   373,   374,   375,   376,   377,   378,   379,
-     382,   383,   384,   385,   389,   392,   394,   397
+       0,    99,    99,   112,   113,   115,   116,   117,   118,   119,
+     120,   121,   122,   123,   124,   125,   126,   127,   133,   141,
+     145,   149,   156,   159,   165,   168,   171,   174,   175,   178,
+     179,   181,   184,   194,   195,   196,   197,   200,   207,   212,
+     216,   219,   226,   229,   233,   238,   239,   242,   251,   262,
+     267,   269,   274,   278,   287,   298,   307,   308,   311,   312,
+     313,   314,   315,   318,   319,   320,   322,   323,   325,   326,
+     344,   345,   346,   347,   348,   349,   350,   351,   355,   356,
+     357,   363,   364,   371,   372,   373,   374,   375,   376,   377,
+     380,   381,   382,   383,   387,   390,   392,   395
 };
 #endif
 
@@ -1489,7 +1487,7 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* PROGRAM: STATEMENTS  */
-#line 101 "bison_Program.y"
+#line 99 "bison_Program.y"
                     {
               if ((yyvsp[0].intvalue) == 0) {
                  printf("Error: No statement found in the input.");
@@ -1502,184 +1500,184 @@ yyreduce:
                  printf("Program parsed successfully.\n");
              }
         }
-#line 1506 "bison_Program.tab.c"
+#line 1504 "bison_Program.tab.c"
     break;
 
   case 3: /* STATEMENTS: %empty  */
-#line 114 "bison_Program.y"
+#line 112 "bison_Program.y"
                      {(yyval.intvalue) = 0;}
-#line 1512 "bison_Program.tab.c"
+#line 1510 "bison_Program.tab.c"
     break;
 
   case 4: /* STATEMENTS: STATEMENT STATEMENTS  */
-#line 115 "bison_Program.y"
+#line 113 "bison_Program.y"
                                     {(yyval.intvalue)= 1;}
-#line 1518 "bison_Program.tab.c"
+#line 1516 "bison_Program.tab.c"
     break;
 
   case 18: /* STATEMENT_IF_ELSE: TOKEN_IF TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE ELSE_CLAUSE  */
-#line 136 "bison_Program.y"
+#line 134 "bison_Program.y"
                   {
                       printf("IF Statement\n");
                   }
-#line 1526 "bison_Program.tab.c"
+#line 1524 "bison_Program.tab.c"
     break;
 
   case 19: /* ELSE_CLAUSE: TOKEN_ELSE TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 144 "bison_Program.y"
+#line 142 "bison_Program.y"
            {
                printf("ELSE Statement\n");
            }
-#line 1534 "bison_Program.tab.c"
+#line 1532 "bison_Program.tab.c"
     break;
 
   case 20: /* ELSE_CLAUSE: TOKEN_ELSE STATEMENT_IF_ELSE  */
-#line 148 "bison_Program.y"
+#line 146 "bison_Program.y"
            {
                printf("ELSE ");
            }
-#line 1542 "bison_Program.tab.c"
+#line 1540 "bison_Program.tab.c"
     break;
 
   case 21: /* ELSE_CLAUSE: %empty  */
-#line 152 "bison_Program.y"
+#line 150 "bison_Program.y"
            {
               
            }
-#line 1550 "bison_Program.tab.c"
+#line 1548 "bison_Program.tab.c"
     break;
 
   case 22: /* STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON  */
-#line 158 "bison_Program.y"
+#line 156 "bison_Program.y"
                                              { printf("BREAK Statement\n"); }
-#line 1556 "bison_Program.tab.c"
+#line 1554 "bison_Program.tab.c"
     break;
 
   case 23: /* STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  */
-#line 161 "bison_Program.y"
+#line 159 "bison_Program.y"
                                                       {
                     if (!check_variable((yyvsp[-2].strvalue))) {
                         yyerror("Error: Variable not declared.");
                         YYABORT;
                     }
                 }
-#line 1567 "bison_Program.tab.c"
+#line 1565 "bison_Program.tab.c"
     break;
 
   case 25: /* STATEMENT_SWITCH: TOKEN_SWITCH TOKEN_LPAREN EXPRESSION TOKEN_RPAREN SWITCH_BODY  */
-#line 170 "bison_Program.y"
+#line 168 "bison_Program.y"
                                                                                 { printf("SWITCH Statement\n"); }
-#line 1573 "bison_Program.tab.c"
+#line 1571 "bison_Program.tab.c"
     break;
 
   case 26: /* SWITCH_BODY: SWITCH_CASE_BODY DEFAULT_BODY  */
-#line 173 "bison_Program.y"
+#line 171 "bison_Program.y"
                                            {}
-#line 1579 "bison_Program.tab.c"
+#line 1577 "bison_Program.tab.c"
     break;
 
   case 28: /* SWITCH_CASE_BODY: %empty  */
-#line 177 "bison_Program.y"
+#line 175 "bison_Program.y"
                          {}
-#line 1585 "bison_Program.tab.c"
+#line 1583 "bison_Program.tab.c"
     break;
 
   case 30: /* DEFAULT_BODY: %empty  */
-#line 181 "bison_Program.y"
+#line 179 "bison_Program.y"
                      {}
-#line 1591 "bison_Program.tab.c"
+#line 1589 "bison_Program.tab.c"
     break;
 
   case 31: /* STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON  */
-#line 183 "bison_Program.y"
+#line 181 "bison_Program.y"
                                                           { printf("RETURN Statement\n"); }
-#line 1597 "bison_Program.tab.c"
+#line 1595 "bison_Program.tab.c"
     break;
 
   case 32: /* STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS IDENTIFIER TOKEN_LBRACE CLASS_BODY TOKEN_RBRACE  */
-#line 187 "bison_Program.y"
+#line 185 "bison_Program.y"
                {
                    class_found = 1;
                    printf("CLASS Statement\n");
                    if (!isupper((yyvsp[-3].strvalue)[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       printf("Error: Class identifier must start with an uppercase letter.");
                        YYABORT;
                    }
                }
-#line 1610 "bison_Program.tab.c"
+#line 1608 "bison_Program.tab.c"
     break;
 
   case 36: /* CLASS_BODY: %empty  */
-#line 199 "bison_Program.y"
+#line 197 "bison_Program.y"
                    {}
-#line 1616 "bison_Program.tab.c"
+#line 1614 "bison_Program.tab.c"
     break;
 
   case 37: /* CREATE_CLASS_OBJECT: IDENTIFIER IDENTIFIER TOKEN_ASSIGN STATEMENT_NEW  */
-#line 202 "bison_Program.y"
+#line 200 "bison_Program.y"
                                                                       { printf("Create Class Object Statement\n");
                         if (!isupper((yyvsp[-3].strvalue)[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       printf("Error: Class identifier must start with an uppercase letter.");
                        YYABORT;
                    } }
-#line 1626 "bison_Program.tab.c"
+#line 1624 "bison_Program.tab.c"
     break;
 
   case 38: /* STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TOKEN_LPAREN CONDITION TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 209 "bison_Program.y"
+#line 207 "bison_Program.y"
                                                                                                                                   { printf("DO WHILE Statement\n");
                 
  }
-#line 1634 "bison_Program.tab.c"
+#line 1632 "bison_Program.tab.c"
     break;
 
   case 39: /* ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER  */
-#line 214 "bison_Program.y"
+#line 212 "bison_Program.y"
                                                          {  if (!check_variable((yyvsp[0].strvalue))) {
                         yyerror("Error: Variable not declared.");
                         YYABORT;
                     }printf("Access to Class Members Statement\n"); }
-#line 1643 "bison_Program.tab.c"
+#line 1641 "bison_Program.tab.c"
     break;
 
   case 40: /* ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT METHOD_CALL  */
-#line 218 "bison_Program.y"
+#line 216 "bison_Program.y"
                                                           { printf("Access to Class Members Statement\n"); }
-#line 1649 "bison_Program.tab.c"
+#line 1647 "bison_Program.tab.c"
     break;
 
   case 41: /* STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN VARIABLE_DECLARATION CONDITION TOKEN_SEMICOLON STATEMENT_ASSIGN TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 222 "bison_Program.y"
+#line 220 "bison_Program.y"
               {
 
                   printf("FOR loop executed.\n");
               }
-#line 1658 "bison_Program.tab.c"
+#line 1656 "bison_Program.tab.c"
     break;
 
   case 42: /* STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 228 "bison_Program.y"
+#line 226 "bison_Program.y"
                                                                                                              { printf("Print Statement\n"); printf("%s \n", (yyvsp[-3].strvalue));}
-#line 1664 "bison_Program.tab.c"
+#line 1662 "bison_Program.tab.c"
     break;
 
   case 43: /* PRINT_OPTIONAL_VAR: TOKEN_COMMA IDENTIFIER PRINT_OPTIONAL_VAR  */
-#line 231 "bison_Program.y"
+#line 229 "bison_Program.y"
                                                                {if (!check_variable((yyvsp[-1].strvalue))) {
                         yyerror("Error: Variable not declared.");
                         YYABORT;
                     }}
-#line 1673 "bison_Program.tab.c"
+#line 1671 "bison_Program.tab.c"
     break;
 
   case 44: /* PRINT_OPTIONAL_VAR: %empty  */
-#line 235 "bison_Program.y"
+#line 233 "bison_Program.y"
                             {}
-#line 1679 "bison_Program.tab.c"
+#line 1677 "bison_Program.tab.c"
     break;
 
   case 47: /* VARIABLE_DECLARATION_BODY: VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEMICOLON  */
-#line 244 "bison_Program.y"
+#line 242 "bison_Program.y"
                                                                                          { 
                               if (check_variable((yyvsp[-2].strvalue))) {
                                   yyerror("Variable already declared.");
@@ -1689,11 +1687,11 @@ yyreduce:
                                   printf("Variable Declaration of type: %s\n", (yyvsp[-3].strvalue)); 
                               }
                           }
-#line 1693 "bison_Program.tab.c"
+#line 1691 "bison_Program.tab.c"
     break;
 
   case 48: /* VARIABLE_DECLARATION_BODY: VARIABLE_TYPE IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON  */
-#line 253 "bison_Program.y"
+#line 251 "bison_Program.y"
                                                                                                                       { 
                               if (check_variable((yyvsp[-4].strvalue))) {
                                   yyerror("Variable already declared.");
@@ -1703,43 +1701,43 @@ yyreduce:
                                   printf("Variable Declaration of type: %s\n", (yyvsp[-5].strvalue)); 
                               }
                           }
-#line 1707 "bison_Program.tab.c"
+#line 1705 "bison_Program.tab.c"
     break;
 
   case 49: /* MORE_DECLARATIONS: TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS  */
-#line 264 "bison_Program.y"
+#line 262 "bison_Program.y"
                                                               { if (check_variable((yyvsp[-1].strvalue))) {
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
                                   add_variable((yyvsp[-1].strvalue));}}
-#line 1717 "bison_Program.tab.c"
+#line 1715 "bison_Program.tab.c"
     break;
 
   case 50: /* MORE_DECLARATIONS: %empty  */
-#line 269 "bison_Program.y"
+#line 267 "bison_Program.y"
                            {}
-#line 1723 "bison_Program.tab.c"
+#line 1721 "bison_Program.tab.c"
     break;
 
   case 51: /* MORE_DECLARATIONS_ASSIGN: TOKEN_COMMA IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN  */
-#line 271 "bison_Program.y"
+#line 269 "bison_Program.y"
                                                                                                    {if (check_variable((yyvsp[-3].strvalue))) {
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
                                   add_variable((yyvsp[-3].strvalue));}}
-#line 1733 "bison_Program.tab.c"
+#line 1731 "bison_Program.tab.c"
     break;
 
   case 52: /* MORE_DECLARATIONS_ASSIGN: %empty  */
-#line 276 "bison_Program.y"
+#line 274 "bison_Program.y"
                            {}
-#line 1739 "bison_Program.tab.c"
+#line 1737 "bison_Program.tab.c"
     break;
 
   case 53: /* METHOD_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS STATEMENT_RETURN TOKEN_RBRACE  */
-#line 280 "bison_Program.y"
+#line 278 "bison_Program.y"
                                                                                                                                                             { 
                       if (check_method((yyvsp[-7].strvalue))) {
                           yyerror("Method already declared.");
@@ -1749,11 +1747,11 @@ yyreduce:
                           printf("Method Declaration\n"); 
                       }
                   }
-#line 1753 "bison_Program.tab.c"
+#line 1751 "bison_Program.tab.c"
     break;
 
   case 54: /* METHOD_DECLARATION: ACCESS_MODIFIER TOKEN_VOID IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  */
-#line 289 "bison_Program.y"
+#line 287 "bison_Program.y"
                                                                                                                                          { 
                       if (check_method((yyvsp[-6].strvalue))) {
                           yyerror("Method already declared.");
@@ -1763,11 +1761,11 @@ yyreduce:
                           printf("Method Declaration\n"); 
                       }
                   }
-#line 1767 "bison_Program.tab.c"
+#line 1765 "bison_Program.tab.c"
     break;
 
   case 55: /* METHOD_CALL: IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 300 "bison_Program.y"
+#line 298 "bison_Program.y"
                                                                                   {
                if (!check_method((yyvsp[-4].strvalue))) {
                    yyerror("Error: Method not declared.");
@@ -1775,89 +1773,89 @@ yyreduce:
                }
                printf("Method call\n");
            }
-#line 1779 "bison_Program.tab.c"
+#line 1777 "bison_Program.tab.c"
     break;
 
   case 56: /* ACCESS_MODIFIER: TOKEN_PUBLIC  */
-#line 309 "bison_Program.y"
+#line 307 "bison_Program.y"
                               {printf("public scope\n");}
-#line 1785 "bison_Program.tab.c"
+#line 1783 "bison_Program.tab.c"
     break;
 
   case 57: /* ACCESS_MODIFIER: TOKEN_PRIVATE  */
-#line 310 "bison_Program.y"
+#line 308 "bison_Program.y"
                                {printf("private scope\n");}
-#line 1791 "bison_Program.tab.c"
+#line 1789 "bison_Program.tab.c"
     break;
 
   case 58: /* VARIABLE_TYPE: TOKEN_INT  */
-#line 313 "bison_Program.y"
+#line 311 "bison_Program.y"
                          { (yyval.strvalue) = "int"; }
-#line 1797 "bison_Program.tab.c"
+#line 1795 "bison_Program.tab.c"
     break;
 
   case 59: /* VARIABLE_TYPE: TOKEN_CHAR  */
-#line 314 "bison_Program.y"
+#line 312 "bison_Program.y"
                           { (yyval.strvalue) = "char"; }
-#line 1803 "bison_Program.tab.c"
+#line 1801 "bison_Program.tab.c"
     break;
 
   case 60: /* VARIABLE_TYPE: TOKEN_DOUBLE  */
-#line 315 "bison_Program.y"
+#line 313 "bison_Program.y"
                             { (yyval.strvalue) = "double"; }
-#line 1809 "bison_Program.tab.c"
+#line 1807 "bison_Program.tab.c"
     break;
 
   case 61: /* VARIABLE_TYPE: TOKEN_BOOLEAN  */
-#line 316 "bison_Program.y"
+#line 314 "bison_Program.y"
                              { (yyval.strvalue) = "boolean"; }
-#line 1815 "bison_Program.tab.c"
+#line 1813 "bison_Program.tab.c"
     break;
 
   case 62: /* VARIABLE_TYPE: TOKEN_STRING  */
-#line 317 "bison_Program.y"
+#line 315 "bison_Program.y"
                             { (yyval.strvalue) = "string"; }
-#line 1821 "bison_Program.tab.c"
+#line 1819 "bison_Program.tab.c"
     break;
 
   case 63: /* PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST  */
-#line 320 "bison_Program.y"
+#line 318 "bison_Program.y"
                                                                      { printf("Parameter List\n"); }
-#line 1827 "bison_Program.tab.c"
+#line 1825 "bison_Program.tab.c"
     break;
 
   case 64: /* PARAMETER_LIST: VARIABLE_TYPE IDENTIFIER  */
-#line 321 "bison_Program.y"
+#line 319 "bison_Program.y"
                                           { printf("Parameter List\n"); }
-#line 1833 "bison_Program.tab.c"
+#line 1831 "bison_Program.tab.c"
     break;
 
   case 65: /* PARAMETER_LIST: %empty  */
-#line 322 "bison_Program.y"
+#line 320 "bison_Program.y"
                         {}
-#line 1839 "bison_Program.tab.c"
+#line 1837 "bison_Program.tab.c"
     break;
 
   case 66: /* BOOLEAN: TOKEN_TRUE  */
-#line 324 "bison_Program.y"
+#line 322 "bison_Program.y"
                       {(yyval.intvalue)=1; printf("Assigned true\n");}
-#line 1845 "bison_Program.tab.c"
+#line 1843 "bison_Program.tab.c"
     break;
 
   case 67: /* BOOLEAN: TOKEN_FALSE  */
-#line 325 "bison_Program.y"
+#line 323 "bison_Program.y"
                       {(yyval.intvalue)=0; printf("Assigned false\n");}
-#line 1851 "bison_Program.tab.c"
+#line 1849 "bison_Program.tab.c"
     break;
 
   case 68: /* CONDITION: BOOLEAN  */
-#line 327 "bison_Program.y"
+#line 325 "bison_Program.y"
                     {(yyval.intvalue)=(yyvsp[0].intvalue);}
-#line 1857 "bison_Program.tab.c"
+#line 1855 "bison_Program.tab.c"
     break;
 
   case 69: /* CONDITION: EXPRESSION COMPARISON EXPRESSION  */
-#line 329 "bison_Program.y"
+#line 327 "bison_Program.y"
            {
                switch ((yyvsp[-1].intvalue)) {
                    case 1 :  (yyval.intvalue) = ((yyvsp[-2].intvalue) < (yyvsp[0].intvalue)); break;
@@ -1872,177 +1870,177 @@ yyreduce:
                }
                printf("Condition result: %d\n", (yyval.intvalue));
            }
-#line 1876 "bison_Program.tab.c"
+#line 1874 "bison_Program.tab.c"
     break;
 
   case 70: /* COMPARISON: TOKEN_LESS_THAN  */
-#line 346 "bison_Program.y"
+#line 344 "bison_Program.y"
                              { (yyval.intvalue) = 1; printf("Less than\n"); }
-#line 1882 "bison_Program.tab.c"
+#line 1880 "bison_Program.tab.c"
     break;
 
   case 71: /* COMPARISON: TOKEN_GREATER_THAN  */
-#line 347 "bison_Program.y"
+#line 345 "bison_Program.y"
                                 { (yyval.intvalue) = 2; printf("Greater than\n"); }
-#line 1888 "bison_Program.tab.c"
+#line 1886 "bison_Program.tab.c"
     break;
 
   case 72: /* COMPARISON: TOKEN_LESS_THAN_EQUAL  */
-#line 348 "bison_Program.y"
+#line 346 "bison_Program.y"
                                    { (yyval.intvalue) = 3; printf("Less or equal than \n");}
-#line 1894 "bison_Program.tab.c"
+#line 1892 "bison_Program.tab.c"
     break;
 
   case 73: /* COMPARISON: TOKEN_GREATER_THAN_EQUAL  */
-#line 349 "bison_Program.y"
+#line 347 "bison_Program.y"
                                       { (yyval.intvalue) = 4 ; printf("Greater or equal than\n"); }
-#line 1900 "bison_Program.tab.c"
+#line 1898 "bison_Program.tab.c"
     break;
 
   case 74: /* COMPARISON: TOKEN_EQUAL  */
-#line 350 "bison_Program.y"
+#line 348 "bison_Program.y"
                          { (yyval.intvalue) = 5 ; printf("Equal\n");}
-#line 1906 "bison_Program.tab.c"
+#line 1904 "bison_Program.tab.c"
     break;
 
   case 75: /* COMPARISON: TOKEN_NOT_EQUAL  */
-#line 351 "bison_Program.y"
+#line 349 "bison_Program.y"
                              { (yyval.intvalue) = 6 ; printf("Not equal\n"); }
-#line 1912 "bison_Program.tab.c"
+#line 1910 "bison_Program.tab.c"
     break;
 
   case 76: /* COMPARISON: TOKEN_AND  */
-#line 352 "bison_Program.y"
+#line 350 "bison_Program.y"
                         { (yyval.intvalue) = 7 ; printf("And");}
-#line 1918 "bison_Program.tab.c"
+#line 1916 "bison_Program.tab.c"
     break;
 
   case 77: /* COMPARISON: TOKEN_OR  */
-#line 353 "bison_Program.y"
+#line 351 "bison_Program.y"
                       { (yyval.intvalue) = 8 ; printf("Or");}
-#line 1924 "bison_Program.tab.c"
+#line 1922 "bison_Program.tab.c"
     break;
 
   case 78: /* EXPRESSION: VALUE  */
-#line 357 "bison_Program.y"
+#line 355 "bison_Program.y"
                    { (yyval.intvalue) = (yyvsp[0].intvalue);}
-#line 1930 "bison_Program.tab.c"
+#line 1928 "bison_Program.tab.c"
     break;
 
   case 79: /* EXPRESSION: OPERATION  */
-#line 358 "bison_Program.y"
+#line 356 "bison_Program.y"
                        { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 1936 "bison_Program.tab.c"
+#line 1934 "bison_Program.tab.c"
     break;
 
   case 80: /* EXPRESSION: STATEMENT_NEW  */
-#line 359 "bison_Program.y"
+#line 357 "bison_Program.y"
                            { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 1942 "bison_Program.tab.c"
+#line 1940 "bison_Program.tab.c"
     break;
 
   case 81: /* STATEMENT_NEW: TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON  */
-#line 365 "bison_Program.y"
+#line 363 "bison_Program.y"
                                                         { printf("New Statement\n"); }
-#line 1948 "bison_Program.tab.c"
+#line 1946 "bison_Program.tab.c"
     break;
 
   case 82: /* STATEMENT_NEW: TOKEN_NEW IDENTIFIER TOKEN_LPAREN TOKEN_RPAREN TOKEN_SEMICOLON  */
-#line 366 "bison_Program.y"
+#line 364 "bison_Program.y"
                                                                                { printf("New Statement\n");
                   if (!isupper((yyvsp[-3].strvalue)[0])) {
-                       yyerror("Error: Class identifier must start with an uppercase letter.");
+                       printf("Error: Class identifier must start with an uppercase letter.");
                        YYABORT;
                    } }
-#line 1958 "bison_Program.tab.c"
+#line 1956 "bison_Program.tab.c"
     break;
 
   case 83: /* VALUE: NUMBER  */
-#line 373 "bison_Program.y"
+#line 371 "bison_Program.y"
                {(yyval.intvalue) = (yyvsp[0].intvalue); printf("Assigned int Value: %d\n", (yyval.intvalue)); }
-#line 1964 "bison_Program.tab.c"
+#line 1962 "bison_Program.tab.c"
     break;
 
   case 84: /* VALUE: TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
-#line 374 "bison_Program.y"
+#line 372 "bison_Program.y"
                                             { (yyval.intvalue) = (yyvsp[-1].intvalue);}
-#line 1970 "bison_Program.tab.c"
+#line 1968 "bison_Program.tab.c"
     break;
 
   case 85: /* VALUE: BOOLEAN  */
-#line 375 "bison_Program.y"
+#line 373 "bison_Program.y"
                 {(yyval.intvalue)= (yyvsp[0].intvalue);}
-#line 1976 "bison_Program.tab.c"
+#line 1974 "bison_Program.tab.c"
     break;
 
   case 86: /* VALUE: DOUBLE_NUMBER  */
-#line 376 "bison_Program.y"
+#line 374 "bison_Program.y"
                       {(yyval.intvalue) =(yyvsp[0].dvalue); printf("Assigned double Value: %f\n", (yyvsp[0].dvalue));}
-#line 1982 "bison_Program.tab.c"
+#line 1980 "bison_Program.tab.c"
     break;
 
   case 87: /* VALUE: CHARACTER  */
-#line 377 "bison_Program.y"
+#line 375 "bison_Program.y"
                   {(yyval.intvalue)= (yyvsp[0].charvalue); printf("Char value: %c\n",(yyvsp[0].charvalue));}
-#line 1988 "bison_Program.tab.c"
+#line 1986 "bison_Program.tab.c"
     break;
 
   case 88: /* VALUE: STRING_LITERAL  */
-#line 378 "bison_Program.y"
+#line 376 "bison_Program.y"
                        { (yyval.intvalue) = STRING_LITERAL; printf("Assigned String Value: %s\n", (yyvsp[0].strvalue)); }
-#line 1994 "bison_Program.tab.c"
+#line 1992 "bison_Program.tab.c"
     break;
 
   case 89: /* VALUE: IDENTIFIER  */
-#line 379 "bison_Program.y"
+#line 377 "bison_Program.y"
                    { }
-#line 2000 "bison_Program.tab.c"
+#line 1998 "bison_Program.tab.c"
     break;
 
   case 90: /* OPERATION: ADDITION  */
-#line 382 "bison_Program.y"
+#line 380 "bison_Program.y"
                      { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 2006 "bison_Program.tab.c"
+#line 2004 "bison_Program.tab.c"
     break;
 
   case 91: /* OPERATION: MULTIPLICATION  */
-#line 383 "bison_Program.y"
+#line 381 "bison_Program.y"
                            { (yyval.intvalue) = (yyvsp[0].intvalue);  }
-#line 2012 "bison_Program.tab.c"
+#line 2010 "bison_Program.tab.c"
     break;
 
   case 92: /* OPERATION: SUBTRACTION  */
-#line 384 "bison_Program.y"
+#line 382 "bison_Program.y"
                         { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 2018 "bison_Program.tab.c"
+#line 2016 "bison_Program.tab.c"
     break;
 
   case 93: /* OPERATION: DIVISION  */
-#line 385 "bison_Program.y"
+#line 383 "bison_Program.y"
                      { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 2024 "bison_Program.tab.c"
+#line 2022 "bison_Program.tab.c"
     break;
 
   case 94: /* ADDITION: VALUE TOKEN_PLUS VALUE  */
-#line 389 "bison_Program.y"
+#line 387 "bison_Program.y"
                                  { (yyval.intvalue) = (yyvsp[-2].intvalue) + (yyvsp[0].intvalue); printf("Addition: %d\n", (yyval.intvalue)); }
-#line 2030 "bison_Program.tab.c"
+#line 2028 "bison_Program.tab.c"
     break;
 
   case 95: /* MULTIPLICATION: VALUE TOKEN_MULT VALUE  */
-#line 392 "bison_Program.y"
+#line 390 "bison_Program.y"
                                         { (yyval.intvalue) = (yyvsp[-2].intvalue) * (yyvsp[0].intvalue); printf("Multiplication: %d\n", (yyval.intvalue)); }
-#line 2036 "bison_Program.tab.c"
+#line 2034 "bison_Program.tab.c"
     break;
 
   case 96: /* SUBTRACTION: VALUE TOKEN_MINUS VALUE  */
-#line 394 "bison_Program.y"
+#line 392 "bison_Program.y"
                                       { (yyval.intvalue) = (yyvsp[-2].intvalue) - (yyvsp[0].intvalue); printf("Subtraction: %d\n", (yyval.intvalue)); }
-#line 2042 "bison_Program.tab.c"
+#line 2040 "bison_Program.tab.c"
     break;
 
   case 97: /* DIVISION: VALUE TOKEN_DIV VALUE  */
-#line 397 "bison_Program.y"
+#line 395 "bison_Program.y"
                           {
         if ((yyvsp[0].intvalue) == 0) {
             yyerror("Error: Division by zero");
@@ -2052,11 +2050,11 @@ yyreduce:
             printf("Division: %d\n", (yyval.intvalue)); 
         }
     }
-#line 2056 "bison_Program.tab.c"
+#line 2054 "bison_Program.tab.c"
     break;
 
 
-#line 2060 "bison_Program.tab.c"
+#line 2058 "bison_Program.tab.c"
 
       default: break;
     }
@@ -2249,7 +2247,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 408 "bison_Program.y"
+#line 406 "bison_Program.y"
 
 /* CODE */
 
