@@ -589,26 +589,31 @@ int yy_flex_debug = 0;
 char *yytext;
 #line 1 "flex_Program.l"
 #line 2 "flex_Program.l"
+/* DEFINITIONS */ 
+#include <stdio.h> /* Standard input/output library */
+#include <stdlib.h> /* Standard library for memory allocation */
+#include <string.h> /* String manipulation functions */
+#include <ctype.h> /* Character classification functions */
+#include "bison_Program.tab.h" /* Include bison header file */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include "bison_Program.tab.h"
-
+/* External references to Bison parser */
 extern FILE *yyin;
 extern FILE *yyout;
 
-
+/* Function for error handling */
 extern void yyerror(char *s);  
 
+/* Buffer for storing strings */
 char string_buffer[1000];        
 char* string_buffer_pointer;
 int line_in=-1;
 
-#line 609 "lex.yy.c"
-
 #line 611 "lex.yy.c"
+/* Flex options */
+/* Define states for multi-line, single-line comments, and string contents */
+
+/* Regular expression definitions for easier reading */
+#line 616 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT_CONTENTS 1
@@ -828,10 +833,11 @@ YY_DECL
 		}
 
 	{
-#line 40 "flex_Program.l"
+#line 43 "flex_Program.l"
 
 
-#line 834 "lex.yy.c"
+
+#line 840 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -900,397 +906,397 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 42 "flex_Program.l"
-{ yylval.strvalue = strdup(yytext); return TOKEN_IF; }
+#line 46 "flex_Program.l"
+{ yylval.strvalue = strdup(yytext); return TOKEN_IF; } 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 43 "flex_Program.l"
+#line 47 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_ELSE; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 44 "flex_Program.l"
+#line 48 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_WHILE; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 45 "flex_Program.l"
+#line 49 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_DO; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 46 "flex_Program.l"
+#line 50 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_FOR; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 47 "flex_Program.l"
+#line 51 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_SWITCH; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 48 "flex_Program.l"
+#line 52 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_CASE; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 49 "flex_Program.l"
+#line 53 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_DEFAULT; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 50 "flex_Program.l"
+#line 54 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_BREAK; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 51 "flex_Program.l"
+#line 55 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_RETURN; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 52 "flex_Program.l"
+#line 56 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_CLASS; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 53 "flex_Program.l"
+#line 57 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_PUBLIC; }         
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 54 "flex_Program.l"
+#line 58 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_PRIVATE; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 55 "flex_Program.l"
+#line 59 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_INT; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 56 "flex_Program.l"
+#line 60 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_CHAR; }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 57 "flex_Program.l"
+#line 61 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_VOID; }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 58 "flex_Program.l"
+#line 62 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_DOUBLE; }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 59 "flex_Program.l"
+#line 63 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_BOOLEAN; }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 60 "flex_Program.l"
+#line 64 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_STRING; }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 61 "flex_Program.l"
+#line 65 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_TRUE; }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 62 "flex_Program.l"
+#line 66 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_FALSE; }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 63 "flex_Program.l"
+#line 67 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_NEW; }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 64 "flex_Program.l"
+#line 68 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return TOKEN_OUT_PRINT; }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 70 "flex_Program.l"
+#line 73 "flex_Program.l"
 { return TOKEN_SEMICOLON; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 71 "flex_Program.l"
+#line 74 "flex_Program.l"
 { return TOKEN_LBRACE; }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 72 "flex_Program.l"
+#line 75 "flex_Program.l"
 { return TOKEN_RBRACE; }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 73 "flex_Program.l"
+#line 76 "flex_Program.l"
 { return TOKEN_LPAREN; }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 74 "flex_Program.l"
+#line 77 "flex_Program.l"
 { return TOKEN_RPAREN; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 75 "flex_Program.l"
+#line 78 "flex_Program.l"
 { return TOKEN_LBRACKET; }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 76 "flex_Program.l"
+#line 79 "flex_Program.l"
 { return TOKEN_RBRACKET; }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 77 "flex_Program.l"
+#line 80 "flex_Program.l"
 { return TOKEN_ASSIGN; }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 78 "flex_Program.l"
+#line 81 "flex_Program.l"
 { return TOKEN_COMMA; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 79 "flex_Program.l"
+#line 82 "flex_Program.l"
 { return TOKEN_PLUS; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 80 "flex_Program.l"
+#line 83 "flex_Program.l"
 { return TOKEN_MINUS; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 81 "flex_Program.l"
+#line 84 "flex_Program.l"
 { return TOKEN_MULT; }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 82 "flex_Program.l"
+#line 85 "flex_Program.l"
 { return TOKEN_DIV; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 83 "flex_Program.l"
+#line 86 "flex_Program.l"
 { return TOKEN_LESS_THAN; }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 84 "flex_Program.l"
+#line 87 "flex_Program.l"
 { return TOKEN_GREATER_THAN; }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 85 "flex_Program.l"
+#line 88 "flex_Program.l"
 { return TOKEN_EQUAL; }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 86 "flex_Program.l"
+#line 89 "flex_Program.l"
 { return TOKEN_NOT_EQUAL; }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 87 "flex_Program.l"
+#line 90 "flex_Program.l"
 { return TOKEN_LESS_THAN_EQUAL; }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 88 "flex_Program.l"
+#line 91 "flex_Program.l"
 { return TOKEN_GREATER_THAN_EQUAL; }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 89 "flex_Program.l"
+#line 92 "flex_Program.l"
 { return TOKEN_AND; }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 90 "flex_Program.l"
+#line 93 "flex_Program.l"
 { return TOKEN_OR; }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 91 "flex_Program.l"
+#line 94 "flex_Program.l"
 { return TOKEN_MODULO; }
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 92 "flex_Program.l"
+#line 95 "flex_Program.l"
 { return TOKEN_HASH; }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 93 "flex_Program.l"
+#line 96 "flex_Program.l"
 { return TOKEN_AT; }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 94 "flex_Program.l"
+#line 97 "flex_Program.l"
 { return TOKEN_CARET; }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 95 "flex_Program.l"
+#line 98 "flex_Program.l"
 { return TOKEN_QUESTION_MARK; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 96 "flex_Program.l"
+#line 99 "flex_Program.l"
 { return TOKEN_DOT; }
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 97 "flex_Program.l"
+#line 100 "flex_Program.l"
 { return TOKEN_EXCLAMATION_POINT; }
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 98 "flex_Program.l"
+#line 101 "flex_Program.l"
 { return TOKEN_PIPE; }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 99 "flex_Program.l"
+#line 102 "flex_Program.l"
 { return TOKEN_COLON; }
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 102 "flex_Program.l"
+#line 105 "flex_Program.l"
 { yylval.dvalue = atof(yytext); return DOUBLE_NUMBER;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 103 "flex_Program.l"
+#line 106 "flex_Program.l"
 { yylval.intvalue = atoi(yytext); return NUMBER; }
 	YY_BREAK
 case 56:
 /* rule 56 can match eol */
 YY_RULE_SETUP
-#line 104 "flex_Program.l"
+#line 109 "flex_Program.l"
 { yylval.charvalue = yytext[1]; return CHARACTER; }
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 107 "flex_Program.l"
+#line 113 "flex_Program.l"
 { yylval.strvalue = strdup(yytext); return IDENTIFIER;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 115 "flex_Program.l"
+#line 121 "flex_Program.l"
 {BEGIN(COMMENT_CONTENTS); string_buffer_pointer = string_buffer;line_in=0;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 116 "flex_Program.l"
+#line 122 "flex_Program.l"
 {BEGIN(INITIAL); *string_buffer_pointer ='\0';
                                               line_in=-1; printf("Multiple Line Comment\n");}
 	YY_BREAK
 case 60:
 /* rule 60 can match eol */
 YY_RULE_SETUP
-#line 118 "flex_Program.l"
-{line_in++;}
+#line 125 "flex_Program.l"
+{line_in++;} 
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 119 "flex_Program.l"
+#line 126 "flex_Program.l"
 {char *ypointer = yytext;
                                               while (*ypointer ) *string_buffer_pointer++ = *ypointer++; }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 121 "flex_Program.l"
-{}
+#line 129 "flex_Program.l"
+{} 
 	YY_BREAK
 case YY_STATE_EOF(COMMENT_CONTENTS):
-#line 122 "flex_Program.l"
-{yyerror("Comment not terminated"); return 0;}
+#line 131 "flex_Program.l"
+{yyerror("Comment not terminated"); return 0;} 
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 126 "flex_Program.l"
+#line 135 "flex_Program.l"
 {BEGIN(ONELINE_COMMENT_CONTENTS); string_buffer_pointer = string_buffer;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 127 "flex_Program.l"
-{}
+#line 137 "flex_Program.l"
+{} 
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 128 "flex_Program.l"
+#line 138 "flex_Program.l"
 {char *ypointer = yytext;
                                               while( *ypointer) *string_buffer_pointer++ = *ypointer++; }
 	YY_BREAK
 case 66:
 /* rule 66 can match eol */
 YY_RULE_SETUP
-#line 130 "flex_Program.l"
-{BEGIN(INITIAL); *string_buffer_pointer = '\0'; printf("One Line Comment\n");}
+#line 141 "flex_Program.l"
+{BEGIN(INITIAL); *string_buffer_pointer = '\0'; printf("One Line Comment\n");} 
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 134 "flex_Program.l"
+#line 145 "flex_Program.l"
 {BEGIN(STRING_CONTENTS); string_buffer_pointer= string_buffer; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 135 "flex_Program.l"
+#line 146 "flex_Program.l"
 {BEGIN(INITIAL); *string_buffer_pointer = '\0';yylval.strvalue = strdup(string_buffer); 
                                                return STRING_LITERAL; }
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 137 "flex_Program.l"
-{*string_buffer_pointer++ = '\n';}
+#line 148 "flex_Program.l"
+{*string_buffer_pointer++ = '\n';}  
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 138 "flex_Program.l"
-{*string_buffer_pointer++ = '\t';}
+#line 149 "flex_Program.l"
+{*string_buffer_pointer++ = '\t';}  
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 139 "flex_Program.l"
-{*string_buffer_pointer++ = '"';} 
+#line 150 "flex_Program.l"
+{*string_buffer_pointer++ = '"';}  
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 140 "flex_Program.l"
+#line 151 "flex_Program.l"
 {char *ypointer = yytext; 
                                                while ( *ypointer ) *string_buffer_pointer++ = *ypointer++;}
 	YY_BREAK
 case YY_STATE_EOF(STRING_CONTENTS):
-#line 143 "flex_Program.l"
-{yyerror("String not terminated"); return 0;}
+#line 154 "flex_Program.l"
+{yyerror("String not terminated"); return 0;} 
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 145 "flex_Program.l"
+#line 158 "flex_Program.l"
 {}
 	YY_BREAK
 case 74:
 /* rule 74 can match eol */
 YY_RULE_SETUP
-#line 146 "flex_Program.l"
+#line 159 "flex_Program.l"
 {} 
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 147 "flex_Program.l"
+#line 160 "flex_Program.l"
 ECHO;
 	YY_BREAK
-#line 1293 "lex.yy.c"
+#line 1299 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(ONELINE_COMMENT_CONTENTS):
 	yyterminate();
@@ -2308,7 +2314,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 147 "flex_Program.l"
+#line 160 "flex_Program.l"
 
 
 
