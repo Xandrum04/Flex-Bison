@@ -1,36 +1,39 @@
 %{
+/* DEFINITIONS */ 
+#include <stdio.h> /* Standard input/output library */
+#include <stdlib.h> /* Standard library for memory allocation */
+#include <string.h> /* String manipulation functions */
+#include <ctype.h> /* Character classification functions */
+#include "bison_Program.tab.h" /* Include bison header file */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include "bison_Program.tab.h"
-
+/* External references to Bison parser */
 extern FILE *yyin;
 extern FILE *yyout;
 
-
+/* Function for error handling */
 extern void yyerror(char *s);  
 
+/* Buffer for storing strings */
 char string_buffer[1000];        
 char* string_buffer_pointer;
 int line_in=-1;
 
 %}
 
-%option noyywrap
-%option yylineno
+/* Flex options */
+%option noyywrap 
+%option yylineno 
 
-
+/* Define states for multi-line, single-line comments, and string contents */
 %x COMMENT_CONTENTS
 %x ONELINE_COMMENT_CONTENTS
 %x STRING_CONTENTS
 
-
-DIGIT [0-9]     
-LETTER [a-zA-Z]   
-WHITESPACE [ \t]+
-NEWLINE [\n]+
+/* Regular expression definitions for easier reading */
+DIGIT [0-9]         
+LETTER [a-zA-Z]     
+WHITESPACE [ \t]+   
+NEWLINE [\n]+   
 
 NUMBER [1-9]{DIGIT}*|"0"  
 DOUBLE {DIGIT}+\.{DIGIT}+d
@@ -39,7 +42,8 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 %%                 
 
-"if"                        { yylval.strvalue = strdup(yytext); return TOKEN_IF; }
+
+"if"                        { yylval.strvalue = strdup(yytext); return TOKEN_IF; } 
 "else"                      { yylval.strvalue = strdup(yytext); return TOKEN_ELSE; }
 "while"                     { yylval.strvalue = strdup(yytext); return TOKEN_WHILE; }
 "do"                        { yylval.strvalue = strdup(yytext); return TOKEN_DO; }
@@ -62,7 +66,6 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "false"                     { yylval.strvalue = strdup(yytext); return TOKEN_FALSE; }
 "new"                       { yylval.strvalue = strdup(yytext); return TOKEN_NEW; }
 "out.print"                 { yylval.strvalue = strdup(yytext); return TOKEN_OUT_PRINT; }
-
 
 
 
@@ -101,7 +104,10 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 
 {DOUBLE}                    { yylval.dvalue = atof(yytext); return DOUBLE_NUMBER;}
 {NUMBER}                    { yylval.intvalue = atoi(yytext); return NUMBER; }
+
+
 \'[^\']\'                   { yylval.charvalue = yytext[1]; return CHARACTER; }
+
 
 
 {IDENTIFIER}                { yylval.strvalue = strdup(yytext); return IDENTIFIER;}
@@ -115,32 +121,39 @@ IDENTIFIER [a-zA-Z_][a-zA-Z0-9_]*
 "/*"                                     {BEGIN(COMMENT_CONTENTS); string_buffer_pointer = string_buffer;line_in=0;}
 <COMMENT_CONTENTS>"*"+"/"                {BEGIN(INITIAL); *string_buffer_pointer ='\0';
                                               line_in=-1; printf("Multiple Line Comment\n");}
-<COMMENT_CONTENTS>"\n"                   {line_in++;}
+
+<COMMENT_CONTENTS>"\n"                   {line_in++;} 
 <COMMENT_CONTENTS>[^*\n]*                {char *ypointer = yytext;
                                               while (*ypointer ) *string_buffer_pointer++ = *ypointer++; }
-<COMMENT_CONTENTS>[*]*                   {}
-<COMMENT_CONTENTS><<EOF>>                {yyerror("Comment not terminated"); return 0;}
+
+<COMMENT_CONTENTS>[*]*                   {} 
+
+<COMMENT_CONTENTS><<EOF>>                {yyerror("Comment not terminated"); return 0;} 
 
 
 
 "//"                                     {BEGIN(ONELINE_COMMENT_CONTENTS); string_buffer_pointer = string_buffer;}
-<ONELINE_COMMENT_CONTENTS>.              {}
+
+<ONELINE_COMMENT_CONTENTS>.              {} 
 <ONELINE_COMMENT_CONTENTS>[^\\\n\"]+     {char *ypointer = yytext;
                                               while( *ypointer) *string_buffer_pointer++ = *ypointer++; }
-<ONELINE_COMMENT_CONTENTS>"\n"           {BEGIN(INITIAL); *string_buffer_pointer = '\0'; printf("One Line Comment\n");}
+
+<ONELINE_COMMENT_CONTENTS>"\n"           {BEGIN(INITIAL); *string_buffer_pointer = '\0'; printf("One Line Comment\n");} 
 
 
 
 \"                                       {BEGIN(STRING_CONTENTS); string_buffer_pointer= string_buffer; }
 <STRING_CONTENTS>\"                      {BEGIN(INITIAL); *string_buffer_pointer = '\0';yylval.strvalue = strdup(string_buffer); 
                                                return STRING_LITERAL; }
-<STRING_CONTENTS>\\n                     {*string_buffer_pointer++ = '\n';}
-<STRING_CONTENTS>\\t                     {*string_buffer_pointer++ = '\t';}
-<STRING_CONTENTS>\\\"                    {*string_buffer_pointer++ = '"';} 
+<STRING_CONTENTS>\\n                     {*string_buffer_pointer++ = '\n';}  
+<STRING_CONTENTS>\\t                     {*string_buffer_pointer++ = '\t';}  
+<STRING_CONTENTS>\\\"                    {*string_buffer_pointer++ = '"';}  
 <STRING_CONTENTS>[^\\\n\"]+              {char *ypointer = yytext; 
                                                while ( *ypointer ) *string_buffer_pointer++ = *ypointer++;}
 
-<STRING_CONTENTS><<EOF>>                    {yyerror("String not terminated"); return 0;}
+<STRING_CONTENTS><<EOF>>                    {yyerror("String not terminated"); return 0;} 
+
+
 
 {WHITESPACE}                             {}
 {NEWLINE}                                {} 
