@@ -1,34 +1,37 @@
 %{
 /* DEFINITIONS */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+#include <stdio.h> /* Standard input/output library */
+#include <stdlib.h> /* Standard library for memory allocation */
+#include <string.h> /* String manipulation functions */
+#include <ctype.h> /* Character classification functions */
 
 extern FILE *yyin;
 extern FILE *yyout;
 
-extern int yylex();
+extern int yylex(); /* lexer function */
 extern int yywrap;
 
-extern int yylineno;
-extern int line_in;
+extern int yylineno; /* Line number counter*/
 
+/* Buffer for storing strings */
+extern int line_in;
 extern char string_buffer[];
 extern char* string_buffer_pointer;
 
+/* Function for error handling */
 void yyerror(char * s);
 
-#define YYDEBUG 1
-int yydebug;
-int class_found = 0;
+#define YYDEBUG 1 /* Enable debugging */
+int yydebug;      /* debug flag*/
+int class_found = 0; /* Flag to check if a class statement is found */
 
-/* Symbol table for variables and methods */
+/* Symbol table structure for variables */
 typedef struct Variable {
     char* name;
     struct Variable* next;
 } Variable;
 
+/* Symbol table structure for methods */
 typedef struct Method {
     char* name;
     struct Method* next;
@@ -38,15 +41,16 @@ typedef struct Method {
 Variable* var_table = NULL; // Linked list for variables
 Method* method_table = NULL; // Linked list for methods
 
-/* Function declarations */
+/* Function declarations for managing the symbol table */
 void add_variable(char* name);
 int check_variable(char* name);
 void add_method(char* name);
 int check_method(char* name);
 
 %}
-
 /* DECLARATIONS */
+
+/* Union for token types */
 %union {
     int intvalue;
     double dvalue;
@@ -245,7 +249,9 @@ VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEM
                                   YYABORT;
                               } else {
                                   add_variable($2);
-                                  printf("Variable Declaration of type: %s\n", $1); 
+                                  printf("Declared variable: %s\n",$2); 
+                                  printf("Variable Declaration of type: %s\n", $1);
+                                  
                               }
                           }
                           | VARIABLE_TYPE IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON { 
@@ -254,6 +260,7 @@ VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEM
                                   YYABORT;
                               } else {
                                   add_variable($2);
+                                  printf("Declared variable: %s\n",$2); 
                                   printf("Variable Declaration of type: %s\n", $1); 
                               }
                           }
@@ -263,14 +270,16 @@ MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS { if (check_variab
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2);}}
+                                  add_variable($2);
+                                  printf("Declared variable: %s\n",$2); }}
                   | %empty {}
                   ;
 MORE_DECLARATIONS_ASSIGN : TOKEN_COMMA IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN {if (check_variable($2)) {
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2);}}
+                                  add_variable($2);
+                                  printf("Declared variable: %s\n",$2); }}
                   | %empty {}
                   ;
 
@@ -406,44 +415,58 @@ DIVISION:
 %%
 /* CODE */
 
-int yydebug=0;
+int yydebug=0; // Disable Bison debugging by default
+
+/* Symbol table management functions */
 
 /* Add variable to the symbol table */
 void add_variable(char* name) {
+    // Allocate memory for a new variable structure
     Variable* new_var = (Variable*)malloc(sizeof(Variable));
+    // Duplicate the variable name string and assign it to the new variable's name field
     new_var->name = strdup(name);
+    // Insert the new variable at the beginning of the linked list
     new_var->next = var_table;
+    // Update the head of the list to point to the new variable
     var_table = new_var;
 }
 
 /* Check if a variable is already declared */
 int check_variable(char* name) {
+    // Temporary pointer to traverse the variable linked list
     Variable* temp = var_table;
+    // Iterate through the list to check for a matching variable name
     while (temp) {
-        if (strcmp(temp->name, name) == 0) return 1;
-        temp = temp->next;
+        if (strcmp(temp->name, name) == 0) return 1; // If the name matches, return 1 (variable is declared)
+        temp = temp->next; // Move to the next variable in the list
     }
-    return 0; // Not declared
+    return 0; // If no matching name is found, return 0 (variable is not declared)
 }
 
 /* Add method to the symbol table */
 void add_method(char* name) {
+    // Allocate memory for a new method structure
     Method* new_method = (Method*)malloc(sizeof(Method));
+     // Duplicate the method name string and assign it to the new method's name field
     new_method->name = strdup(name);
+    // Insert the new method at the beginning of the linked list
     new_method->next = method_table;
+    // Update the head of the list to point to the new method
     method_table = new_method;
 }
 
 /* Check if a method is already declared */
 int check_method(char* name) {
+    // Temporary pointer to traverse the method linked list
     Method* temp = method_table;
+    // Iterate through the list to check for a matching method name
     while (temp) {
-        if (strcmp(temp->name, name) == 0) return 1;
-        temp = temp->next;
+        if (strcmp(temp->name, name) == 0) return 1; // If the name matches, return 1 (method is declared)
+        temp = temp->next; // Move to the next method in the list
     }
-    return 0; // Not declared
+    return 0; // If no matching name is found, return 0 (method is not declared)
 }
-
+/* Error handling */
 void yyerror( char *s) {
     fprintf(stderr, "%s at line %d\n", s, yylineno);
     exit(1);
@@ -457,6 +480,6 @@ int main(int argc, char **argv) {
         }
         yyin = file;
     }
-    yyparse();
+    yyparse(); // Start the parsing process
     return 0;
 }
