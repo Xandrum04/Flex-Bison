@@ -105,14 +105,14 @@ int type_check(char* var_type, int expr_type);
 /* RULES / BNF */
 
 PROGRAM: STATEMENTS {
-              if ($1 == 0) {
+              if ($1 == 0) { //Check if there are valid Statements in the input file
                  printf("Error: No statement found in the input.");
                  YYABORT;
              } 
-             else if  (!class_found) {
+             else if  (!class_found) { //Check if there is at least one class in the input file
                  printf("Error: No class statement found in the input.");
                  YYABORT;
-             } else {
+             } else {  
                  printf("Program parsed successfully.\n");
              }
         };
@@ -166,7 +166,7 @@ STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON { printf("BREAK Statement\n"); }
 
 STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  {
                     char* var_type = check_variable($1);
-                    if (!var_type) {
+                    if (!var_type) { //Check if variable isn't declared
                         yyerror("Error: Variable not declared.");
                         YYABORT;
                     }
@@ -194,7 +194,7 @@ STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON { printf("RETURN State
 
 STATEMENT_CLASS: ACCESS_MODIFIER TOKEN_CLASS IDENTIFIER TOKEN_LBRACE CLASS_BODY TOKEN_RBRACE
                {
-                   class_found = 1;
+                   class_found = 1; //Set flag to 1;
                    printf("CLASS Statement\n");
                    if (!isupper($3[0])) {
                        printf("Error: Class identifier must start with an uppercase letter.");
@@ -220,7 +220,7 @@ STATEMENT_DO_WHILE: TOKEN_DO TOKEN_LBRACE STATEMENTS TOKEN_RBRACE TOKEN_WHILE TO
  }
                   ;
 
-ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER {  if (!check_variable($3)) {
+ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER {  if (!check_variable($3)) { //Check if variable is declared
                         yyerror("Error: Variable not declared.");
                         YYABORT;
                     }printf("Access to Class Members Statement\n"); }
@@ -237,7 +237,7 @@ STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN VARIABLE_DECLARATION CONDITION TOKEN_SEMIC
 STATEMENT_PRINT: TOKEN_OUT_PRINT TOKEN_LPAREN STRING_LITERAL PRINT_OPTIONAL_VAR TOKEN_RPAREN TOKEN_SEMICOLON { printf("Print Statement\n"); printf("%s \n", $3);}
                
 
-PRINT_OPTIONAL_VAR : TOKEN_COMMA IDENTIFIER PRINT_OPTIONAL_VAR {if (!check_variable($2)) {
+PRINT_OPTIONAL_VAR : TOKEN_COMMA IDENTIFIER PRINT_OPTIONAL_VAR {if (!check_variable($2)) { //Check if variable is declared
                         yyerror("Error: Variable not declared.");
                         YYABORT;
                     }}
@@ -251,18 +251,18 @@ VARIABLE_DECLARATION: ACCESS_MODIFIER VARIABLE_DECLARATION_BODY
                     ;
 
 VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEMICOLON   { 
-                              if (check_variable($2)) {
+                              if (check_variable($2)) { //Check if variable is declared
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2,$1);
+                                  add_variable($2,$1); //Add variable to the Symbol Table
                                   printf("Declared variable: %s\n",$2); 
                                   printf("Variable Declaration of type: %s\n", $1);
                                   
                               }
                           }
                           | VARIABLE_TYPE IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN TOKEN_SEMICOLON { 
-                              if (check_variable($2)) {
+                              if (check_variable($2)) { //Check if variable is declared
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
@@ -270,53 +270,53 @@ VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEM
                                       yyerror("Type mismatch in assignment.");
                                       YYABORT;
                                   }
-                                  add_variable($2, $1); // Pass the type to add_variable
+                                  add_variable($2, $1); //Add variable to the Symbol Table
                                   printf("Declared variable: %s\n", $2); 
                                   printf("Variable Declaration of type: %s\n", $1); 
                               }
                           }
                           ;
 
-MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS { if (check_variable($2)) {
+MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS { if (check_variable($2)) { //Check if variable is declared
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2,temp_type);
+                                  add_variable($2,temp_type); //Add variable to the Symbol Table
                                   printf("Declared variable: %s\n",$2); }}
                   | %empty {}
                   ;
-MORE_DECLARATIONS_ASSIGN : TOKEN_COMMA IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN {if (check_variable($2)) {
+MORE_DECLARATIONS_ASSIGN : TOKEN_COMMA IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_DECLARATIONS_ASSIGN {if (check_variable($2)) { //Check if variable is declared
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2,temp_type);
+                                  add_variable($2,temp_type); //Add variable to the Symbol Table
                                   printf("Declared variable: %s\n",$2); }}
                   | %empty {}
                   ;
 
 
 METHOD_DECLARATION: ACCESS_MODIFIER VARIABLE_TYPE IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS STATEMENT_RETURN TOKEN_RBRACE { 
-                      if (check_method($3)) {
+                      if (check_method($3)) { //Check if method is declared
                           yyerror("Method already declared.");
                           YYABORT;
                       } else {
-                          add_method($3);
+                          add_method($3); //Add method to the Symbol Table
                           printf("Method Declaration\n"); 
                       }
                   }
                   | ACCESS_MODIFIER TOKEN_VOID IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE  { 
-                      if (check_method($3)) {
+                      if (check_method($3)) {  //Check if method is declared
                           yyerror("Method already declared.");
                           YYABORT;
                       } else {
-                          add_method($3);
+                          add_method($3);  //Add method to the Symbol Table
                           printf("Method Declaration\n"); 
                       }
                   }
                   ;
                 
 METHOD_CALL: IDENTIFIER TOKEN_LPAREN PARAMETER_LIST TOKEN_RPAREN TOKEN_SEMICOLON  {
-               if (!check_method($1)) {
+               if (!check_method($1)) { //Check if method isn't declared
                    yyerror("Error: Method not declared.");
                    YYABORT;
                }
@@ -344,7 +344,7 @@ BOOLEAN : TOKEN_TRUE  {$$=1; printf("Assigned true\n");}
 
 CONDITION : BOOLEAN {$$=$1;}
         | EXPRESSION COMPARISON EXPRESSION 
-           {
+           { // Identify the comparison operation
                switch ($2) {
                    case 1 :  $$ = ($1 < $3); break;
                    case 2:  $$ = ($1 > $3); break;
@@ -413,7 +413,7 @@ SUBTRACTION : VALUE TOKEN_MINUS VALUE { $$ = $1 - $3; printf("Subtraction: %d\n"
 
 DIVISION:
     VALUE TOKEN_DIV VALUE {
-        if ($3 == 0) {
+        if ($3 == 0) { //Check if divisor is 0
             yyerror("Error: Division by zero");
             YYABORT;
         } else {
