@@ -1,1 +1,6 @@
-int a = 3*(4*(5+2));
+switch (a)
+case 1: { out.print("Hello");}
+case 2: { out.print("Hello");}
+case 3: { out.print("Hello");}
+default: { }
+
