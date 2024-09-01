@@ -24,10 +24,13 @@ void yyerror(char * s);
 #define YYDEBUG 1 /* Enable debugging */
 int yydebug;      /* debug flag*/
 int class_found = 0; /* Flag to check if a class statement is found */
+char* temp_type;  /*  Variable for temporary saving of the data type */
+int case_type; /*Variable for identification of the type */ 
 
 /* Symbol table structure for variables */
 typedef struct Variable {
     char* name;
+    char* type;
     struct Variable* next;
 } Variable;
 
@@ -42,10 +45,11 @@ Variable* var_table = NULL; // Linked list for variables
 Method* method_table = NULL; // Linked list for methods
 
 /* Function declarations for managing the symbol table */
-void add_variable(char* name);
-int check_variable(char* name);
+void add_variable(char* name, char* type);
+char* check_variable(char* name);
 void add_method(char* name);
 int check_method(char* name);
+int type_check(char* var_type, int expr_type);
 
 %}
 /* DECLARATIONS */
@@ -74,7 +78,7 @@ int check_method(char* name);
 %type <intvalue> STATEMENT_PRINT VARIABLE_DECLARATION METHOD_DECLARATION ACCESS_MODIFIER  PARAMETER_LIST CONDITION PRINT_OPTIONAL_VAR METHOD_CALL
 %type <intvalue> COMPARISON EXPRESSION BOOLEAN STATEMENT_NEW VALUE OPERATION ADDITION MULTIPLICATION SUBTRACTION DIVISION ELSE_CLAUSE MORE_DECLARATIONS MORE_DECLARATIONS_ASSIGN
 
-%type <strvalue> DEFAULT_BODY SWITCH_CASE_BODY VARIABLE_TYPE 
+%type <strvalue> DEFAULT_BODY VARIABLE_TYPE 
 %token <charvalue> CHARACTER
 
 %left TOKEN_COMMA
@@ -161,8 +165,13 @@ STATEMENT_BREAK: TOKEN_BREAK TOKEN_SEMICOLON { printf("BREAK Statement\n"); }
                ;
 
 STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  {
-                    if (!check_variable($1)) {
+                    char* var_type = check_variable($1);
+                    if (!var_type) {
                         yyerror("Error: Variable not declared.");
+                        YYABORT;
+                    }
+                    if (!type_check(var_type, case_type)) { // Check if types match
+                        yyerror("Type mismatch in assignment.");
                         YYABORT;
                     }
                 }
@@ -172,14 +181,12 @@ STATEMENT_ASSIGN: IDENTIFIER TOKEN_ASSIGN EXPRESSION  {
 STATEMENT_SWITCH: TOKEN_SWITCH TOKEN_LPAREN EXPRESSION TOKEN_RPAREN SWITCH_BODY { printf("SWITCH Statement\n"); }
                 ;
 
-SWITCH_BODY: SWITCH_CASE_BODY DEFAULT_BODY {}
-           ;
 
-SWITCH_CASE_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON STATEMENT SWITCH_CASE_BODY
+SWITCH_BODY: TOKEN_CASE EXPRESSION TOKEN_COLON TOKEN_LBRACE STATEMENTS  TOKEN_RBRACE SWITCH_BODY DEFAULT_BODY {}
                 | %empty {} %prec LOWER_THAN_CASE
                 ;
 
-DEFAULT_BODY: TOKEN_DEFAULT TOKEN_COLON STATEMENT
+DEFAULT_BODY: TOKEN_DEFAULT TOKEN_COLON TOKEN_LBRACE STATEMENTS  TOKEN_RBRACE
             | %empty {} %prec LOWER_THAN_DEFAULT
 
 STATEMENT_RETURN: TOKEN_RETURN EXPRESSION TOKEN_SEMICOLON { printf("RETURN Statement\n"); }
@@ -223,7 +230,7 @@ ACCESS_TO_CLASS_MEMBERS: IDENTIFIER TOKEN_DOT IDENTIFIER {  if (!check_variable(
 STATEMENT_FOR: TOKEN_FOR TOKEN_LPAREN VARIABLE_DECLARATION CONDITION TOKEN_SEMICOLON STATEMENT_ASSIGN TOKEN_RPAREN TOKEN_LBRACE STATEMENTS TOKEN_RBRACE 
               {
 
-                  printf("FOR loop executed.\n");
+                  printf("FOR loop statement.\n");
               }
              ;
 
@@ -248,7 +255,7 @@ VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEM
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2);
+                                  add_variable($2,$1);
                                   printf("Declared variable: %s\n",$2); 
                                   printf("Variable Declaration of type: %s\n", $1);
                                   
@@ -259,8 +266,12 @@ VARIABLE_DECLARATION_BODY : VARIABLE_TYPE IDENTIFIER MORE_DECLARATIONS TOKEN_SEM
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2);
-                                  printf("Declared variable: %s\n",$2); 
+                                  if (!type_check($1, case_type)) { // Check if the types match
+                                      yyerror("Type mismatch in assignment.");
+                                      YYABORT;
+                                  }
+                                  add_variable($2, $1); // Pass the type to add_variable
+                                  printf("Declared variable: %s\n", $2); 
                                   printf("Variable Declaration of type: %s\n", $1); 
                               }
                           }
@@ -270,7 +281,7 @@ MORE_DECLARATIONS :  TOKEN_COMMA IDENTIFIER MORE_DECLARATIONS { if (check_variab
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2);
+                                  add_variable($2,temp_type);
                                   printf("Declared variable: %s\n",$2); }}
                   | %empty {}
                   ;
@@ -278,7 +289,7 @@ MORE_DECLARATIONS_ASSIGN : TOKEN_COMMA IDENTIFIER TOKEN_ASSIGN EXPRESSION MORE_D
                                   yyerror("Variable already declared.");
                                   YYABORT;
                               } else {
-                                  add_variable($2);
+                                  add_variable($2,temp_type);
                                   printf("Declared variable: %s\n",$2); }}
                   | %empty {}
                   ;
@@ -317,11 +328,11 @@ ACCESS_MODIFIER: TOKEN_PUBLIC {printf("public scope\n");}
                | TOKEN_PRIVATE {printf("private scope\n");}
                ;
 
-VARIABLE_TYPE: TOKEN_INT { $$ = "int"; }
-             | TOKEN_CHAR { $$ = "char"; }
-             | TOKEN_DOUBLE { $$ = "double"; }
-             | TOKEN_BOOLEAN { $$ = "boolean"; }
-             | TOKEN_STRING { $$ = "string"; }
+VARIABLE_TYPE: TOKEN_INT { $$ = temp_type = "int"; }
+             | TOKEN_CHAR { $$ = temp_type=  "char"; }
+             | TOKEN_DOUBLE { $$ = temp_type = "double"; }
+             | TOKEN_BOOLEAN { $$ = temp_type = "boolean"; }
+             | TOKEN_STRING { $$ = temp_type = "string"; }
              ;
 
 PARAMETER_LIST : VARIABLE_TYPE IDENTIFIER TOKEN_COMMA PARAMETER_LIST { printf("Parameter List\n"); }
@@ -362,7 +373,7 @@ COMPARISON : TOKEN_LESS_THAN { $$ = 1; printf("Less than\n"); }
 
 
 EXPRESSION : VALUE { $$ = $1;}
-           | OPERATION { $$ = $1; }
+           | OPERATION { case_type =6; $$ = $1; }
            | STATEMENT_NEW { $$ = $1; }
            ;
 
@@ -377,13 +388,13 @@ STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON { printf("New Statement\
                    } }
               ;
 
-VALUE : NUMBER {$$ = $1; printf("Assigned int Value: %d\n", $$); }
+VALUE : NUMBER { case_type =1; $$ = $1; printf("Assigned int Value: %d\n", $1); }
       | TOKEN_LPAREN OPERATION TOKEN_RPAREN { $$ = $2;}
-      | BOOLEAN {$$= $1;} 
-      | DOUBLE_NUMBER {$$ =$1; printf("Assigned double Value: %f\n", $1);}
-      | CHARACTER {$$= $1; printf("Char value: %c\n",$1);}
-      | STRING_LITERAL { $$ = STRING_LITERAL; printf("Assigned String Value: %s\n", $1); }
-      | IDENTIFIER { }
+      | BOOLEAN {case_type =0; $$= $1;} 
+      | DOUBLE_NUMBER {case_type =2; $$ =$1; printf("Assigned double Value: %f\n", $1);}
+      | CHARACTER {case_type =3; $$= $1; printf("Char value: %c\n",$1);}
+      | STRING_LITERAL {case_type =4; $$ = STRING_LITERAL; printf("Assigned String Value: %s\n", $1); }
+      | IDENTIFIER {case_type = 5; }
       ;
  
 OPERATION : ADDITION { $$ = $1; }
@@ -420,28 +431,43 @@ int yydebug=0; // Disable Bison debugging by default
 /* Symbol table management functions */
 
 /* Add variable to the symbol table */
-void add_variable(char* name) {
+void add_variable(char* name, char* type) {
     // Allocate memory for a new variable structure
     Variable* new_var = (Variable*)malloc(sizeof(Variable));
-    // Duplicate the variable name string and assign it to the new variable's name field
+    // Duplicate the variable name and type strings and assign them to the new variable's fields
     new_var->name = strdup(name);
+    new_var->type = strdup(type);
     // Insert the new variable at the beginning of the linked list
     new_var->next = var_table;
     // Update the head of the list to point to the new variable
     var_table = new_var;
 }
 
-/* Check if a variable is already declared */
-int check_variable(char* name) {
+
+/* Check if a variable is already declared and return its type */
+char* check_variable(char* name) {
     // Temporary pointer to traverse the variable linked list
     Variable* temp = var_table;
     // Iterate through the list to check for a matching variable name
     while (temp) {
-        if (strcmp(temp->name, name) == 0) return 1; // If the name matches, return 1 (variable is declared)
+        if (strcmp(temp->name, name) == 0) return temp->type; // Return type if name matches
         temp = temp->next; // Move to the next variable in the list
     }
-    return 0; // If no matching name is found, return 0 (variable is not declared)
+    return NULL; // Return NULL if the variable is not declared
 }
+
+/* Type checking function */
+int type_check(char* var_type, int expr_type) {
+    if (strcmp(var_type, "int") == 0 && expr_type == 1) return 1; // If both are integers
+    if (strcmp(var_type, "double") == 0 && expr_type == 2) return 1; // If both are doubles
+    if (strcmp(var_type, "boolean") == 0 && expr_type == 0) return 1; // If it's a boolean
+    if (strcmp(var_type, "char") == 0 && expr_type == 3) return 1; // If it's a character
+    if (strcmp(var_type, "string") == 0 && expr_type == 4) return 1; // If it's a string
+    if (expr_type ==5 ) return 1; //If it's an identifier
+    if (strcmp(var_type, "int") ==0 && expr_type == 6 ) return 1; //If it's an operation
+    return 0; // Otherwise, return 0 indicating a type mismatch
+}
+
 
 /* Add method to the symbol table */
 void add_method(char* name) {
