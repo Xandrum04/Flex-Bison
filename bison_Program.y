@@ -388,13 +388,17 @@ STATEMENT_NEW : TOKEN_NEW VARIABLE_TYPE TOKEN_SEMICOLON { printf("New Statement\
                    } }
               ;
 
+
 VALUE : NUMBER { case_type =1; $$ = $1; printf("Assigned int Value: %d\n", $1); }
+      | DOUBLE_NUMBER {case_type =2; $$ =$1; printf("Assigned double Value: %f\n", $1);}
       | TOKEN_LPAREN OPERATION TOKEN_RPAREN { $$ = $2;}
       | BOOLEAN {case_type =0; $$= $1;} 
-      | DOUBLE_NUMBER {case_type =2; $$ =$1; printf("Assigned double Value: %f\n", $1);}
       | CHARACTER {case_type =3; $$= $1; printf("Char value: %c\n",$1);}
       | STRING_LITERAL {case_type =4; $$ = STRING_LITERAL; printf("Assigned String Value: %s\n", $1); }
-      | IDENTIFIER {case_type = 5; }
+      | IDENTIFIER {case_type = 5; if (!check_variable($1)) { //Check if variable isn't declared
+                        yyerror("Error: Variable not declared.");
+                        YYABORT;
+                    } }
       ;
  
 OPERATION : ADDITION { $$ = $1; }
