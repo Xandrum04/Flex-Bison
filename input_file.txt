@@ -1,6 +1,0 @@
-switch (a)
-case 1: { out.print("Hello");}
-case 2: { out.print("Hello");}
-case 3: { out.print("Hello");}
-default: { }
-
