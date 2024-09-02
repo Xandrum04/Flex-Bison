@@ -660,8 +660,8 @@ static const yytype_int16 yyrline[] =
      288,   294,   298,   307,   318,   327,   328,   331,   332,   333,
      334,   335,   338,   339,   340,   342,   343,   345,   346,   364,
      365,   366,   367,   368,   369,   370,   371,   375,   376,   377,
-     383,   384,   391,   392,   393,   394,   395,   396,   397,   400,
-     401,   402,   403,   407,   410,   412,   415
+     383,   384,   392,   393,   394,   395,   396,   397,   398,   404,
+     405,   406,   407,   411,   414,   416,   419
 };
 #endif
 
@@ -761,14 +761,14 @@ static const yytype_int8 yydefact[] =
        0,    10,    12,    13,     8,    17,     9,    14,     6,    45,
        5,    16,     0,     0,     0,     3,     0,     0,    22,     0,
       64,     0,     0,     0,     1,     4,    11,     0,     0,     0,
-      44,     0,    49,    65,    66,     0,     0,    87,    86,    85,
-      82,    88,    84,     0,     0,    79,    77,    78,    89,    90,
-      91,    92,     0,     0,     0,    84,     0,    43,     0,     0,
+      44,     0,    49,    65,    66,     0,     0,    87,    86,    83,
+      82,    88,    85,     0,     0,    79,    77,    78,    89,    90,
+      91,    92,     0,     0,     0,    85,     0,    43,     0,     0,
       23,    38,    39,     0,    24,     0,     0,    49,     0,     0,
        0,     0,     0,     0,     0,     0,    69,    70,    73,    74,
       71,    72,    75,    76,     0,     0,     0,     0,     0,     0,
        0,    27,     0,     0,    63,     0,    36,    35,    64,    64,
-      51,    49,    46,     0,    80,    83,     3,    68,    93,    95,
+      51,    49,    46,     0,    80,    84,     3,    68,    93,    95,
       94,    96,     0,     0,     0,    25,    43,     0,    64,    54,
       34,     0,    35,    35,     0,     0,     0,     0,    48,     0,
        0,     0,     0,     0,     0,     0,    42,    41,    62,    31,
@@ -907,7 +907,7 @@ static const yytype_int8 yyr2[] =
        5,     0,    10,     9,     5,     1,     1,     1,     1,     1,
        1,     1,     4,     2,     0,     1,     1,     1,     3,     1,
        1,     1,     1,     1,     1,     1,     1,     1,     1,     1,
-       3,     5,     1,     3,     1,     1,     1,     1,     1,     1,
+       3,     5,     1,     1,     3,     1,     1,     1,     1,     1,
        1,     1,     1,     3,     3,     3,     3
 };
 
@@ -1855,91 +1855,94 @@ yyreduce:
     break;
 
   case 82: /* VALUE: NUMBER  */
-#line 391 "bison_Program.y"
+#line 392 "bison_Program.y"
                { case_type =1; (yyval.intvalue) = (yyvsp[0].intvalue); printf("Assigned int Value: %d\n", (yyvsp[0].intvalue)); }
 #line 1861 "bison_Program.tab.c"
     break;
 
-  case 83: /* VALUE: TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
-#line 392 "bison_Program.y"
-                                            { (yyval.intvalue) = (yyvsp[-1].intvalue);}
+  case 83: /* VALUE: DOUBLE_NUMBER  */
+#line 393 "bison_Program.y"
+                      {case_type =2; (yyval.intvalue) =(yyvsp[0].dvalue); printf("Assigned double Value: %f\n", (yyvsp[0].dvalue));}
 #line 1867 "bison_Program.tab.c"
     break;
 
-  case 84: /* VALUE: BOOLEAN  */
-#line 393 "bison_Program.y"
-                {case_type =0; (yyval.intvalue)= (yyvsp[0].intvalue);}
+  case 84: /* VALUE: TOKEN_LPAREN OPERATION TOKEN_RPAREN  */
+#line 394 "bison_Program.y"
+                                            { (yyval.intvalue) = (yyvsp[-1].intvalue);}
 #line 1873 "bison_Program.tab.c"
     break;
 
-  case 85: /* VALUE: DOUBLE_NUMBER  */
-#line 394 "bison_Program.y"
-                      {case_type =2; (yyval.intvalue) =(yyvsp[0].dvalue); printf("Assigned double Value: %f\n", (yyvsp[0].dvalue));}
+  case 85: /* VALUE: BOOLEAN  */
+#line 395 "bison_Program.y"
+                {case_type =0; (yyval.intvalue)= (yyvsp[0].intvalue);}
 #line 1879 "bison_Program.tab.c"
     break;
 
   case 86: /* VALUE: CHARACTER  */
-#line 395 "bison_Program.y"
+#line 396 "bison_Program.y"
                   {case_type =3; (yyval.intvalue)= (yyvsp[0].charvalue); printf("Char value: %c\n",(yyvsp[0].charvalue));}
 #line 1885 "bison_Program.tab.c"
     break;
 
   case 87: /* VALUE: STRING_LITERAL  */
-#line 396 "bison_Program.y"
+#line 397 "bison_Program.y"
                        {case_type =4; (yyval.intvalue) = STRING_LITERAL; printf("Assigned String Value: %s\n", (yyvsp[0].strvalue)); }
 #line 1891 "bison_Program.tab.c"
     break;
 
   case 88: /* VALUE: IDENTIFIER  */
-#line 397 "bison_Program.y"
-                   {case_type = 5; }
-#line 1897 "bison_Program.tab.c"
+#line 398 "bison_Program.y"
+                   {case_type = 5; if (!check_variable((yyvsp[0].strvalue))) { //Check if variable isn't declared
+                        yyerror("Error: Variable not declared.");
+                        YYABORT;
+                    } }
+#line 1900 "bison_Program.tab.c"
     break;
 
   case 89: /* OPERATION: ADDITION  */
-#line 400 "bison_Program.y"
+#line 404 "bison_Program.y"
                      { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 1903 "bison_Program.tab.c"
+#line 1906 "bison_Program.tab.c"
     break;
 
   case 90: /* OPERATION: MULTIPLICATION  */
-#line 401 "bison_Program.y"
+#line 405 "bison_Program.y"
                            { (yyval.intvalue) = (yyvsp[0].intvalue);  }
-#line 1909 "bison_Program.tab.c"
+#line 1912 "bison_Program.tab.c"
     break;
 
   case 91: /* OPERATION: SUBTRACTION  */
-#line 402 "bison_Program.y"
+#line 406 "bison_Program.y"
                         { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 1915 "bison_Program.tab.c"
+#line 1918 "bison_Program.tab.c"
     break;
 
   case 92: /* OPERATION: DIVISION  */
-#line 403 "bison_Program.y"
+#line 407 "bison_Program.y"
                      { (yyval.intvalue) = (yyvsp[0].intvalue); }
-#line 1921 "bison_Program.tab.c"
+#line 1924 "bison_Program.tab.c"
     break;
 
   case 93: /* ADDITION: VALUE TOKEN_PLUS VALUE  */
-#line 407 "bison_Program.y"
+#line 411 "bison_Program.y"
                                  { (yyval.intvalue) = (yyvsp[-2].intvalue) + (yyvsp[0].intvalue); printf("Addition: %d\n", (yyval.intvalue)); }
-#line 1927 "bison_Program.tab.c"
+#line 1930 "bison_Program.tab.c"
     break;
 
   case 94: /* MULTIPLICATION: VALUE TOKEN_MULT VALUE  */
-#line 410 "bison_Program.y"
+#line 414 "bison_Program.y"
                                         { (yyval.intvalue) = (yyvsp[-2].intvalue) * (yyvsp[0].intvalue); printf("Multiplication: %d\n", (yyval.intvalue)); }
-#line 1933 "bison_Program.tab.c"
+#line 1936 "bison_Program.tab.c"
     break;
 
   case 95: /* SUBTRACTION: VALUE TOKEN_MINUS VALUE  */
-#line 412 "bison_Program.y"
+#line 416 "bison_Program.y"
                                       { (yyval.intvalue) = (yyvsp[-2].intvalue) - (yyvsp[0].intvalue); printf("Subtraction: %d\n", (yyval.intvalue)); }
-#line 1939 "bison_Program.tab.c"
+#line 1942 "bison_Program.tab.c"
     break;
 
   case 96: /* DIVISION: VALUE TOKEN_DIV VALUE  */
-#line 415 "bison_Program.y"
+#line 419 "bison_Program.y"
                           {
         if ((yyvsp[0].intvalue) == 0) { //Check if divisor is 0
             yyerror("Error: Division by zero");
@@ -1949,11 +1952,11 @@ yyreduce:
             printf("Division: %d\n", (yyval.intvalue)); 
         }
     }
-#line 1953 "bison_Program.tab.c"
+#line 1956 "bison_Program.tab.c"
     break;
 
 
-#line 1957 "bison_Program.tab.c"
+#line 1960 "bison_Program.tab.c"
 
       default: break;
     }
@@ -2146,11 +2149,11 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 426 "bison_Program.y"
+#line 430 "bison_Program.y"
 
 /* CODE */
 
-int yydebug=0; // Disable Bison debugging by default
+int yydebug=1; // Disable Bison debugging by default
 
 /* Symbol table management functions */
 
