@@ -1,0 +1,5 @@
+int a;
+
+public string b ="Hello";
+
+double c = 0.002d;
