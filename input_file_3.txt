@@ -1,0 +1,3 @@
+public string a = "AMERICA";
+int b = 67;
+int c = "Hello!";
