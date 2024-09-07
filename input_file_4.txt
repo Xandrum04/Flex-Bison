@@ -1,0 +1,5 @@
+char a,b,c;
+
+string d = "Apple", e = "Berry", f = "Banana";
+
+int g=0,h=1,i=2;
